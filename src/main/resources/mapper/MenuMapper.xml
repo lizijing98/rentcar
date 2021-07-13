@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rentcar.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.rentcar.bean.Menu">
+  </resultMap>
+
+  <select id="getMenuByParentId" resultMap="BaseResultMap">
+    select *
+    from menu
+    where menu_parent_id = #{id}
+      and menu_activate = 'on'
+  </select>
+
+  <update id="action">
+    update menu
+    set menu_activate = #{activate}
+    where id = #{id}
+  </update>
+
+</mapper>

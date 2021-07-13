@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>登录日志</title>
+  <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css"/>
+</head>
+<body>
+<table id="login-log" lay-filter="login-log"></table>
+<script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+<script th:inline="none" type="text/javascript">
+  layui.use('table', function () {
+    const table = layui.table;
+    table.render({
+      elem: '#login-log',
+      url: '/login-log/page', //数据接口
+      method: 'post', //异步请求方法
+      toolbar: true,
+      page: true, //开启分页
+      cols: [[ //表头
+        {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'},
+        {field: 'username', title: '用户名',},
+        {field: 'loginTime', title: '登录时间',},
+        {field: 'loginIp', title: '登录ip',}
+      ]],
+      request: {
+        pageName: 'pageNum', //页码的参数名称，默认：page
+        limitName: 'pageSize' //每页数据量的参数名，默认：limit
+      },
+      response: {
+        statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+      },
+      parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+        return {
+          "code": res.code, //解析接口状态
+          "msg": res.message, //解析提示文本
+          "count": res.map.data.total, //解析数据长度
+          "data": res.map.data.records//解析数据列表
+        };
+      }
+    });
+
+  });
+</script>
+</body>
+</html>

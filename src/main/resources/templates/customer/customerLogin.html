@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>登入</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/style/admin.css" media="all">
+  <link rel="stylesheet" href="/style/login.css" media="all">
+</head>
+<body>
+<img border='0' src='/background.jpg' width='100%' height='100%' style='position: absolute;left:0px;top:0px;z-index: -1'>
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+  <div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+      <h2>登录</h2>
+      <p>在线汽车租赁平台</p>
+    </div>
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+        <input type="text" name="username" id="LAY-user-login-username" value="customer" lay-verify="required"
+               placeholder="用户名" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+        <input type="password" name="password" id="LAY-user-login-password" value="customer" lay-verify="required|pass"
+               placeholder="密码" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-row">
+          <div class="layui-col-xs7">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+            <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="图形验证码"
+                   class="layui-input">
+          </div>
+          <div class="layui-col-xs5">
+            <div style="margin-left: 10px;">
+              <img src="/getAuthCode" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <button onclick="login()" class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入
+        </button>
+      </div>
+      <div class="layui-trans layui-form-item layadmin-user-login-other">
+        <a href="/customerRegister" class="layadmin-user-jump-change layadmin-link">注册帐号</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="layui-trans layadmin-user-login-footer">
+    <p>© 2018 <a href="" target="_blank">zyt.com</a></p>
+  </div>
+
+</div>
+
+<script src="/layui/layui.js"></script>
+<script>
+  function login() {
+    layui.use(['tree', 'util', 'form'], function () {
+      let $ = layui.$;
+      let layer = layui.layer;
+      const form = layui.form;
+
+      form.verify({
+        pass: [
+          /^[\S]{6,12}$/
+          , '密码必须6到12位，且不能出现空格'
+        ]
+      });
+      let authCode = $("#LAY-user-login-vercode").val();
+      let username = $("#LAY-user-login-username").val();
+      let password = $("#LAY-user-login-password").val();
+      let loginData = "username=" + username + "&password=" + password + "&authCode=" + authCode;
+      $.ajax({
+        type: "post",
+        data: loginData,
+        url: "/customerLogin",
+        success: function (data) {
+          if (data.code === 1000) {
+            layer.msg(data.message);
+            setTimeout(function () {
+              window.location.href = "/customerLogin"
+            }, 1000)
+          }
+          if (data.code === 2000) {
+            layer.msg(data.message);
+            setTimeout(function () {
+              window.location.href = "/main"
+            }, 1000)
+          }
+        },
+        error: function () {
+          layer.msg("服务器未响应")
+        }
+      })
+    });
+  }
+</script>
+</body>
+</html>

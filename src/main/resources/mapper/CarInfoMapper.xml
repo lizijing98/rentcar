@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rentcar.mapper.CarInfoMapper">
+  <select id="selectPage" resultType="com.rentcar.bean.CarInfo">
+    select info.*,type.name car_type_name from car_info info left join car_type type
+    on type.id = info.car_type
+    <if test="ew.customSqlSegment != '' and ew.customSqlSegment != null">
+      ${ew.customSqlSegment}
+    </if>
+  </select>
+</mapper>

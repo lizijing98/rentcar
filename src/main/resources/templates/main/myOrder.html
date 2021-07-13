@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>首页，欢迎租车</title>
+  <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css"/>
+</head>
+<style>
+    .layui-body {
+        margin-top: 60px;
+        position: initial !important;
+    }
+
+    .center-context {
+        background: #f2f2f2;
+    }
+
+    .call-board > a {
+        height: 25px;
+        padding-left: 5px;
+    }
+
+    .layui-footer {
+        left: 0 !important;
+        text-align: center;
+    }
+</style>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">汽车租赁</div>
+    <!-- 头部区域（可配合layui 已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item"><a href="/main">首页</a></li>
+      <li class="layui-nav-item"><a th:href="'/main/type?carTypeId='+${types.get(0).id}">车辆分类</a></li>
+      <li class="layui-nav-item"><a th:href="'/main/notice/'+${notices.get(0).id}">公告</a></li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li th:if="not ${session.customerId}" class="layui-nav-item"><a id="login" href="/customerLogin">登录</a></li>
+      <li th:if="${session.customerId}" class="layui-nav-item"><span th:text="${session.customer.username}"></span></li>
+      <li th:if="${session.customerId}" class="layui-nav-item layui-this"><a href="/myOrder">我的订单</a></li>
+      <li th:if="${session.customerId}" class="layui-nav-item"><a href="/customerInfo">个人中心</a></li>
+      <li th:if="${session.customerId}" class="layui-nav-item"><a id="exit" href="/customer/exit">退出</a></li>
+    </ul>
+  </div>
+
+  <div class="layui-body layui-container">
+    <div class="layui-container" style="padding: 15px;">
+      <div class="layui-row  layui-col-space10">
+        <div class="layui-col-md2">
+          <div style="text-align: center">汽车分类</div>
+          <div class="layui-panel">
+            <ul class="layui-menu">
+              <li th:each="type:${types}">
+                <div class="layui-menu-body-title">
+                  <a th:href="'/main/type?carTypeId='+${type.id}" th:text="${type.name}"></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="layui-col-md8 center-context">
+          <div class="layui-form">
+            订单号：
+            <div class="layui-inline">
+              <input class="layui-input" name="orderNumber" autocomplete="off">
+            </div>
+            车牌号：
+            <div class="layui-inline">
+              <input class="layui-input" name="carPlateNumber" autocomplete="off">
+            </div>
+            <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
+          </div>
+          <table class="layui-hide" id="order" lay-filter="order"></table>
+        </div>
+        <div class="layui-col-md2">
+          <div style="text-align: center">公告</div>
+          <div class="layui-panel call-board">
+            <div th:each="notice:${notices}"><a th:href="'/main/notice/'+${notice.id}">[[${notice.title}]]</a></div>
+            <div style="text-align: center" th:if="${notices.size() eq 0}"> 暂无</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    1998-2021© rent-car.com - 底部固定区域
+  </div>
+</div>
+<script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+<script>
+  layui.use('carousel', function () {
+    const carousel = layui.carousel;
+    //图片轮播
+    carousel.render({
+      elem: '#test10'
+      , width: '750px'
+      , height: '440px'
+      , interval: 5000
+    });
+
+  })
+</script>
+<script type="text/html" id="leftBtn">
+  {{#  if(d.state == 1){ }}
+  <a class="layui-btn layui-btn-norma layui-btn-xs layui-btn-disabled">正在处理中</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="cancelBorrowCar">取消借车</a>
+  {{#  } }}
+  {{#  if(d.state == 4){ }}
+  <a class="layui-btn layui-btn-norma layui-btn-xs layui-btn-disabled">正在处理中</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="cancelReturnCar">取消还车</a>
+  {{#  } }}
+  {{#  if(d.state == 2){ }}
+  <a class="layui-btn layui-btn-xs" lay-event="applyReturnCar">申请还车</a>
+  {{#  } }}
+  {{#  if(d.state == 5){ }}
+  <a class="layui-btn layui-btn-xs" lay-event="applyReturnCar">重新申请还车</a>
+  {{#  } }}
+  {{#  if(d.state == 7){ }}
+  <a class="layui-btn layui-btn-xs layui-btn-disabled">已取消</a>
+  {{#  } }}
+  {{#  if(d.state == 6){ }}
+  <a class="layui-btn layui-btn-xs layui-btn-disabled">订单已完成</a>
+  {{#  } }}
+</script>
+<script th:inline="javascript" type="text/javascript">
+  layui.use(['table', 'layer', 'form'], function () {
+    const table = layui.table;
+    const layer = layui.layer;
+    const form = layui.form;
+    const $ = layui.$;
+    const tableIns = table.render({
+      id: 'order-table',
+      elem: '#order',
+      url: "/api/order/page",
+      method: 'post', //异步请求方法
+      defaultToolbar: ['filter'],
+      contentType: 'application/json',
+      title: '汽车类型表',
+      where: {customerId: [[${id}]]},
+      cellMinWidth: 200,
+      cols: [
+        [
+          {type: 'checkbox', fixed: 'left'},
+          {field: 'id', title: 'id', width: 70,},
+          {field: 'orderNumber', title: '订单号',},
+          {field: 'carPlateNumber', title: '车牌号',},
+          {field: 'customerName', title: '客户名称',},
+          {
+            field: 'state', title: '状态', templet: function (d) {
+              switch (d.state) {
+                case 1:
+                  return '<span style="color: #00cc03;">申请借车</span>';
+                case 2:
+                  return '<span style="color: #ccaa00;">订单进行中</span>';
+                case 3:
+                  return '<span style="color: #245c20;">管理员以拒绝</span>';
+                case 4:
+                  return '<span style="color: #ff0000;">申请还车</span>';
+                case 5:
+                  return '<span style="color: #002ccc;">管理员以拒绝</span>';
+                case 6:
+                  return '<span style="color: #2F4056;">订单已结束</span>';
+                case 7:
+                  return '<span style="color: #50525f;">订单已取消</span>';
+              }
+            }
+          },
+          {field: 'tenancyTerm', title: '租期',},
+          {field: 'startDate', title: '开始租期',},
+          {field: 'endDate', title: '结束租期',},
+          {field: 'outDate', title: '出库时间',},
+          {field: 'inDate', title: '入库时间',},
+          {field: 'cashPledge', title: '押金(元)',},
+          {field: 'money', title: '租金(元/天)',},
+          {field: 'feedback', title: '处理意见',},
+          {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 180}
+        ]],
+      page: true
+      , response: {
+        statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+      }
+      , request: {
+        pageName: 'pageNum' //页码的参数名称，默认：page
+        , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+      }
+      , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+        console.log(res);
+        return {
+          "code": res.code, //解析接口状态
+          "msg": res.message, //解析提示文本
+          "count": res.map.data.total, //解析数据长度
+          "data": res.map.data.records//解析数据列表
+        };
+      }
+    });
+
+    // 重载
+    form.on("submit(search)", data => {
+      tableIns.reload({
+        url: "/api/order/page",
+        contentType: 'application/json',
+        method: 'post',
+        where: data.field,
+        page: {
+          pageNum: 2 // 重新从第 1 页开始
+        }
+      });
+    })
+
+
+    table.on("tool(order)", (obj) => {
+      const data = obj.data; //获得当前行数据
+      const layEvent = obj.event;
+      console.log(data);
+      // 取消借车
+      if (layEvent === 'cancelBorrowCar') {
+        const url = "/api/order/" + data.id + "/state/7";
+        $.post(url, data, function (data) {
+          if (data.code && data.code === 200) {
+            layer.msg("处理成功");
+            setTimeout(() => {
+              layer.closeAll();
+              table.reload('order-table');
+            }, 1000)
+          } else {
+            layer.msg(data.message);
+          }
+        })
+      }
+      // 取消还车
+      if (layEvent === 'cancelReturnCar') {
+        const url = "/api/order/" + data.id + "/state/2";
+        $.post(url, data, function (data) {
+          if (data.code && data.code === 200) {
+            layer.msg("处理成功");
+            setTimeout(() => {
+              layer.closeAll();
+              table.reload('order-table');
+            }, 1000)
+          } else {
+            layer.msg(data.message);
+          }
+        })
+      }
+      // 申请还车
+      if (layEvent === 'applyReturnCar') {
+        layer.open({
+          title: '检查单',
+          type: 2,
+          skin: 'layui-layer-rim', //加上边框
+          area: ['450px', '500px'], //宽高
+          offset: 'auto',
+          closeBtn: 1,
+          content: '/check',
+          success: function (layero, index) {
+            let body = layer.getChildFrame('body', index);
+            body.find('#orderId').val(data.id);
+            body.find('#orderNumber').val(data.orderNumber);
+          },
+        });
+      }
+    })
+  });
+</script>
+</body>
+</html>

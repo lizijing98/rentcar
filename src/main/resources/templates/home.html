@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="layui2.4/css/layui.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">汽车租赁</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item"><span th:text="${session.user.username}"></span></li>
+      <li class="layui-nav-item"><a id="exit" href="exit">退出</a></li>
+      <li class="layui-nav-item layui-this"><a href="/loginView">我的后台</a></li>
+    </ul>
+  </div>
+
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <div id="sidemenubar" lay-filter="test"></div>
+    </div>
+  </div>
+
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div class="layui-tab layui-tab-card" lay-filter="demo" lay-allowClose="true">
+      <ul class="layui-tab-title">
+        <li class="layui-this">welcome</li>
+      </ul>
+      <div class="layui-tab-content" style="height: calc(100% - 51px);overflow-y: hidden;">
+        <div class="layui-tab-item layui-show">欢迎使用,<span>[[${session.user.username}]]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © zyt.com - 底部固定区域
+  </div>
+</div>
+
+<!--layui.js文件必须放到HTML内容的最后-->
+<script src="layui2.4/layui.js"></script>
+<script src="jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+  $.ajax({
+    type: 'post'
+    , data: ""
+    , url: 'loginJson'
+    , async: false
+    , dataType: 'json'
+    , success: function (data) {
+      let menuData = eval(data.map.data);
+      start(toArray(menuData))
+    }
+  });
+
+  function toArray(menuData) {
+    let array = new Array();
+    for (let i = 0; i < menuData.length; i++) {
+      array.push(menuData[i]);
+    }
+    return array
+  }
+
+  function start(menuDate) {
+    let menuData = menuDate;
+    layui.use(['element', 'tree', 'jquery'], function () {
+      let element = layui.element;
+      const $ = layui.jquery;
+      FrameWH();
+
+      function FrameWH() {
+        const h = $(window).height() - 172;
+        $("iframe").css("height", h + "px");
+      }
+
+      $(window).resize(function () {
+        FrameWH();
+      });
+
+
+      // const data1 = [{
+      //     "name": "权限管理",
+      //     "id": "1",
+      //     "url": null,
+      //     "children": [{"name": "菜单管理", "id": '2', "url": "./menuView"}, {
+      //         "name": "角色管理",
+      //         "id": '3',
+      //         "url": "./roleView"
+      //     }]
+      // }, {
+      //     "name": "用户管理",
+      //     "id": '4',
+      //     "url": null,
+      //     "children": [{"name": "用户管理", "id": '5', "url": "./userView"}]
+      // }];
+
+      element.on('tab(demo)', function (data) {
+      });
+      layui.tree({
+        elem: '#sidemenubar' //传入元素选择器
+        , skin: 'sidebar'  //自定义tree样式的类名
+        , nodes: menuData //节点数据
+        , click: function (node, item) {
+          //node即为当前点击的节点数据,item就是被点击的a标签对象了
+          //导航按钮选中当前
+          $('#sidemenubar a').removeClass('active');
+          $(item).addClass('active');
+          $(item).siblings('.layui-tree-spread').click();
+          //添加新tab
+          activeTab.init(node.name, node.url, node.id);
+          FrameWH();
+        }
+      });
+
+      let activeTab = {
+        tabTit: '', //tab titile标题
+        tabUrl: '', //tab内容嵌套iframe的src
+        tabId: '',
+        addTab: function () { //新增tab项
+          element.tabAdd('demo', {
+            title: this.tabTit,
+            content: '<iframe frameborder="0" height="100%" width="100%" scrolling="auto" src="' + this.tabUrl + '"></iframe>', //支持传入htm,
+            id: this.tabId
+          })
+        },
+        changeTab: function () { //选中tab项
+          element.tabChange('demo', this.tabId);
+        },
+        ishasTab: function () { //判断tab项中是否包含
+          let _this = this;
+          let dataId, isflag;
+          let arrays = $('.layui-tab-title li');
+          $.each(arrays, function (idx, ele) {
+            dataId = $(ele).attr('lay-id');
+            if (dataId == _this.tabId) {
+              isflag = true
+              return false
+            } else {
+              isflag = false
+            }
+          })
+          return isflag
+        },
+        init: function (tabtit, taburl, tabid) {
+          let _this = this;
+          _this.tabUrl = taburl;
+          _this.tabId = tabid;
+          _this.tabTit = tabtit;
+          if (taburl) {
+            if (!_this.ishasTab()) {
+              _this.addTab();
+            }
+            _this.changeTab();
+          } else {
+            return false
+          }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>
