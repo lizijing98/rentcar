@@ -1,7 +1,7 @@
 ## 汽车租赁系统
 
 
- **_有问题请联系 :fa-qq: QQ：1159697282 获取数据库sql文件_** 
+ **_有问题请联系 :fa-qq: QQ1159697282 获取数据库sql文件_** 
 
 系统后端实现采用Spring的开源框架SpringBoot、MyBatis-Plus框架，使用的开发工具是Idea。前端开发使用传统的HTML+CSS+JS技术以及前端常用的layui框架，使用的数据库是中小型数据库MySQL。
 关键词：汽车租赁；MySQL数据库；SpringBoot框架；
