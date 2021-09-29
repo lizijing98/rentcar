@@ -9,6 +9,7 @@
     .layui-body {
         margin-top: 60px;
         position: initial !important;
+
     }
 
     .center-context {
@@ -38,6 +39,7 @@
     </ul>
     <ul class="layui-nav layui-layout-right">
       <li th:if="not ${session.customerId}" class="layui-nav-item"><a id="login" href="/customerLogin">登录</a></li>
+      <li th:if="${session.customerId}" class="layui-nav-item"><img src="/default.jpg" class="layui-nav-img"></li>
       <li th:if="${session.customerId}" class="layui-nav-item"><span th:text="${session.customer.username}"></span></li>
       <li th:if="${session.customerId}" class="layui-nav-item layui-this"><a href="/myOrder">我的订单</a></li>
       <li th:if="${session.customerId}" class="layui-nav-item"><a href="/customerInfo">个人中心</a></li>
@@ -49,10 +51,10 @@
     <div class="layui-container" style="padding: 15px;">
       <div class="layui-row  layui-col-space10">
         <div class="layui-col-md2">
-          <div style="text-align: center">汽车分类</div>
+          <div style="text-align: center;background: #a3b9c3;font-size: 20px;" >汽车分类</div>
           <div class="layui-panel">
-            <ul class="layui-menu">
-              <li th:each="type:${types}">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+              <li th:each="type:${types}" class="layui-nav-item layui-nav-itemed" style="height: 50px;">
                 <div class="layui-menu-body-title">
                   <a th:href="'/main/type?carTypeId='+${type.id}" th:text="${type.name}"></a>
                 </div>
@@ -75,19 +77,16 @@
           <table class="layui-hide" id="order" lay-filter="order"></table>
         </div>
         <div class="layui-col-md2">
-          <div style="text-align: center">公告</div>
-          <div class="layui-panel call-board">
-            <div th:each="notice:${notices}"><a th:href="'/main/notice/'+${notice.id}">[[${notice.title}]]</a></div>
+          <div style="text-align: center;background: #a3b9c3;font-size: 20px;" >公告</div>
+          <div class="layui-panel call-board layui-nav layui-bg-cyan">
+            <div th:each="notice:${notices}" style="margin-bottom: 10px;"><a th:href="'/main/notice/'+${notice.id}" style="color: #ffffffbd;">[[${notice.title}]]</a></div>
             <div style="text-align: center" th:if="${notices.size() eq 0}"> 暂无</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="layui-footer">
-    <!-- 底部固定区域 -->
-    1998-2021© rent-car.com - 底部固定区域
-  </div>
+
 </div>
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
 <script>

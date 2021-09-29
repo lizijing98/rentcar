@@ -9,6 +9,7 @@
     .layui-body {
         margin-top: 60px;
         position: initial !important;
+
     }
 
     .center-context {
@@ -38,6 +39,7 @@
     </ul>
     <ul class="layui-nav layui-layout-right">
       <li th:if="not ${session.customerId}" class="layui-nav-item"><a id="login" href="/customerLogin">登录</a></li>
+      <li th:if="${session.customerId}" class="layui-nav-item"><img src="/default.jpg" class="layui-nav-img"></li>
       <li th:if="${session.customerId}" class="layui-nav-item"><span th:text="${session.customer.username}"></span></li>
       <li th:if="${session.customerId}" class="layui-nav-item"><a href="/myOrder">我的订单</a></li>
       <li th:if="${session.customerId}" class="layui-nav-item"><a href="/customerInfo">个人中心</a></li>
@@ -49,10 +51,10 @@
     <div class="layui-container" style="padding: 15px;">
       <div class="layui-row  layui-col-space10">
         <div class="layui-col-md2">
-          <div style="text-align: center">汽车分类</div>
+          <div style="text-align: center;background: #a3b9c3;font-size: 20px;" >汽车分类</div>
           <div class="layui-panel">
-            <ul class="layui-menu">
-              <li th:each="type:${types}">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+              <li th:each="type:${types}" class="layui-nav-item layui-nav-itemed" style="height: 50px;">
                 <div class="layui-menu-body-title">
                   <a th:href="'/main/type?carTypeId='+${type.id}" th:text="${type.name}"></a>
                 </div>
@@ -62,22 +64,35 @@
         </div>
         <div class="layui-col-md8 center-context">
           <h1 style="text-align: center">[[${notice.title}]]</h1>
-          <p>[[${notice.context}]]</p>
+          <div class="layui-panel">
+            <div style="padding: 30px;">
+              <p style="font-weight: bold">[[${notice.context}]]</p>
+              <br><br>
+              <img th:src="@{/style/1.jpg}" style="width: 700px;height: 400px">
+              <br><br>
+              <p style="font-weight: bold">外观部分：
+
+                前脸最大的外观变化为双飞翼LED日间行车灯为全系标配，这一点不错，精英版带有光线感应自动功能。前脸的变化也是直接套用插电混合车型的前杠设计，并无特别设计新颖之处，总之就是大众套娃的一贯风格。新款大众帕萨特依旧有四种车漆颜色可以选择，分别为玄武黑，雅致白，珠光银，香槟金。</p>
+              <br><br>
+              <img th:src="@{/style/2.jpg}" style="width: 700px;height: 400px">
+              <br><br>
+              <p style="font-weight: bold">新款大众帕萨特尺寸分别为4933*1836*1469mm，轴距为2871mm。全LED尾灯和现款没有什么区别，280TSI精英版不带流光转向功能，后尾部分由一体式尾部镀铬装饰。这个配置为17寸铝合金轮毂</p>
+              <br><br>
+              <img th:src="@{/style/3.jpg}" style="width: 700px;height: 400px">
+            </div>
+          </div>
         </div>
         <div class="layui-col-md2">
-          <div style="text-align: center">公告</div>
-          <div class="layui-panel call-board">
-            <div th:each="notice:${notices}"><a th:href="'/main/notice/'+${notice.id}">[[${notice.title}]]</a></div>
+          <div style="text-align: center;background: #a3b9c3;font-size: 20px;" >公告</div>
+          <div class="layui-panel call-board layui-nav layui-bg-cyan">
+            <div th:each="notice:${notices}" style="margin-bottom: 10px;"><a th:href="'/main/notice/'+${notice.id}" style="color: #ffffffbd;">[[${notice.title}]]</a></div>
             <div style="text-align: center" th:if="${notices.size() eq 0}"> 暂无</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="layui-footer">
-    <!-- 底部固定区域 -->
-    1998-2021© rent-car.com - 底部固定区域
-  </div>
+
 </div>
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
 <script>

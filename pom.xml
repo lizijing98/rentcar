@@ -27,7 +27,7 @@
     <dependency>
       <groupId>com.baomidou</groupId>
       <artifactId>mybatis-plus-boot-starter</artifactId>
-      <version>3.4.2</version>
+      <version>3.4.1</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.23</version>
+      <version>5.1.38</version>
     </dependency>
     <!-- 热部署 -->
     <dependency>
@@ -104,9 +104,6 @@
         <executions>
           <execution>
             <id>repackage</id>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
           </execution>
         </executions>
       </plugin>
