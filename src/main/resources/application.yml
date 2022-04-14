@@ -1,0 +1,47 @@
+logging:
+    level:
+        com:
+            rentcar:
+                mapper: debug
+mybatis-plus:
+    global-config:
+        db-config:
+            logic-delete-field: deleted
+            logic-delete-value: 1
+            logic-not-delete-value: 0
+    mapper-locations: classpath:mapper/*.xml
+server:
+    port: 8002
+spring:
+    application:
+        name: rentcar
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: 123456
+        url: jdbc:mysql://localhost:3306/caring?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+        username: root
+    devtools:
+        restart:
+            additional-paths: src/main/java
+            enabled: true
+    freemarker:
+        cache: false
+    jackson:
+        date-format: yyyy-MM-dd hh:mm:ss
+        time-zone: GMT+8
+    servlet:
+        multipart:
+            max-file-size: 100000000
+            max-request-size: 100000000
+    thymeleaf:
+        cache: false
+        check-template: true
+        check-template-location: true
+        enabled: true
+        encoding: UTF-8
+        excluded-view-names: ''
+        mode: HTML
+        prefix: classpath:/templates/
+        servlet:
+            content-type: text/html
+        suffix: .html
