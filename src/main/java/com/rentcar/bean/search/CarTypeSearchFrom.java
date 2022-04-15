@@ -7,7 +7,7 @@ import lombok.Data;
 import org.springframework.util.StringUtils;
 
 /**
- * @Author: zyt
+ * @Author: lzj
  */
 @Data
 public class CarTypeSearchFrom {

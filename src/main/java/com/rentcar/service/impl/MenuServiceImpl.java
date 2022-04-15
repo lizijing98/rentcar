@@ -7,7 +7,7 @@ import com.rentcar.service.MenuService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {

@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 import java.math.BigDecimal;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Data
 @NoArgsConstructor
@@ -32,7 +32,7 @@ public class Customer extends BaseEntity {
 
     private String gender;
 
-    private String remake;
+    private String remark;
 
     private String activate;
 
@@ -40,7 +40,7 @@ public class Customer extends BaseEntity {
 
     private String address;
 
-    private String occupation;
+    private String profession;
 
     private String idNumber;
 }

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Service
 public class LoginServiceImpl implements LoginService {

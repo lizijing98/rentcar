@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rentcar.bean.User;
 
 /**
- * @author zyt
+ * @author lzj
  */
 public interface UserService extends IService<User> {
     /**

@@ -3,7 +3,7 @@ package com.rentcar.bean;
 import lombok.Data;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Data
 public class UpdatePass {

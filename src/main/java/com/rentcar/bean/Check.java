@@ -22,7 +22,7 @@ public class Check extends BaseEntity{
 
     private String question;
 
-    private String remake;
+    private String remark;
 
     private BigDecimal money;
 }

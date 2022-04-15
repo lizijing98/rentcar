@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * @Author: zyt
+ * @Author: lzj
  */
 @Data
 @NoArgsConstructor
@@ -25,7 +25,7 @@ public class CarType extends BaseEntity {
     private Integer id;
     @NotNull
     private String name;
-    private String remake;
+    private String remark;
     @TableField(exist = false)
     private List<CarInfo> carInfos;
 }

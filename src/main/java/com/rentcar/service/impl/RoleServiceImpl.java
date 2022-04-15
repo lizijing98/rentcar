@@ -7,7 +7,7 @@ import com.rentcar.service.RoleService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {

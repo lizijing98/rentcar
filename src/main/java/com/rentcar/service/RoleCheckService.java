@@ -3,7 +3,7 @@ package com.rentcar.service;
 import com.rentcar.util.Meg;
 
 /**
- * @author zyt
+ * @author lzj
  */
 public interface RoleCheckService {
     Meg getRoleCheck(Integer userId);

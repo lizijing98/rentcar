@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * 该配置类主要用来配置url到页面的配置。
  *
- * @author zyt
+ * @author lzj
  */
 @Configuration
 public class ThymeleafConfig implements WebMvcConfigurer {

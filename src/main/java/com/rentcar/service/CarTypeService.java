@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * controller 控制器
  *
- * @author zyt
+ * @author lzj
  * @date 2021-04-09
  */
 public interface CarTypeService extends IService<CarType> {

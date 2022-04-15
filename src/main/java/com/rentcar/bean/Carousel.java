@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 /**
  * searchFrom
  *
- * @author zyt
+ * @author lzj
  * @date 2021-04-27
  */
 @Data
@@ -17,10 +17,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Carousel {
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
-    private String imageUrl;
+  private String imageUrl;
 
-    private String remake;
+  private String remark;
 }

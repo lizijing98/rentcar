@@ -5,7 +5,7 @@ import com.rentcar.util.Meg;
 import java.util.List;
 
 /**
- * @author zyt
+ * @author lzj
  */
 public interface MenuCheckService {
     /**

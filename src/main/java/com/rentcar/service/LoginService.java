@@ -5,7 +5,7 @@ import com.rentcar.util.Meg;
 import javax.servlet.http.HttpSession;
 
 /**
- * @author zyt
+ * @author lzj
  */
 public interface LoginService {
     /**

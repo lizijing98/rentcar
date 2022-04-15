@@ -6,7 +6,7 @@ import com.rentcar.bean.Carousel;
 /**
  * controller 控制器
  *
- * @author zyt
+ * @author lzj
  * @date 2021-04-27
  */
 public interface CarouselService extends IService<Carousel> {

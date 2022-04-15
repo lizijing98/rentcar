@@ -50,7 +50,7 @@
     <div class="layui-form-item layui-form-text">
       <label class="layui-form-label">备注</label>
       <div class="layui-input-inline">
-                <textarea type="text" name="remake" id="remake" placeholder="请输入备注" autocomplete="off"
+                <textarea type="text" name="remark" id="remark" placeholder="请输入备注" autocomplete="off"
                           class="layui-textarea"></textarea>
       </div>
     </div>
@@ -91,7 +91,7 @@
         {fixed: 'left', type: 'checkbox',},
         {field: 'id', title: 'id', width: 70,},
         {field: 'imageUrl', title: '图片', templet: '#titleTpl'},
-        {field: 'remake', title: '详情'},
+        {field: 'remark', title: '详情'},
         {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
       ]],
       page: true,
@@ -286,7 +286,7 @@
           layero.find('#reset').hide();
           layero.find('#imageUrl').hide();
           layero.find('#id').val(data.id);
-          layero.find('#remake').val(data.remake);
+          layero.find('#remark').val(data.remark);
           layero.find("#imageUrl").val(data.imageUrl);
           layero.find('#image').attr('src', "/oss/download?file=" + data.imageUrl)
         },

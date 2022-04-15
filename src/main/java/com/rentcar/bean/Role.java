@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Data
 @NoArgsConstructor
@@ -21,5 +21,5 @@ public class Role extends BaseEntity {
     private Integer id;
     private String roleName;
     private String activate;
-    private String remake;
+    private String remark;
 }

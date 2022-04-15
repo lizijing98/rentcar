@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /***
- * @Author zyt
+ * @Author lzj
  * @Description 这是一个登陆的控制器类
  * @Date 9:41 2020/1/9
  * @Param

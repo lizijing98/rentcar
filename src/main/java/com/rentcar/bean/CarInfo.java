@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @Author: zyt
+ * @Author: lzj
  */
 @Data
 @NoArgsConstructor
@@ -37,7 +37,7 @@ public class CarInfo extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date producedDate;
-    private String remake;
+    private String remark;
     // 图片
     private String image;
     // 品牌

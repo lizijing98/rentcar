@@ -42,7 +42,7 @@
         {field: 'menuUrl', title: 'url'},
         {field: 'menuLevel', title: '等级', width: 100},
         {field: 'menuActivate', templet: '#checkboxTpl', unresize: true, title: '激活'},
-        {field: 'remake', title: '备注'},
+        {field: 'remark', title: '备注'},
         {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120}
       ]]
       , page: true
@@ -162,7 +162,7 @@
         body.find('#menuUrl').val(data.menuUrl);
         body.find('#menuLevel').val(data.menuLevel);
         body.find('#menuActivate').val(data.menuActivate);
-        body.find('#remake').val(data.remake);
+        body.find('#remark').val(data.remark);
       }
     });
   }

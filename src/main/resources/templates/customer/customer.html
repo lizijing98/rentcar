@@ -65,7 +65,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">职业</label>
       <div class="layui-input-inline">
-        <input type="text" name="occupation" id="occupation" required lay-verify="required" placeholder="请输入职业"
+        <input type="text" name="profession" id="profession" required lay-verify="required" placeholder="请输入职业"
                autocomplete="off" class="layui-input"/>
       </div>
     </div>
@@ -98,7 +98,7 @@
     <div class="layui-form-item layui-form-text">
       <label class="layui-form-label">备注</label>
       <div class="layui-input-inline">
-                <textarea type="text" name="remake" id="remake" placeholder="请输入备注" autocomplete="off"
+                <textarea type="text" name="remark" id="remark" placeholder="请输入备注" autocomplete="off"
                           class="layui-textarea"></textarea>
       </div>
     </div>
@@ -162,10 +162,10 @@
         {field: 'money', title: '押金'},
         {field: 'phone', title: '电话'},
         {field: 'gender', title: '性别'},
-        {field: 'occupation', title: '职业'},
+        {field: 'profession', title: '职业'},
         {field: 'idNumber', title: '身份证号'},
         {field: 'address', title: '地址'},
-        {field: 'remake', title: '备注'},
+        {field: 'remark', title: '备注'},
         {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
       ]],
       page: true
@@ -385,8 +385,8 @@
         layero.find('#gender').val(data.gender);
         layero.find('#idNumber').val(data.idNumber);
         layero.find('#address').val(data.address);
-        layero.find('#occupation').val(data.occupation);
-        layero.find('#remake').val(data.remake);
+        layero.find('#profession').val(data.profession);
+        layero.find('#remark').val(data.remark);
 
       },
     });

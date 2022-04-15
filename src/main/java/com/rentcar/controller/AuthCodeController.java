@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Author zyt
+ * @Author lzj
  * @Description 这个是请求验证码的接口
  * @Date 9:32 2020/1/9
  * @Param

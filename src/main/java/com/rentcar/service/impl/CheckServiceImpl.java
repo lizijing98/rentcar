@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Service
 public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements CheckService {

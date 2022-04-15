@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Getter
 @Setter

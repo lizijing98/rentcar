@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Data
 @NoArgsConstructor
@@ -30,7 +30,7 @@ public class User extends BaseEntity {
 
     private String gender;
 
-    private String remake;
+    private String remark;
 
     private String activate;
 

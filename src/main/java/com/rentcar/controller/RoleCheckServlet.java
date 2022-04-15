@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Controller
 public class RoleCheckServlet {

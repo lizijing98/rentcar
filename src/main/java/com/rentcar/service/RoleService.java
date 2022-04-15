@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rentcar.bean.Role;
 
 /**
- * @author zyt
+ * @author lzj
  */
 public interface RoleService extends IService<Role> {
 

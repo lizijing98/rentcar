@@ -41,7 +41,7 @@
         {field: 'id', title: 'id', width: 70},
         {field: 'roleName', title: '角色名'},
         {field: 'activate', templet: '#checkboxTpl', unresize: true, title: '激活'},
-        {field: 'remake', title: '备注'},
+        {field: 'remark', title: '备注'},
         , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 200}
       ]],
       page: true
@@ -157,7 +157,7 @@
         body.find('#id').val(data.id);
         body.find('#roleName').val(data.roleName);
         body.find('#activate').val(data.activate);
-        body.find('#remake').val(data.remake);
+        body.find('#remark').val(data.remark);
       }
     });
   }

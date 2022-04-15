@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @RestController
 @RequestMapping("/api/check")

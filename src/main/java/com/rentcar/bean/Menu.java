@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Data
 @NoArgsConstructor
@@ -30,6 +30,6 @@ public class Menu extends BaseEntity {
 
     private String menuActivate;
 
-    private String remake;
+    private String remark;
 
 }

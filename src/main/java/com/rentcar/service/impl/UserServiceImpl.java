@@ -8,7 +8,7 @@ import com.rentcar.service.UserService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {

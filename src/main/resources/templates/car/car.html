@@ -114,7 +114,7 @@
     <div class="layui-form-item layui-form-text">
       <label class="layui-form-label">备注</label>
       <div class="layui-input-inline">
-                <textarea type="text" name="remake" id="remake" placeholder="请输入备注" autocomplete="off"
+                <textarea type="text" name="remark" id="remark" placeholder="请输入备注" autocomplete="off"
                           class="layui-textarea"></textarea>
       </div>
     </div>
@@ -182,7 +182,7 @@
         {field: 'producedDate', title: '生产日期',},
         {field: 'plateNumber', title: '车牌',},
         {field: 'carColor', title: '汽车颜色',},
-        {field: 'remake', title: '详情'},
+        {field: 'remark', title: '详情'},
         {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
       ]],
       page: true,
@@ -230,9 +230,10 @@
         }
       },
       plateNumber: function (value, item) {
+        // 前端检查车牌号格式
         const reg = new RegExp('^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z][A-Z][A-Z0-9]{4}[A-Z0-9挂学警港澳]?$');
         if (!reg.test(value)) {
-          return '您输入的数据不是车牌号，请检查';
+          return '车牌号格式不正确';
         }
       }
     });
@@ -424,7 +425,7 @@
         layero.find('#brand').val(data.brand);
         layero.find('#manufacturer').val(data.manufacturer);
         layero.find('#cashPledge').val(data.cashPledge);
-        layero.find('#remake').val(data.remake);
+        layero.find('#remark').val(data.remark);
         layero.find('#demo1').attr('src', "/oss/upload?file=" + data.image)
         layero.find('#carType option').remove()
         initCartTypeSelect($, layero)

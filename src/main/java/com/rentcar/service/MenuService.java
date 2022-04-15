@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rentcar.bean.Menu;
 
 /**
- * @author zyt
+ * @author lzj
  */
 public interface MenuService extends IService<Menu> {
 

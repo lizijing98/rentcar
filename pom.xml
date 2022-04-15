@@ -8,7 +8,7 @@
         <version>2.3.4.RELEASE</version>
         <relativePath/>
     </parent>
-    <groupId>com.zyt</groupId>
+    <groupId>com.lzj</groupId>
     <artifactId>rentcar</artifactId>
     <version>1.0</version>
     <name>rentcar</name>

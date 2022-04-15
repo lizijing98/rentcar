@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Repository
 public interface UserMapper extends BaseMapper<User> {

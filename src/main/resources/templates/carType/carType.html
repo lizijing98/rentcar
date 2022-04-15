@@ -26,7 +26,7 @@
     <div class="layui-form-item layui-form-text">
       <label class="layui-form-label">备注</label>
       <div class="layui-input-inline">
-                <textarea type="text" name="remake" id="remake" placeholder="请输入备注" autocomplete="off"
+                <textarea type="text" name="remark" id="remark" placeholder="请输入备注" autocomplete="off"
                           class="layui-textarea"></textarea>
       </div>
     </div>
@@ -72,7 +72,7 @@
         {type: 'checkbox', fixed: 'left'},
         {field: 'id', title: 'id', width: 70},
         {field: 'name', title: '类型名'},
-        {field: 'remake', title: '描述'},
+        {field: 'remark', title: '描述'},
         {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
       ]],
       page: true
@@ -197,7 +197,7 @@
             layero.find('#reset').hide();
             layero.find('#id').val(data.id);
             layero.find('#name').val(data.name);
-            layero.find('#remake').val(data.remake);
+            layero.find('#remark').val(data.remark);
 
           },
         });
@@ -267,7 +267,7 @@
                 const data = checkStatus[0];
                 layero.find('#id').val(data.id);
                 layero.find('#name').val(data.name);
-                layero.find('#remake').val(data.remake);
+                layero.find('#remark').val(data.remark);
 
               },
             });

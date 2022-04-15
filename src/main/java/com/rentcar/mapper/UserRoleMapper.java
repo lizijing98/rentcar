@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @author zyt
+ * @author lzj
  */
 @Repository
 public interface UserRoleMapper extends BaseMapper<UserRole> {
