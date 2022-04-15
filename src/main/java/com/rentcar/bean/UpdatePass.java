@@ -7,9 +7,9 @@ import lombok.Data;
  */
 @Data
 public class UpdatePass {
-    private String oldPassword;
+  private String oldPassword;
 
-    private String newPassword;
+  private String newPassword;
 
-    private String newPassword2;
+  private String newPassword2;
 }

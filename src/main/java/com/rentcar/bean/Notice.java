@@ -18,13 +18,13 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class Notice extends BaseEntity {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
-    private String title;
+  private String title;
 
-    private String context;
+  private String context;
 
-    @TableField(exist = false)
-    private String username;
+  @TableField(exist = false)
+  private String username;
 }

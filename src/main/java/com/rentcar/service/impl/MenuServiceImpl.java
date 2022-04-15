@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
-    @Override
-    public void action(Integer id, String menuActivate) {
-
-    }
+  @Override
+  public void action(Integer id, String menuActivate) {}
 }

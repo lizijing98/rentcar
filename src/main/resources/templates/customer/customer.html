@@ -1,413 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="customer-form" class="layui-hide">
-  <form class="layui-form" id="customer-form-layui">
-    <div class="layui-form-item" id="id-item">
-      <label class="layui-form-label">id</label>
-      <div class="layui-input-inline">
-        <input type="text" readOnly="true" name="id" id="id" placeholder="请输入ID" autocomplete="off"
-               class="layui-input"/>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">用户名</label>
-      <div class="layui-input-inline">
-        <input type="text" name="username" id="username" required lay-verify="required" placeholder="请输入用户名"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">密码</label>
-      <div class="layui-input-inline">
-        <input type="text" name="password" id="password" required lay-verify="required" placeholder="请输入密码"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+<div class="layui-hide" id="customer-form">
+    <form class="layui-form" id="customer-form-layui">
+        <div class="layui-form-item" id="id-item">
+            <label class="layui-form-label">id</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="id" name="id" placeholder="请输入ID" readOnly="true"
+                       type="text"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="username" lay-verify="required" name="username" placeholder="请输入用户名"
+                       required type="text"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="password" lay-verify="required" name="password" placeholder="请输入密码"
+                       required type="text"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">押金</label>
-      <div class="layui-input-inline">
-        <input type="money" name="money" id="money" required lay-verify="required|money" placeholder="请输入押金"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">押金</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money" placeholder="请输入押金"
+                       required type="money"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">邮箱</label>
-      <div class="layui-input-inline">
-        <input type="text" name="email" id="email" required lay-verify="required|email" placeholder="请输入email"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="email" lay-verify="required|email" name="email" placeholder="请输入email"
+                       required type="text"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">身份证</label>
-      <div class="layui-input-inline">
-        <input type="text" name="idNumber" id="idNumber" required lay-verify="required|identity" placeholder="请输入身份证"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">身份证</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="idNumber" lay-verify="required|identity" name="idNumber"
+                       placeholder="请输入身份证"
+                       required type="text"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">地址</label>
-      <div class="layui-input-inline">
-        <input type="text" name="address" id="address" required lay-verify="required" placeholder="请输入地址"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="address" lay-verify="required" name="address" placeholder="请输入地址"
+                       required type="text"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">职业</label>
-      <div class="layui-input-inline">
-        <input type="text" name="profession" id="profession" required lay-verify="required" placeholder="请输入职业"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">职业</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="profession" lay-verify="required" name="profession" placeholder="请输入职业"
+                       required type="text"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">电话</label>
-      <div class="layui-input-inline">
-        <input type="number" name="phone" id="phone" required lay-verify="required|number|phone" placeholder="请输入手机号"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电话</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="phone" lay-verify="required|number|phone" name="phone"
+                       placeholder="请输入手机号"
+                       required type="number"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">性别</label>
-      <div class="layui-input-inline">
-        <input type="radio" name="gender" value="男" title="男">
-        <input type="radio" name="gender" value="女" title="女">
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-inline">
+                <input name="gender" title="男" type="radio" value="男">
+                <input name="gender" title="女" type="radio" value="女">
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">激活</label>
-      <div class="layui-input-inline">
-        <input type="checkbox" name="activate" id="activate" lay-skin="switch" lay-filter="switchTest"
-               lay-text="ON|OFF"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">激活</label>
+            <div class="layui-input-inline">
+                <input id="activate" lay-filter="switchTest" lay-skin="switch" lay-text="ON|OFF" name="activate"
+                       type="checkbox"/>
+            </div>
+        </div>
 
 
-    <div class="layui-form-item layui-form-text">
-      <label class="layui-form-label">备注</label>
-      <div class="layui-input-inline">
-                <textarea type="text" name="remark" id="remark" placeholder="请输入备注" autocomplete="off"
-                          class="layui-textarea"></textarea>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <div class="layui-input-block">
-        <button id="insert" class="layui-btn" lay-submit lay-filter="insert">立即提交</button>
-        <button id="update" class="layui-btn" lay-submit lay-filter="update">立即提交</button>
-        <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
-      </div>
-    </div>
-  </form>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-inline">
+                <textarea autocomplete="off" class="layui-textarea" id="remark" name="remark" placeholder="请输入备注"
+                          type="text"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="insert" lay-filter="insert" lay-submit>立即提交</button>
+                <button class="layui-btn" id="update" lay-filter="update" lay-submit>立即提交</button>
+                <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>
+            </div>
+        </div>
+    </form>
 </div>
 <div class="layui-form">
-  用户名：
-  <div class="layui-inline">
-    <input class="layui-input" name="username" autocomplete="off">
-  </div>
-  邮箱：
-  <div class="layui-inline">
-    <input class="layui-input" name="email" autocomplete="off">
-  </div>
-  手机号：
-  <div class="layui-inline">
-    <input class="layui-input" name="phone" autocomplete="off">
-  </div>
-  <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
+    用户名：
+    <div class="layui-inline">
+        <input autocomplete="off" class="layui-input" name="username">
+    </div>
+    邮箱：
+    <div class="layui-inline">
+        <input autocomplete="off" class="layui-input" name="email">
+    </div>
+    手机号：
+    <div class="layui-inline">
+        <input autocomplete="off" class="layui-input" name="phone">
+    </div>
+    <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
 </div>
 <table class="layui-hide" id="customer" lay-filter="customer"></table>
-<script type="text/html" id="leftBtn">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+<script id="leftBtn" type="text/html">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script type="text/html" id="checkboxTpl">
-  <input type="checkbox" name="activate" value="{{d.id}}" title="激活" lay-skin="switch" lay-text="on|off"
-         lay-filter="lockDemo" {{ d.activate=="on"?'checked':'' }}>
+<script id="checkboxTpl" type="text/html">
+    <input type="checkbox" name="activate" value="{{d.id}}" title="激活" lay-skin="switch" lay-text="on|off"
+           lay-filter="lockDemo" {{ d.activate=="on"?'checked':'' }}>
 </script>
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
 <script th:inline="none" type="text/javascript">
 
 
-  layui.use(['table', 'layer', 'form'], function () {
-    const table = layui.table;
-    const form = layui.form;
-    const layer = layui.layer;
-    const $ = layui.$;
-    const tableIns = table.render({
-      id: 'customer-table',
-      elem: '#customer',
-      url: "/api/customer/page",
-      contentType: 'application/json',
-      method: 'post', //异步请求方法
-      toolbar: 'default',
-      title: '汽车类型表',
-      cols: [[
-        {type: 'checkbox', fixed: 'left'},
-        {field: 'id', title: 'id', width: 70,},
-        {field: 'username', title: '用户名',},
-        {field: 'password', title: '密码',},
-        {field: 'activate', templet: '#checkboxTpl', unresize: true, title: '激活'},
-        {field: 'email', title: '邮箱'},
-        {field: 'money', title: '押金'},
-        {field: 'phone', title: '电话'},
-        {field: 'gender', title: '性别'},
-        {field: 'profession', title: '职业'},
-        {field: 'idNumber', title: '身份证号'},
-        {field: 'address', title: '地址'},
-        {field: 'remark', title: '备注'},
-        {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
-      ]],
-      page: true
-      , response: {
-        statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
-      }
-      , request: {
-        pageName: 'pageNum' //页码的参数名称，默认：page
-        , limitName: 'pageSize' //每页数据量的参数名，默认：limit
-      }
-      , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
-        console.log(res);
-        return {
-          "code": res.code, //解析接口状态
-          "msg": res.message, //解析提示文本
-          "count": res.map.data.total, //解析数据长度
-          "data": res.map.data.records//解析数据列表
-        };
-      }
-    });
-    // 重载
-    form.on("submit(search)", data => {
-      tableIns.reload({
-        url: "/api/customer/page",
-        contentType: 'application/json',
-        method: 'post',
-        where: data.field,
-        page: {
-          pageNum: 1 // 重新从第 1 页开始
-        }
-      });
-    })
-
-    form.verify({
-      money: function (value, item) {//value：表单的值、item：表单的DOM对象
-        if (!'.'.includes(value)) {
-          // 加上小数后缀
-          value = value + ".00";
-        }
-        const reg = new RegExp('^(([1-9][0-9]{0,14})|([0])|(([0]\\.\\d{1,2}|[1-9][0-9]{0,14}\\.\\d{1,2})))$');
-        if (!reg.test(value)) {
-          return '请输入合法的金额';
-        }
-      }
-    });
-
-    form.on('submit(insert)', (data) => {
-      const params = JSON.stringify(data.field);
-      console.log(params);
-      const loadIndex = layer.load(2);
-      $.ajax({
-        'contentType': 'application/json;charset=utf-8',
-        'data': params,
-        'url': '/api/customer',
-        'type': 'post',
-        success: function (data) {
-          if (data.code && data.code === 200) {
-            layer.msg('添加成功');
-            setTimeout(() => {
-              layer.closeAll();
-              table.reload('customer-table', {}, true);
-            }, 1000)
-          } else {
-            layer.close(loadIndex);
-            layer.msg(data.message);
-          }
-        }
-      });
-      return false;
-    })
-
-    form.on('submit(update)', (data) => {
-      const id = data.field.id;
-      const params = JSON.stringify(data.field);
-      const loadIndex = layer.load(2);
-      $.ajax({
-        'contentType': 'application/json;charset=utf-8',
-        'data': params,
-        'url': '/api/customer/' + id,
-        'type': 'put',
-        success: function (data) {
-          if (data.code && data.code === 200) {
-            layer.msg('修改成功');
-            setTimeout(() => {
-              layer.closeAll();
-              table.reload('customer-table', {}, true);
-            }, 1000)
-          } else {
-            layer.close(loadIndex);
-            layer.msg(data.message);
-          }
-        }
-      });
-
-      return false;
-    })
-
-    form.on('switch(lockDemo)', function (obj) {
-      let name;
-      let Message = "";
-      if (obj.elem.checked) {
-        name = "on";
-        Message = "激活成功";
-      } else {
-        name = "off";
-        Message = "已锁定"
-      }
-      let value = "active=" + name;
-      $.ajax({
-        type: "POST",
-        data: value,
-        url: "/api/customer/" + this.value + "/active",
-        success: function () {
-          layer.tips(Message, obj.othis);
-        }
-      })
-    });
-
-    table.on("tool(customer)", (obj) => {
-      const data = obj.data; //获得当前行数据
-      const layEvent = obj.event;
-      console.log(data);
-      if (layEvent === 'del') { //删除
-        layer.confirm('真的删除行么', function (index) {
-          layer.close(index);
-          //向服务端发送删除指令
-          const loadIndex = layer.load(2);
-          $.ajax({
-            'url': '/api/customer/' + data.id,
-            'type': 'delete',
-            success: function (data) {
-              if (data.code && data.code === 200) {
-                setTimeout(() => {
-                  layer.closeAll();
-                  table.reload('customer-table');
-                }, 1000)
-              } else {
-                layer.close(loadIndex);
-                layer.msg(data.message);
-              }
+    layui.use(['table', 'layer', 'form'], function () {
+        const table = layui.table;
+        const form = layui.form;
+        const layer = layui.layer;
+        const $ = layui.$;
+        const tableIns = table.render({
+            id: 'customer-table',
+            elem: '#customer',
+            url: "/api/customer/page",
+            contentType: 'application/json',
+            method: 'post', //异步请求方法
+            toolbar: 'default',
+            title: '汽车类型表',
+            cols: [[
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'id', title: 'id', width: 70,},
+                {field: 'username', title: '用户名',},
+                {field: 'password', title: '密码',},
+                {field: 'activate', templet: '#checkboxTpl', unresize: true, title: '激活'},
+                {field: 'email', title: '邮箱'},
+                {field: 'money', title: '押金'},
+                {field: 'phone', title: '电话'},
+                {field: 'gender', title: '性别'},
+                {field: 'profession', title: '职业'},
+                {field: 'idNumber', title: '身份证号'},
+                {field: 'address', title: '地址'},
+                {field: 'remark', title: '备注'},
+                {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
+            ]],
+            page: true
+            , response: {
+                statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
             }
-          });
+            , request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                console.log(res);
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.map.data.total, //解析数据长度
+                    "data": res.map.data.records//解析数据列表
+                };
+            }
         });
-      } else if (layEvent === 'edit') { //编辑
-        updateLayer(layer, $, form, data);
-      }
-    })
-    table.on("toolbar(customer)", (obj) => {
-      let checkStatus = table.checkStatus(obj.config.id).data;
-      switch (obj.event) {
-        case 'add':
-          // 打开添加弹出层
-          addLayer(layer, $, form);
-          break;
-        case 'delete':
-          let params = '';
-          for (let i = 0; i < checkStatus.length; i++) {
-            params += "&id=" + checkStatus[i].id;
-          }
-          params = params.substr(1)
-          console.log(params);
-          const loadIndex = layer.load(2);
-          $.ajax({
-            'data': params,
-            'url': '/api/customer',
-            'type': 'delete',
-            success: function (data) {
-              if (data.code && data.code === 200) {
-                layer.msg('删除成功');
-                setTimeout(() => {
-                  layer.closeAll();
-                  table.reload('customer-table');
-                }, 1000)
-              } else {
-                layer.close(loadIndex);
-                layer.msg(data.message);
-              }
+        // 重载
+        form.on("submit(search)", data => {
+            tableIns.reload({
+                url: "/api/customer/page",
+                contentType: 'application/json',
+                method: 'post',
+                where: data.field,
+                page: {
+                    pageNum: 1 // 重新从第 1 页开始
+                }
+            });
+        })
+
+        form.verify({
+            money: function (value, item) {//value：表单的值、item：表单的DOM对象
+                if (!'.'.includes(value)) {
+                    // 加上小数后缀
+                    value = value + ".00";
+                }
+                const reg = new RegExp('^(([1-9][0-9]{0,14})|([0])|(([0]\\.\\d{1,2}|[1-9][0-9]{0,14}\\.\\d{1,2})))$');
+                if (!reg.test(value)) {
+                    return '请输入合法的金额';
+                }
             }
-          });
+        });
 
-          break;
-        case 'update':
-          if (checkStatus.length == 1) {
-            const data = checkStatus[0];
-            updateLayer(layer, $, form, data);
-          } else if (checkStatus.length === 0) {
-            layer.msg('请选择一个要编辑的行');
-          } else {
-            layer.msg('您只能选择一行');
-          }
-          break;
-      }
-      ;
-    })
-  });
+        form.on('submit(insert)', (data) => {
+            const params = JSON.stringify(data.field);
+            console.log(params);
+            const loadIndex = layer.load(2);
+            $.ajax({
+                'contentType': 'application/json;charset=utf-8',
+                'data': params,
+                'url': '/api/customer',
+                'type': 'post',
+                success: function (data) {
+                    if (data.code && data.code === 200) {
+                        layer.msg('添加成功');
+                        setTimeout(() => {
+                            layer.closeAll();
+                            table.reload('customer-table', {}, true);
+                        }, 1000)
+                    } else {
+                        layer.close(loadIndex);
+                        layer.msg(data.message);
+                    }
+                }
+            });
+            return false;
+        })
 
-  function updateLayer(layer, $, form, data) {
-    layer.open({
-      title: '修改汽车类型',
-      type: 1,
-      skin: 'layui-layer-rim', //加上边框
-      area: ['400px', '400px'], //宽高
-      offset: 'auto',
-      closeBtn: 1,
-      content: $("#customer-form").html(),
-      success: function (layero) {
-        form.render();
-        layero.find('#insert').hide();
-        layero.find('#reset').hide();
-        layero.find('#id').val(data.id);
-        layero.find('#username').val(data.username);
-        layero.find('#password').val(data.password);
-        layero.find('#activate').val(data.activate);
-        layero.find('#email').val(data.email);
-        layero.find('#money').val(data.money);
-        layero.find('#phone').val(data.phone);
-        layero.find('#gender').val(data.gender);
-        layero.find('#idNumber').val(data.idNumber);
-        layero.find('#address').val(data.address);
-        layero.find('#profession').val(data.profession);
-        layero.find('#remark').val(data.remark);
+        form.on('submit(update)', (data) => {
+            const id = data.field.id;
+            const params = JSON.stringify(data.field);
+            const loadIndex = layer.load(2);
+            $.ajax({
+                'contentType': 'application/json;charset=utf-8',
+                'data': params,
+                'url': '/api/customer/' + id,
+                'type': 'put',
+                success: function (data) {
+                    if (data.code && data.code === 200) {
+                        layer.msg('修改成功');
+                        setTimeout(() => {
+                            layer.closeAll();
+                            table.reload('customer-table', {}, true);
+                        }, 1000)
+                    } else {
+                        layer.close(loadIndex);
+                        layer.msg(data.message);
+                    }
+                }
+            });
 
-      },
+            return false;
+        })
+
+        form.on('switch(lockDemo)', function (obj) {
+            let name;
+            let Message = "";
+            if (obj.elem.checked) {
+                name = "on";
+                Message = "激活成功";
+            } else {
+                name = "off";
+                Message = "已锁定"
+            }
+            let value = "active=" + name;
+            $.ajax({
+                type: "POST",
+                data: value,
+                url: "/api/customer/" + this.value + "/active",
+                success: function () {
+                    layer.tips(Message, obj.othis);
+                }
+            })
+        });
+
+        table.on("tool(customer)", (obj) => {
+            const data = obj.data; //获得当前行数据
+            const layEvent = obj.event;
+            console.log(data);
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    const loadIndex = layer.load(2);
+                    $.ajax({
+                        'url': '/api/customer/' + data.id,
+                        'type': 'delete',
+                        success: function (data) {
+                            if (data.code && data.code === 200) {
+                                setTimeout(() => {
+                                    layer.closeAll();
+                                    table.reload('customer-table');
+                                }, 1000)
+                            } else {
+                                layer.close(loadIndex);
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+                });
+            } else if (layEvent === 'edit') { //编辑
+                updateLayer(layer, $, form, data);
+            }
+        })
+        table.on("toolbar(customer)", (obj) => {
+            let checkStatus = table.checkStatus(obj.config.id).data;
+            switch (obj.event) {
+                case 'add':
+                    // 打开添加弹出层
+                    addLayer(layer, $, form);
+                    break;
+                case 'delete':
+                    let params = '';
+                    for (let i = 0; i < checkStatus.length; i++) {
+                        params += "&id=" + checkStatus[i].id;
+                    }
+                    params = params.substr(1)
+                    console.log(params);
+                    const loadIndex = layer.load(2);
+                    $.ajax({
+                        'data': params,
+                        'url': '/api/customer',
+                        'type': 'delete',
+                        success: function (data) {
+                            if (data.code && data.code === 200) {
+                                layer.msg('删除成功');
+                                setTimeout(() => {
+                                    layer.closeAll();
+                                    table.reload('customer-table');
+                                }, 1000)
+                            } else {
+                                layer.close(loadIndex);
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+
+                    break;
+                case 'update':
+                    if (checkStatus.length == 1) {
+                        const data = checkStatus[0];
+                        updateLayer(layer, $, form, data);
+                    } else if (checkStatus.length === 0) {
+                        layer.msg('请选择一个要编辑的行');
+                    } else {
+                        layer.msg('您只能选择一行');
+                    }
+                    break;
+            }
+            ;
+        })
     });
-  }
 
-  function addLayer(layer, $, form) {
-    layer.open({
-      title: '添加汽车类型',
-      type: 1,
-      skin: 'layui-layer-rim', //加上边框
-      area: ['400px', '300px'], //宽高
-      offset: 'auto',
-      closeBtn: 1,
-      content: $("#customer-form").html(),
-      success: function (layero) {
-        form.render();
-        layero.find('#update').hide();
-        layero.find('#id-item').hide();
-      },
-    });
-  }
+    function updateLayer(layer, $, form, data) {
+        layer.open({
+            title: '修改汽车类型',
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['400px', '400px'], //宽高
+            offset: 'auto',
+            closeBtn: 1,
+            content: $("#customer-form").html(),
+            success: function (layero) {
+                form.render();
+                layero.find('#insert').hide();
+                layero.find('#reset').hide();
+                layero.find('#id').val(data.id);
+                layero.find('#username').val(data.username);
+                layero.find('#password').val(data.password);
+                layero.find('#activate').val(data.activate);
+                layero.find('#email').val(data.email);
+                layero.find('#money').val(data.money);
+                layero.find('#phone').val(data.phone);
+                layero.find('#gender').val(data.gender);
+                layero.find('#idNumber').val(data.idNumber);
+                layero.find('#address').val(data.address);
+                layero.find('#profession').val(data.profession);
+                layero.find('#remark').val(data.remark);
+
+            },
+        });
+    }
+
+    function addLayer(layer, $, form) {
+        layer.open({
+            title: '添加汽车类型',
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['400px', '300px'], //宽高
+            offset: 'auto',
+            closeBtn: 1,
+            content: $("#customer-form").html(),
+            success: function (layero) {
+                form.render();
+                layero.find('#update').hide();
+                layero.find('#id-item').hide();
+            },
+        });
+    }
 </script>
 </body>
 </html>

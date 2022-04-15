@@ -1,331 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css"/>
-  <style>
-      .layui-upload-list {
-          display: inline;
-          height: 100px;
-          width: 100px;
-      }
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .layui-upload-list {
+            display: inline;
+            height: 100px;
+            width: 100px;
+        }
 
-      .layui-upload-img {
-          height: 100px;
-          width: 100px;
-      }
+        .layui-upload-img {
+            height: 100px;
+            width: 100px;
+        }
 
-      .layui-table-cell {
-          height: 36px;
-          line-height: 36px;
-      }
-  </style>
+        .layui-table-cell {
+            height: 36px;
+            line-height: 36px;
+        }
+    </style>
 </head>
 <body>
 
-<div id="carousel-form" hidden>
-  <form class="layui-form" id="carousel-form-layui">
-    <div id="id-item" class="layui-form-item">
-      <label class="layui-form-label">id</label>
-      <div class="layui-input-inline">
-        <input type="text" name="id" id="id" readonly autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
-
-    <div class="layui-form-item">
-      <label class="layui-form-label">图片</label>
-      <input type="text" name="imageUrl" id="imageUrl">
-      <div class="layui-input-inline">
-        <div class="layui-upload">
-          <button type="button" class="layui-btn" id="upload">上传图片</button>
-          <div class="layui-upload-list">
-            <img class="layui-upload-img" src="" id="image">
-            <p id="demoText" class="demoText"></p>
-          </div>
+<div hidden id="carousel-form">
+    <form class="layui-form" id="carousel-form-layui">
+        <div class="layui-form-item" id="id-item">
+            <label class="layui-form-label">id</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="id" name="id" readonly type="text"/>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="layui-form-item layui-form-text">
-      <label class="layui-form-label">备注</label>
-      <div class="layui-input-inline">
-                <textarea type="text" name="remark" id="remark" placeholder="请输入备注" autocomplete="off"
-                          class="layui-textarea"></textarea>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <div class="layui-input-block">
-        <button id="insert" class="layui-btn" lay-submit lay-filter="insert">立即提交</button>
-        <button id="update" class="layui-btn" lay-submit lay-filter="update">立即提交</button>
-        <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
-      </div>
-    </div>
-  </form>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片</label>
+            <input id="imageUrl" name="imageUrl" type="text">
+            <div class="layui-input-inline">
+                <div class="layui-upload">
+                    <button class="layui-btn" id="upload" type="button">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="image" src="">
+                        <p class="demoText" id="demoText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-inline">
+                <textarea autocomplete="off" class="layui-textarea" id="remark" name="remark" placeholder="请输入备注"
+                          type="text"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="insert" lay-filter="insert" lay-submit>立即提交</button>
+                <button class="layui-btn" id="update" lay-filter="update" lay-submit>立即提交</button>
+                <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>
+            </div>
+        </div>
+    </form>
 </div>
 <table class="layui-hide" id="carousel" lay-filter="carousel"></table>
-<script type="text/html" id="leftBtn">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+<script id="leftBtn" type="text/html">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script type="text/html" id="titleTpl">
-  <img width="100px" height="75px" src="/oss/download?file={{d.imageUrl}}">
+<script id="titleTpl" type="text/html">
+    <img width="100px" height="75px" src="/oss/download?file={{d.imageUrl}}">
 </script>
 
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
 <script th:inline="none" type="text/javascript">
-  layui.use(['table', 'layer', 'form', 'upload'], function () {
-    const table = layui.table;
-    const layer = layui.layer;
-    const form = layui.form;
-    const $ = layui.$;
-    // 表单加载
-    table.render({
-      id: 'carousel-table',
-      elem: '#carousel',
-      url: "/api/carousel/page",
-      method: 'post', //异步请求方法
-      toolbar: 'default',
-      title: '轮播表',
-      cols: [[
-        {fixed: 'left', type: 'checkbox',},
-        {field: 'id', title: 'id', width: 70,},
-        {field: 'imageUrl', title: '图片', templet: '#titleTpl'},
-        {field: 'remark', title: '详情'},
-        {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
-      ]],
-      page: true,
-      request: {
-        pageName: 'pageNum', //页码的参数名称，默认：page
-        limitName: 'pageSize' //每页数据量的参数名，默认：limit
-      },
-      response: {
-        statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
-      },
-      parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
-        return {
-          "code": res.code, //解析接口状态
-          "msg": res.message, //解析提示文本
-          "count": res.map.data.total, //解析数据长度
-          "data": res.map.data.records//解析数据列表
-        };
-      },
-    });
-    // 添加
-    form.on('submit(insert)', function (data) {
-      const params = JSON.stringify(data.field);
-      console.log(params);
-      const loadIndex = layer.load(2);
-      $.ajax({
-        'contentType': 'application/json;charset=utf-8',
-        'data': params,
-        'url': '/api/carousel',
-        'type': 'post',
-        success: function (data) {
-          if (data.code && data.code === 200) {
-            layer.msg('添加成功');
-            setTimeout(() => {
-              layer.closeAll();
-              table.reload('carousel-table', {}, true);
-            }, 1000)
-          } else {
-            layer.close(loadIndex);
-            layer.msg(data.message);
-          }
-        }
-      });
-      return false;
-    })
-    // 修改
-    form.on('submit(update)', function (data) {
-      const id = data.field.id;
-      const params = JSON.stringify(data.field);
-      const loadIndex = layer.load(2);
-      $.ajax({
-        'contentType': 'application/json;charset=utf-8',
-        'data': params,
-        'url': '/api/carousel/' + id,
-        'type': 'put',
-        success: function (data) {
-          if (data.code && data.code === 200) {
-            layer.msg('修改成功');
-            setTimeout(() => {
-              layer.closeAll();
-              table.reload('carousel-table', {}, true);
-            }, 1000)
-          } else {
-            layer.close(loadIndex);
-            layer.msg(data.message);
-          }
-        }
-      });
+    layui.use(['table', 'layer', 'form', 'upload'], function () {
+        const table = layui.table;
+        const layer = layui.layer;
+        const form = layui.form;
+        const $ = layui.$;
+        // 表单加载
+        table.render({
+            id: 'carousel-table',
+            elem: '#carousel',
+            url: "/api/carousel/page",
+            method: 'post', //异步请求方法
+            toolbar: 'default',
+            title: '轮播表',
+            cols: [[
+                {fixed: 'left', type: 'checkbox',},
+                {field: 'id', title: 'id', width: 70,},
+                {field: 'imageUrl', title: '图片', templet: '#titleTpl'},
+                {field: 'remark', title: '详情'},
+                {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
+            ]],
+            page: true,
+            request: {
+                pageName: 'pageNum', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            response: {
+                statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+            },
+            parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.map.data.total, //解析数据长度
+                    "data": res.map.data.records//解析数据列表
+                };
+            },
+        });
+        // 添加
+        form.on('submit(insert)', function (data) {
+            const params = JSON.stringify(data.field);
+            console.log(params);
+            const loadIndex = layer.load(2);
+            $.ajax({
+                'contentType': 'application/json;charset=utf-8',
+                'data': params,
+                'url': '/api/carousel',
+                'type': 'post',
+                success: function (data) {
+                    if (data.code && data.code === 200) {
+                        layer.msg('添加成功');
+                        setTimeout(() => {
+                            layer.closeAll();
+                            table.reload('carousel-table', {}, true);
+                        }, 1000)
+                    } else {
+                        layer.close(loadIndex);
+                        layer.msg(data.message);
+                    }
+                }
+            });
+            return false;
+        })
+        // 修改
+        form.on('submit(update)', function (data) {
+            const id = data.field.id;
+            const params = JSON.stringify(data.field);
+            const loadIndex = layer.load(2);
+            $.ajax({
+                'contentType': 'application/json;charset=utf-8',
+                'data': params,
+                'url': '/api/carousel/' + id,
+                'type': 'put',
+                success: function (data) {
+                    if (data.code && data.code === 200) {
+                        layer.msg('修改成功');
+                        setTimeout(() => {
+                            layer.closeAll();
+                            table.reload('carousel-table', {}, true);
+                        }, 1000)
+                    } else {
+                        layer.close(loadIndex);
+                        layer.msg(data.message);
+                    }
+                }
+            });
 
-      return false;
-    })
-    // 表单右侧行工具栏
-    table.on('tool(carousel)', function (obj) {
-      // initCartTypeSelect($, form)
-      const data = obj.data; //获得当前行数据
-      const layEvent = obj.event;
-      if (layEvent === 'del') { //删除
-        layer.confirm('真的删除行么', function (index) {
-          obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-          layer.close(index);
-          //向服务端发送删除指令
-          const loadIndex = layer.load(2);
-          $.ajax({
-            'url': '/api/carousel/' + data.id,
-            'type': 'delete',
-            success: function (data) {
-              if (data.code && data.code === 200) {
-                setTimeout(() => {
-                  layer.closeAll();
-                  table.reload('carousel-table');
-                }, 1000)
-              } else {
-                layer.close(loadIndex);
-                layer.msg(data.message);
-              }
+            return false;
+        })
+        // 表单右侧行工具栏
+        table.on('tool(carousel)', function (obj) {
+            // initCartTypeSelect($, form)
+            const data = obj.data; //获得当前行数据
+            const layEvent = obj.event;
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    const loadIndex = layer.load(2);
+                    $.ajax({
+                        'url': '/api/carousel/' + data.id,
+                        'type': 'delete',
+                        success: function (data) {
+                            if (data.code && data.code === 200) {
+                                setTimeout(() => {
+                                    layer.closeAll();
+                                    table.reload('carousel-table');
+                                }, 1000)
+                            } else {
+                                layer.close(loadIndex);
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+                });
+            } else if (layEvent === 'edit') { //编辑
+                updateLayer(data)
             }
-          });
         });
-      } else if (layEvent === 'edit') { //编辑
-        updateLayer(data)
-      }
-    });
-    // 左侧工具栏的三个功能
-    table.on('toolbar(carousel)', function (obj) {
-      form.render()
-      let checkStatus = table.checkStatus(obj.config.id).data;
-      switch (obj.event) {
-        case 'add':
-          // 打开添加弹出层
-          addLayer();
-          break;
-        case 'delete':
-          if (checkStatus.length < 1) return;
-          const loadIndex = layer.load(2);
-          $.ajax({
-            'url': '/api/carousel/' + checkStatus[i].id,
-            'type': 'delete',
-            success: function (data) {
-              if (data.code && data.code === 200) {
-                layer.msg('删除成功');
-                setTimeout(() => {
-                  layer.closeAll();
-                  table.reload('carousel-table');
-                }, 1000)
-              } else {
-                layer.close(loadIndex);
-                layer.msg(data.message);
-              }
+        // 左侧工具栏的三个功能
+        table.on('toolbar(carousel)', function (obj) {
+            form.render()
+            let checkStatus = table.checkStatus(obj.config.id).data;
+            switch (obj.event) {
+                case 'add':
+                    // 打开添加弹出层
+                    addLayer();
+                    break;
+                case 'delete':
+                    if (checkStatus.length < 1) return;
+                    const loadIndex = layer.load(2);
+                    $.ajax({
+                        'url': '/api/carousel/' + checkStatus[i].id,
+                        'type': 'delete',
+                        success: function (data) {
+                            if (data.code && data.code === 200) {
+                                layer.msg('删除成功');
+                                setTimeout(() => {
+                                    layer.closeAll();
+                                    table.reload('carousel-table');
+                                }, 1000)
+                            } else {
+                                layer.close(loadIndex);
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+                    break;
+                case 'update':
+                    if (checkStatus.length === 1) {
+                        const data = checkStatus[0];
+                        updateLayer(data)
+                    } else if (checkStatus.length === 0) {
+                        layer.msg('请选择一个要编辑的行');
+                    } else {
+                        layer.msg('您只能选择一行');
+                    }
+                    break;
             }
-          });
-          break;
-        case 'update':
-          if (checkStatus.length === 1) {
-            const data = checkStatus[0];
-            updateLayer(data)
-          } else if (checkStatus.length === 0) {
-            layer.msg('请选择一个要编辑的行');
-          } else {
-            layer.msg('您只能选择一行');
-          }
-          break;
-      }
-      ;
-    })
-  });
-
-  // 添加弹层
-  function addLayer() {
-    layui.use(['layer', 'upload', 'form'], function () {
-      const layer = layui.layer;
-      const upload = layui.upload;
-      const form = layui.form;
-      const $ = layui.$;
-      layer.open({
-        title: '添加轮播',
-        type: 1,
-        skin: 'layui-layer-rim', //加上边框
-        area: ['400px', '500px'], //宽高
-        offset: 'auto',
-        closeBtn: 1,
-        content: $("#carousel-form").html(),
-        success: function (layero) {
-          uploadInit(upload, $, layero)
-          form.render();
-          layero.find('#update').hide();
-          layero.find('#id-item').hide();
-          layero.find('#imageUrl').hide();
-
-        },
-      });
+            ;
+        })
     });
-  }
 
-  // 修改弹层
-  function updateLayer(data) {
-    layui.use(['layer', 'upload', 'form'], function () {
-      const layer = layui.layer;
-      const upload = layui.upload;
-      const form = layui.form;
-      const $ = layui.$;
-      layer.open({
-        title: '修改轮播',
-        type: 1,
-        skin: 'layui-layer-rim', //加上边框
-        area: ['400px', '500px'], //宽高
-        offset: 'auto',
-        closeBtn: 1,
-        content: $("#carousel-form").html(),
-        success: function (layero) {
-          form.render();
-          uploadInit(upload, $, layero)
-          layero.find('#insert').hide();
-          layero.find('#reset').hide();
-          layero.find('#imageUrl').hide();
-          layero.find('#id').val(data.id);
-          layero.find('#remark').val(data.remark);
-          layero.find("#imageUrl").val(data.imageUrl);
-          layero.find('#image').attr('src', "/oss/download?file=" + data.imageUrl)
-        },
-      });
-    });
-  }
+    // 添加弹层
+    function addLayer() {
+        layui.use(['layer', 'upload', 'form'], function () {
+            const layer = layui.layer;
+            const upload = layui.upload;
+            const form = layui.form;
+            const $ = layui.$;
+            layer.open({
+                title: '添加轮播',
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['400px', '500px'], //宽高
+                offset: 'auto',
+                closeBtn: 1,
+                content: $("#carousel-form").html(),
+                success: function (layero) {
+                    uploadInit(upload, $, layero)
+                    form.render();
+                    layero.find('#update').hide();
+                    layero.find('#id-item').hide();
+                    layero.find('#imageUrl').hide();
 
-  // 上传初始化
-  function uploadInit(upload, $, layero) {
-    layero.find('#image').attr('src', "");
-    const uploadInst = upload.render({
-      elem: layero.find('#upload'),
-      url: '/oss/upload/', //改成您自己的上传接口
-      before: function (obj) {
-        //预读本地文件示例，不支持ie8
-        obj.preview(function (index, file, result) {
-          layero.find('#image').attr('src', result); //图片链接（base64）
+                },
+            });
         });
-      },
-      done: function (res) {
-        //如果上传失败
-        if (res.code !== 200) {
-          return layer.msg('上传失败');
-        } else {
-          layero.find("#imageUrl").val(res.data)
-          return layer.msg('上传成功')
-        }
-        //上传成功
-      },
-      error: function () {
-        //演示失败状态，并实现重传
-        const demoText = $('.demoText');
-        demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-        demoText.find('.demo-reload').on('click', function () {
-          uploadInst.upload();
+    }
+
+    // 修改弹层
+    function updateLayer(data) {
+        layui.use(['layer', 'upload', 'form'], function () {
+            const layer = layui.layer;
+            const upload = layui.upload;
+            const form = layui.form;
+            const $ = layui.$;
+            layer.open({
+                title: '修改轮播',
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['400px', '500px'], //宽高
+                offset: 'auto',
+                closeBtn: 1,
+                content: $("#carousel-form").html(),
+                success: function (layero) {
+                    form.render();
+                    uploadInit(upload, $, layero)
+                    layero.find('#insert').hide();
+                    layero.find('#reset').hide();
+                    layero.find('#imageUrl').hide();
+                    layero.find('#id').val(data.id);
+                    layero.find('#remark').val(data.remark);
+                    layero.find("#imageUrl").val(data.imageUrl);
+                    layero.find('#image').attr('src', "/oss/download?file=" + data.imageUrl)
+                },
+            });
         });
-      }
-    });
-  }
+    }
+
+    // 上传初始化
+    function uploadInit(upload, $, layero) {
+        layero.find('#image').attr('src', "");
+        const uploadInst = upload.render({
+            elem: layero.find('#upload'),
+            url: '/oss/upload/', //改成您自己的上传接口
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    layero.find('#image').attr('src', result); //图片链接（base64）
+                });
+            },
+            done: function (res) {
+                //如果上传失败
+                if (res.code !== 200) {
+                    return layer.msg('上传失败');
+                } else {
+                    layero.find("#imageUrl").val(res.data)
+                    return layer.msg('上传成功')
+                }
+                //上传成功
+            },
+            error: function () {
+                //演示失败状态，并实现重传
+                const demoText = $('.demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+    }
 
 </script>
 </body>

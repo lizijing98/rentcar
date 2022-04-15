@@ -19,28 +19,28 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class Customer extends BaseEntity {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
-    private String username;
+  private String username;
 
-    private String password;
+  private String password;
 
-    private String email;
+  private String email;
 
-    private String phone;
+  private String phone;
 
-    private String gender;
+  private String gender;
 
-    private String remark;
+  private String remark;
 
-    private String activate;
+  private String activate;
 
-    private BigDecimal money;
+  private BigDecimal money;
 
-    private String address;
+  private String address;
 
-    private String profession;
+  private String profession;
 
-    private String idNumber;
+  private String idNumber;
 }

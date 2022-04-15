@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rentcar.mapper.MenuRoleMapper">
-  <resultMap id="BaseResultMap" type="com.rentcar.bean.MenuRole">
-    <id column="menu_id" jdbcType="INTEGER" property="menuId"/>
-    <id column="role_id" jdbcType="INTEGER" property="roleId"/>
-  </resultMap>
-  <select id="selectByRoleId" resultType="Integer">
-    select menu_id
-    from menu_role
-    where role_id = #{roleId}
-  </select>
-  <delete id="deleteByRoleId" parameterType="integer">
-    delete
-    from menu_role
-    where role_id = #{roleId}
-  </delete>
+    <resultMap id="BaseResultMap" type="com.rentcar.bean.MenuRole">
+        <id column="menu_id" jdbcType="INTEGER" property="menuId"/>
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+    </resultMap>
+    <select id="selectByRoleId" resultType="Integer">
+        select menu_id
+        from car.menu_role
+        where role_id = #{roleId}
+    </select>
+    <delete id="deleteByRoleId" parameterType="integer">
+        delete
+        from car.menu_role
+        where role_id = #{roleId}
+    </delete>
 </mapper>

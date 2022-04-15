@@ -5,5 +5,5 @@ import com.rentcar.bean.Check;
 
 public interface CheckService extends IService<Check> {
 
-    void init(Check check);
+  void init(Check check);
 }

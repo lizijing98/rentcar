@@ -24,34 +24,40 @@ import java.util.Date;
 @Accessors(chain = true)
 @TableName("car_order")
 public class Order extends BaseEntity {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
-    private Integer customerId;
+  private Integer customerId;
 
-    private Integer carInfoId;
-    @TableField(exist = false)
-    private String customerName;
-    @TableField(exist = false)
-    private String carPlateNumber;
+  private Integer carInfoId;
 
-    private String orderNumber;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date startDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date endDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date outDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date inDate;
+  @TableField(exist = false)
+  private String customerName;
 
-    private BigDecimal money;
+  @TableField(exist = false)
+  private String carPlateNumber;
 
-    private String feedback;
+  private String orderNumber;
 
-    private BigDecimal cashPledge;
-    // 租期
-    private Integer tenancyTerm;
-    // 状态 1 申请借车，2 借车成功，3 借车失败，4 申请还车，5 拒绝还车，6 同意还车订单完成。7 订单取消
-    private Integer state;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date startDate;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date endDate;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date outDate;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date inDate;
+
+  private BigDecimal money;
+
+  private String feedback;
+
+  private BigDecimal cashPledge;
+  // 租期
+  private Integer tenancyTerm;
+  // 状态 1 申请借车，2 借车成功，3 借车失败，4 申请还车，5 拒绝还车，6 同意还车订单完成。7 订单取消
+  private Integer state;
 }

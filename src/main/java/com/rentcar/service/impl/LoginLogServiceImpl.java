@@ -16,32 +16,34 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
+public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog>
+    implements LoginLogService {
 
-    private UserService userService;
+  private UserService userService;
 
-    @Override
-    public <E extends IPage<LoginLog>> E page(E page) {
-        E page1 = super.page(page);
-        page1.setRecords(this.loginLogHandler(page1.getRecords()));
-        return page1;
-    }
+  @Override
+  public <E extends IPage<LoginLog>> E page(E page) {
+    E page1 = super.page(page);
+    page1.setRecords(this.loginLogHandler(page1.getRecords()));
+    return page1;
+  }
 
-    @Override
-    public <E extends IPage<LoginLog>> E page(E page, Wrapper<LoginLog> queryWrapper) {
-        E page1 = super.page(page, queryWrapper);
-        page1.setRecords(this.loginLogHandler(page1.getRecords()));
-        return page1;
-    }
+  @Override
+  public <E extends IPage<LoginLog>> E page(E page, Wrapper<LoginLog> queryWrapper) {
+    E page1 = super.page(page, queryWrapper);
+    page1.setRecords(this.loginLogHandler(page1.getRecords()));
+    return page1;
+  }
 
-    public List<LoginLog> loginLogHandler(List<LoginLog> loginLogList) {
-        Map<Integer, String> map = userService.list().stream().collect(Collectors.toMap(User::getId, User::getUsername));
-        loginLogList.forEach(loginLog -> loginLog.setUsername(map.get(loginLog.getUser())));
-        return loginLogList;
-    }
+  public List<LoginLog> loginLogHandler(List<LoginLog> loginLogList) {
+    Map<Integer, String> map =
+        userService.list().stream().collect(Collectors.toMap(User::getId, User::getUsername));
+    loginLogList.forEach(loginLog -> loginLog.setUsername(map.get(loginLog.getUser())));
+    return loginLogList;
+  }
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+  @Autowired
+  public void setUserService(UserService userService) {
+    this.userService = userService;
+  }
 }

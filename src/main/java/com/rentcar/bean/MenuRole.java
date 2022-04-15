@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class MenuRole {
-    private Integer menuId;
+  private Integer menuId;
 
-    private Integer roleId;
+  private Integer roleId;
 }

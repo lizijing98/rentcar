@@ -13,23 +13,23 @@ import java.io.Serializable;
  */
 public interface OrderService extends IService<Order> {
 
-    /**
-     * 初始化订单
-     *
-     * @param carInfoId
-     * @param customerId
-     * @param day
-     * @return
-     */
-    boolean initOrder(Serializable carInfoId, Serializable customerId, Integer day);
+  /**
+   * 初始化订单
+   *
+   * @param carInfoId
+   * @param customerId
+   * @param day
+   * @return
+   */
+  boolean initOrder(Serializable carInfoId, Serializable customerId, Integer day);
 
-    /**
-     * 修改状态
-     *
-     * @param id
-     * @param state
-     * @param feedback
-     * @return
-     */
-    boolean updateState(Integer id, Integer state, String feedback);
+  /**
+   * 修改状态
+   *
+   * @param id
+   * @param state
+   * @param feedback
+   * @return
+   */
+  boolean updateState(Integer id, Integer state, String feedback);
 }

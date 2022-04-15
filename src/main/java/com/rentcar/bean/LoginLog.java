@@ -21,20 +21,17 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class LoginLog extends BaseEntity {
-    @TableId(value = "id", type = IdType.AUTO)
-    public Integer id;
-    public Integer user;
+  @TableId(value = "id", type = IdType.AUTO)
+  public Integer id;
 
-    @TableField(exist = false)
-    public String username;
+  public Integer user;
 
-    /**
-     * 登录时间
-     */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date loginTime;
-    /**
-     * 登录ip
-     */
-    public String loginIp;
+  @TableField(exist = false)
+  public String username;
+
+  /** 登录时间 */
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  public Date loginTime;
+  /** 登录ip */
+  public String loginIp;
 }

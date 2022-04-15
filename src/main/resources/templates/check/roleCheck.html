@@ -1,81 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Menu</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="layui/css/layui.css" media="all">
-  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <meta charset="utf-8">
+    <title>Menu</title>
+    <meta content="webkit" name="renderer">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <link href="layui/css/layui.css" media="all" rel="stylesheet">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<script src="layui/layui.js" charset="utf-8"></script>
+<script charset="utf-8" src="layui/layui.js"></script>
 <body>
-<div id="test4" class="demo-transfer"></div>
+<div class="demo-transfer" id="test4"></div>
 
 </body>
 <script type="text/javascript">
-  function GetQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
-    if (r != null) return unescape(r[2]);
-    return null;
-  }
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
 
-  // 调用方法
-  layui.use(['transfer', 'layer', 'util'], function () {
-    var $ = layui.$
-      , transfer = layui.transfer
-      , layer = layui.layer
-      , util = layui.util;
-    var id = GetQueryString("id");
-    var ajaxData = "id=" + id;
-    $.ajax({
-      type: 'post'
-      , data: ajaxData
-      , url: 'roleCheckDate'
-      , success: function (data) {
-        var check = data.map.check;
-        var data1 = data.map.data;
-        start(transfer, check, data1);
-      }
+    // 调用方法
+    layui.use(['transfer', 'layer', 'util'], function () {
+        var $ = layui.$
+            , transfer = layui.transfer
+            , layer = layui.layer
+            , util = layui.util;
+        var id = GetQueryString("id");
+        var ajaxData = "id=" + id;
+        $.ajax({
+            type: 'post'
+            , data: ajaxData
+            , url: 'roleCheckDate'
+            , success: function (data) {
+                var check = data.map.check;
+                var data1 = data.map.data;
+                start(transfer, check, data1);
+            }
+        });
+
+        //数据格式解
+        function start(transfer, check, data1) {
+            transfer.render({
+                elem: '#test4'
+                , showSearch: true
+                , title: ['未选中', '已选中']
+                , value: check
+                , parseData: function (res) {
+                    return {
+                        "value": res.id //数据值
+                        , "title": res.name //数据标题
+                        , "disabled": res.disabled  //是否禁用
+                        , "checked": res.checked //是否选中
+                    }
+                }
+                , data: data1
+                , onchange: function (data, index) {
+                    $.ajax({
+                        type: "post"
+                        , data: "userId=" + id + "&roleId=" + getID(data) + "&type=" + index
+                        , url: "insertOrDelete"
+                        , success: function (data) {
+                        }
+                    })
+                }
+            })
+        }
     });
 
-    //数据格式解
-    function start(transfer, check, data1) {
-      transfer.render({
-        elem: '#test4'
-        , showSearch: true
-        , title: ['未选中', '已选中']
-        , value: check
-        , parseData: function (res) {
-          return {
-            "value": res.id //数据值
-            , "title": res.name //数据标题
-            , "disabled": res.disabled  //是否禁用
-            , "checked": res.checked //是否选中
-          }
+    function getID(data) {
+        var value = [];
+        for (var i = 0; i < data.length; i++) {
+            value[i] = data[i].value;
         }
-        , data: data1
-        , onchange: function (data, index) {
-          $.ajax({
-            type: "post"
-            , data: "userId=" + id + "&roleId=" + getID(data) + "&type=" + index
-            , url: "insertOrDelete"
-            , success: function (data) {
-            }
-          })
-        }
-      })
+        return value;
     }
-  });
-
-  function getID(data) {
-    var value = [];
-    for (var i = 0; i < data.length; i++) {
-      value[i] = data[i].value;
-    }
-    return value;
-  }
 </script>
 </html>

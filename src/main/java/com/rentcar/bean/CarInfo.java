@@ -24,26 +24,30 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class CarInfo extends BaseEntity {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-    private Integer carType;
-    @TableField(exist = false)
-    private String carTypeName;
-    private BigDecimal money;
-    private String status;
-    @NotNull
-    private String plateNumber;
-    private String carColor;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date producedDate;
-    private String remark;
-    // 图片
-    private String image;
-    // 品牌
-    private String brand;
-    // 押金
-    private BigDecimal cashPledge;
-    // 制造商
-    private String manufacturer;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
+
+  private Integer carType;
+
+  @TableField(exist = false)
+  private String carTypeName;
+
+  private BigDecimal money;
+  private String status;
+  @NotNull private String plateNumber;
+  private String carColor;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private Date producedDate;
+
+  private String remark;
+  // 图片
+  private String image;
+  // 品牌
+  private String brand;
+  // 押金
+  private BigDecimal cashPledge;
+  // 制造商
+  private String manufacturer;
 }

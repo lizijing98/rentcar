@@ -10,8 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @author lzj
  * @date 2021-04-19
  */
-
-
 @Mapper
-public interface NoticeMapper extends BaseMapper<Notice> {
-}
+public interface NoticeMapper extends BaseMapper<Notice> {}

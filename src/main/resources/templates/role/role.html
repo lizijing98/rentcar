@@ -1,203 +1,203 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="utf-8">
-  <title>Role</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="layui/css/layui.css" media="all">
-  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <meta charset="utf-8">
+    <title>Role</title>
+    <meta content="webkit" name="renderer">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <link href="layui/css/layui.css" media="all" rel="stylesheet">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
-<script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="allocation">分配资源</a>
+<script id="barDemo" type="text/html">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="allocation">分配资源</a>
 </script>
 
-<script src="layui/layui.js" charset="utf-8"></script>
+<script charset="utf-8" src="layui/layui.js"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script type="text/html" id="checkboxTpl">
-  <input type="checkbox" name="activate" value="{{d.id}}" title="激活" lay-skin="switch" lay-text="on|off"
-         lay-filter="lockDemo" {{ d.activate=="on"?'checked':'' }}>
+<script id="checkboxTpl" type="text/html">
+    <input type="checkbox" name="activate" value="{{d.id}}" title="激活" lay-skin="switch" lay-text="on|off"
+           lay-filter="lockDemo" {{ d.activate=="on"?'checked':'' }}>
 </script>
 
 <script th:inline="none" type="text/javascript">
-  layui.use('table', function () {
-    let table = layui.table
-    let form = layui.form;
-    let $ = layui.$;
+    layui.use('table', function () {
+        let table = layui.table
+        let form = layui.form;
+        let $ = layui.$;
 
-    table.render({
-      elem: '#test',
-      url: 'roleData',
-      toolbar: 'default',
-      title: '角色表',
-      cols: [[
-        {type: 'checkbox', fixed: 'left'},
-        {field: 'id', title: 'id', width: 70},
-        {field: 'roleName', title: '角色名'},
-        {field: 'activate', templet: '#checkboxTpl', unresize: true, title: '激活'},
-        {field: 'remark', title: '备注'},
-        , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 200}
-      ]],
-      page: true
-      , response:
-        {
-          statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
-        }
-      , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
-        return {
-          "code": res.code, //解析接口状态
-          "msg": res.message, //解析提示文本
-          "count": res.map.data.total, //解析数据长度
-          "data": res.map.data.records//解析数据列表
-        };
-      }
+        table.render({
+            elem: '#test',
+            url: 'roleData',
+            toolbar: 'default',
+            title: '角色表',
+            cols: [[
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'id', title: 'id', width: 70},
+                {field: 'roleName', title: '角色名'},
+                {field: 'activate', templet: '#checkboxTpl', unresize: true, title: '激活'},
+                {field: 'remark', title: '备注'},
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 200}
+            ]],
+            page: true
+            , response:
+                {
+                    statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+                }
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.map.data.total, //解析数据长度
+                    "data": res.map.data.records//解析数据列表
+                };
+            }
+        });
+
+        form.on('switch(lockDemo)', function (obj) {
+            let name = "";
+            let Message = "";
+            if (obj.elem.checked) {
+                name = "on";
+                Message = "激活成功";
+            } else {
+                name = "off";
+                Message = "已锁定"
+            }
+            let value = "id=" + this.value + "&roleActivate=" + name;
+
+            $.ajax({
+                type: "POST",
+                data: value,
+                url: "roleActivate",
+                success: function () {
+                    layer.tips(Message, obj.othis);
+                }
+            })
+        });
+
+        table.on('toolbar(test)', function (obj) {
+            let checkStatus = table.checkStatus(obj.config.id)
+            let data = checkStatus.data
+            let data1 = obj.data; //获取选中的数据
+
+            switch (obj.event) {
+                case 'add':
+                    layer.open({
+                        type: 2 //Page层类型
+                        , area: ['600px', '350px']
+                        , title: '添加'
+                        , shade: 0.6 //遮罩透明度
+                        , maxmin: false //不允许全屏最小化
+                        , anim: 1 //0-6的动画形式，-1不开启
+                        , content: 'roleAddView'
+                    });
+                    break;
+                case 'update':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else if (data.length > 1) {
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        //layer.alert('编辑 [id]：'+ checkStatus.data[0].name);
+                        Edit(checkStatus.data[0]);
+                    }
+                    break;
+                case 'delete':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm('真的删除行么', function (index) {
+                            dele(checkStatus.data[0]);
+                            obj.del();
+                            layer.close(index);
+                        });
+                    }
+                    break;
+            }
+            ;
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            let data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    dele(data, obj, index);
+
+                });
+            } else if (obj.event === 'edit') {
+                Edit(data);
+            } else if (obj.event == 'allocation') {
+                allocation(data);
+            }
+        });
     });
+</script>
 
-    form.on('switch(lockDemo)', function (obj) {
-      let name = "";
-      let Message = "";
-      if (obj.elem.checked) {
-        name = "on";
-        Message = "激活成功";
-      } else {
-        name = "off";
-        Message = "已锁定"
-      }
-      let value = "id=" + this.value + "&roleActivate=" + name;
-
-      $.ajax({
-        type: "POST",
-        data: value,
-        url: "roleActivate",
-        success: function () {
-          layer.tips(Message, obj.othis);
-        }
-      })
-    });
-
-    table.on('toolbar(test)', function (obj) {
-      let checkStatus = table.checkStatus(obj.config.id)
-      let data = checkStatus.data
-      let data1 = obj.data; //获取选中的数据
-
-      switch (obj.event) {
-        case 'add':
-          layer.open({
+<script type="text/javascript">
+    function Edit(data) {
+        layer.open({
             type: 2 //Page层类型
             , area: ['600px', '350px']
-            , title: '添加'
+            , title: '编辑'
             , shade: 0.6 //遮罩透明度
             , maxmin: false //不允许全屏最小化
             , anim: 1 //0-6的动画形式，-1不开启
-            , content: 'roleAddView'
-          });
-          break;
-        case 'update':
-          if (data.length === 0) {
-            layer.msg('请选择一行');
-          } else if (data.length > 1) {
-            layer.msg('只能同时编辑一个');
-          } else {
-            //layer.alert('编辑 [id]：'+ checkStatus.data[0].name);
-            Edit(checkStatus.data[0]);
-          }
-          break;
-        case 'delete':
-          if (data.length === 0) {
-            layer.msg('请选择一行');
-          } else {
-            layer.confirm('真的删除行么', function (index) {
-              dele(checkStatus.data[0]);
-              obj.del();
-              layer.close(index);
-            });
-          }
-          break;
-      }
-      ;
-    });
-
-    //监听行工具事件
-    table.on('tool(test)', function (obj) {
-      let data = obj.data;
-      //console.log(obj)
-      if (obj.event === 'del') {
-        layer.confirm('真的删除行么', function (index) {
-          dele(data, obj, index);
-
+            , content: 'roleEditView'
+            , success: function (layero, index) {
+                let body = layer.getChildFrame('body', index);
+                let iframeWin = window[layero.find('iframe')[0]['name']];
+                body.find('#id').val(data.id);
+                body.find('#roleName').val(data.roleName);
+                body.find('#activate').val(data.activate);
+                body.find('#remark').val(data.remark);
+            }
         });
-      } else if (obj.event === 'edit') {
-        Edit(data);
-      } else if (obj.event == 'allocation') {
-        allocation(data);
-      }
-    });
-  });
+    }
 </script>
 
 <script type="text/javascript">
-  function Edit(data) {
-    layer.open({
-      type: 2 //Page层类型
-      , area: ['600px', '350px']
-      , title: '编辑'
-      , shade: 0.6 //遮罩透明度
-      , maxmin: false //不允许全屏最小化
-      , anim: 1 //0-6的动画形式，-1不开启
-      , content: 'roleEditView'
-      , success: function (layero, index) {
-        let body = layer.getChildFrame('body', index);
-        let iframeWin = window[layero.find('iframe')[0]['name']];
-        body.find('#id').val(data.id);
-        body.find('#roleName').val(data.roleName);
-        body.find('#activate').val(data.activate);
-        body.find('#remark').val(data.remark);
-      }
-    });
-  }
-</script>
-
-<script type="text/javascript">
-  function allocation(data) {
-    let id = data.id;
-    layer.open({
-      type: 2 //Page层类型
-      , area: ['400px', '250px']
-      , title: '分配资源'
-      , shade: 0.6 //遮罩透明度
-      , maxmin: false //不允许全屏最小化
-      , anim: 1 //0-6的动画形式，-1不开启
-      , content: 'menuCheckView?id=' + id
-    });
-  }
+    function allocation(data) {
+        let id = data.id;
+        layer.open({
+            type: 2 //Page层类型
+            , area: ['400px', '250px']
+            , title: '分配资源'
+            , shade: 0.6 //遮罩透明度
+            , maxmin: false //不允许全屏最小化
+            , anim: 1 //0-6的动画形式，-1不开启
+            , content: 'menuCheckView?id=' + id
+        });
+    }
 
 </script>
 
 <script type="text/javascript">
-  function dele(data, obj, index) {
-    let $ = layui.$;
-    let parameter = "id=" + data.id;
-    $.ajax({
-      type: 'post'
-      , data: parameter
-      , url: 'roleDelete'
-      , success: function (data) {
-        if (data) {
-          layer.alert("删除成功");
-          obj.del();
-          layer.close(index);
-        } else {
-          layer.alert("删除失败")
-        }
-      }
-    });
-  }
+    function dele(data, obj, index) {
+        let $ = layui.$;
+        let parameter = "id=" + data.id;
+        $.ajax({
+            type: 'post'
+            , data: parameter
+            , url: 'roleDelete'
+            , success: function (data) {
+                if (data) {
+                    layer.alert("删除成功");
+                    obj.del();
+                    layer.close(index);
+                } else {
+                    layer.alert("删除失败")
+                }
+            }
+        });
+    }
 </script>
 
 </body>

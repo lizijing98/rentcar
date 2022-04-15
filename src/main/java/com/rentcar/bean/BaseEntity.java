@@ -17,16 +17,19 @@ import java.util.Date;
 @Getter
 @Setter
 public class BaseEntity implements Serializable {
-    @TableLogic
-    private Integer deleted;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date modifyTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Integer modifyId;
-    @TableField(fill = FieldFill.INSERT)
-    private Integer creatorId;
-    @Version
-    private Integer fversion;
+  @TableLogic private Integer deleted;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date createTime;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date modifyTime;
+
+  @TableField(fill = FieldFill.INSERT_UPDATE)
+  private Integer modifyId;
+
+  @TableField(fill = FieldFill.INSERT)
+  private Integer creatorId;
+
+  @Version private Integer fversion;
 }

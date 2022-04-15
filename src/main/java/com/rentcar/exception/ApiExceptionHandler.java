@@ -17,37 +17,37 @@ import java.util.List;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    /**
-     * 处理系统发生的任意错误时的处理
-     *
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public Meg error(Exception e) {
-        e.printStackTrace();
-        return Meg.file(e.getMessage());
-    }
+  /**
+   * 处理系统发生的任意错误时的处理
+   *
+   * @param e
+   * @return
+   */
+  @ExceptionHandler(Exception.class)
+  @ResponseBody
+  public Meg error(Exception e) {
+    e.printStackTrace();
+    return Meg.file(e.getMessage());
+  }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseBody
-    public Meg methodArgumentNotValidException(MethodArgumentNotValidException c) {
-        List<ObjectError> errors = c.getBindingResult().getAllErrors();
-        StringBuffer errorMsg = new StringBuffer();
-        errors.stream().forEach(x -> errorMsg.append(x.getDefaultMessage()).append(";"));
-        return Meg.file(errorMsg.toString());
-    }
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseBody
+  public Meg methodArgumentNotValidException(MethodArgumentNotValidException c) {
+    List<ObjectError> errors = c.getBindingResult().getAllErrors();
+    StringBuffer errorMsg = new StringBuffer();
+    errors.stream().forEach(x -> errorMsg.append(x.getDefaultMessage()).append(";"));
+    return Meg.file(errorMsg.toString());
+  }
 
-    /**
-     * 业务异常处理器
-     *
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(BusinessException.class)
-    @ResponseBody
-    public Meg businessException(BusinessException e) {
-        return Meg.file(e.getMessage());
-    }
+  /**
+   * 业务异常处理器
+   *
+   * @param e
+   * @return
+   */
+  @ExceptionHandler(BusinessException.class)
+  @ResponseBody
+  public Meg businessException(BusinessException e) {
+    return Meg.file(e.getMessage());
+  }
 }

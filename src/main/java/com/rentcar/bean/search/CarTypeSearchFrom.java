@@ -11,18 +11,18 @@ import org.springframework.util.StringUtils;
  */
 @Data
 public class CarTypeSearchFrom {
-    private Integer pageSize;
-    private Integer pageNum;
-    private String name;
+  private Integer pageSize;
+  private Integer pageNum;
+  private String name;
 
-    public Page<CarType> getPage() {
-        return new Page<>(pageNum, pageSize);
-    }
+  public Page<CarType> getPage() {
+    return new Page<>(pageNum, pageSize);
+  }
 
-    public QueryWrapper<CarType> queryWrapper() {
-        QueryWrapper<CarType> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("deleted", "0");
-        queryWrapper.like(!StringUtils.isEmpty(name), "name", name);
-        return queryWrapper;
-    }
+  public QueryWrapper<CarType> queryWrapper() {
+    QueryWrapper<CarType> queryWrapper = new QueryWrapper();
+    queryWrapper.eq("deleted", "0");
+    queryWrapper.like(!StringUtils.isEmpty(name), "name", name);
+    return queryWrapper;
+  }
 }

@@ -26,157 +26,159 @@ import java.util.List;
 @Controller
 public class CustomerViewController {
 
-    private HttpSession httpSession;
-    private LoginService loginService;
-    private CarTypeService carTypeService;
-    private NoticeService noticeService;
-    private CustomerService customerService;
-    private CarInfoService carInfoService;
-    private CarouselService carouselService;
+  private HttpSession httpSession;
+  private LoginService loginService;
+  private CarTypeService carTypeService;
+  private NoticeService noticeService;
+  private CustomerService customerService;
+  private CarInfoService carInfoService;
+  private CarouselService carouselService;
 
-    @GetMapping("/main")
-    public ModelAndView main() {
-        ModelAndView model = new ModelAndView("main/main");
-        final List<CarType> types = carTypeService.listAndInfoList();
-        final List<Notice> notices = noticeService.list();
-        model.addObject("types", types);
-        model.addObject("notices", notices);
-        model.addObject("carousels", carouselService.list());
-        return model;
-    }
+  @GetMapping("/main")
+  public ModelAndView main() {
+    ModelAndView model = new ModelAndView("main/main");
+    final List<CarType> types = carTypeService.listAndInfoList();
+    final List<Notice> notices = noticeService.list();
+    model.addObject("types", types);
+    model.addObject("notices", notices);
+    model.addObject("carousels", carouselService.list());
+    return model;
+  }
 
-    @PostMapping("/customerLogin")
-    @ResponseBody
-    public Meg customerLogin(@RequestParam String username,
-                             @RequestParam String password,
-                             @RequestParam String authCode,
-                             HttpServletRequest request) {
-        String ip = IpUtil.getIpAddr(request);
-        return loginService.loginCustomer(username, password, authCode, ip);
-    }
+  @PostMapping("/customerLogin")
+  @ResponseBody
+  public Meg customerLogin(
+      @RequestParam String username,
+      @RequestParam String password,
+      @RequestParam String authCode,
+      HttpServletRequest request) {
+    String ip = IpUtil.getIpAddr(request);
+    return loginService.loginCustomer(username, password, authCode, ip);
+  }
 
-    @GetMapping("/main/type")
-    public ModelAndView typeList(ModelAndView mv, @RequestParam("carTypeId") Integer carTypeId, @RequestParam(defaultValue = "1") Integer pageNum) {
-        log.info("分类页面:typeId:{},pageNum:{}", carTypeId, pageNum);
-        mv.setViewName("main/carType");
-        QueryWrapper<CarInfo> qw = new QueryWrapper<>();
-        qw.eq("car_type", carTypeId);
-        qw.eq("info.deleted", "0");
-        qw.eq("type.deleted", "0");
-        Page<CarInfo> page = carInfoService.page(new Page<>(pageNum, 8), qw);
-        mv.addObject("type", carTypeService.getById(carTypeId));
-        mv.addObject("notices", noticeService.list());
-        mv.addObject("page", page);
-        mv.addObject("types", carTypeService.list());
-        mv.addObject("carousels", carouselService.list());
-        return mv;
-    }
+  @GetMapping("/main/type")
+  public ModelAndView typeList(
+      ModelAndView mv,
+      @RequestParam("carTypeId") Integer carTypeId,
+      @RequestParam(defaultValue = "1") Integer pageNum) {
+    log.info("分类页面:typeId:{},pageNum:{}", carTypeId, pageNum);
+    mv.setViewName("main/carType");
+    QueryWrapper<CarInfo> qw = new QueryWrapper<>();
+    qw.eq("car_type", carTypeId);
+    qw.eq("info.deleted", "0");
+    qw.eq("type.deleted", "0");
+    Page<CarInfo> page = carInfoService.page(new Page<>(pageNum, 8), qw);
+    mv.addObject("type", carTypeService.getById(carTypeId));
+    mv.addObject("notices", noticeService.list());
+    mv.addObject("page", page);
+    mv.addObject("types", carTypeService.list());
+    mv.addObject("carousels", carouselService.list());
+    return mv;
+  }
 
-    @GetMapping("/customerLogin")
-    public String login() {
-        httpSession.invalidate();
-        return "customer/customerLogin";
-    }
+  @GetMapping("/customerLogin")
+  public String login() {
+    httpSession.invalidate();
+    return "customer/customerLogin";
+  }
 
-    @GetMapping("/customer/exit")
-    public String exit() {
-        httpSession.invalidate();
-        return "customer/customerLogin";
-    }
+  @GetMapping("/customer/exit")
+  public String exit() {
+    httpSession.invalidate();
+    return "customer/customerLogin";
+  }
 
-    @GetMapping("/currentCustomer")
-    public Meg currentCustomer(HttpSession httpSession) {
-        Object customerIdObj = httpSession.getAttribute("customerId");
-        if (customerIdObj == null) {
-            Meg meg = new Meg();
-            meg.setCode(403);
-            return meg;
-        }
-        Integer customerId = Integer.parseInt(customerIdObj + "");
-        Customer customer = customerService.getById(customerId);
-        customer.setPassword("");
-        return Meg.success().add("data", customer);
+  @GetMapping("/currentCustomer")
+  public Meg currentCustomer(HttpSession httpSession) {
+    Object customerIdObj = httpSession.getAttribute("customerId");
+    if (customerIdObj == null) {
+      Meg meg = new Meg();
+      meg.setCode(403);
+      return meg;
     }
+    Integer customerId = Integer.parseInt(customerIdObj + "");
+    Customer customer = customerService.getById(customerId);
+    customer.setPassword("");
+    return Meg.success().add("data", customer);
+  }
 
-    @GetMapping("/customerInfo")
-    public ModelAndView customerInfo(ModelAndView mv, HttpSession httpSession) {
-        final Integer customerId = (Integer) httpSession.getAttribute("customerId");
-        mv.setViewName("main/customerInfo");
-        mv.addObject("notices", noticeService.list());
-        mv.addObject("types", carTypeService.list());
-        mv.addObject("info", customerService.getById(customerId));
-        return mv;
-    }
+  @GetMapping("/customerInfo")
+  public ModelAndView customerInfo(ModelAndView mv, HttpSession httpSession) {
+    final Integer customerId = (Integer) httpSession.getAttribute("customerId");
+    mv.setViewName("main/customerInfo");
+    mv.addObject("notices", noticeService.list());
+    mv.addObject("types", carTypeService.list());
+    mv.addObject("info", customerService.getById(customerId));
+    return mv;
+  }
 
-    @GetMapping("/main/notice/{id}")
-    public ModelAndView notice(ModelAndView mv, @PathVariable String id) {
-        mv.setViewName("main/notice");
-        mv.addObject("types", carTypeService.list());
-        mv.addObject("notices", noticeService.list());
-        mv.addObject("notice", noticeService.getById(id));
-        return mv;
-    }
+  @GetMapping("/main/notice/{id}")
+  public ModelAndView notice(ModelAndView mv, @PathVariable String id) {
+    mv.setViewName("main/notice");
+    mv.addObject("types", carTypeService.list());
+    mv.addObject("notices", noticeService.list());
+    mv.addObject("notice", noticeService.getById(id));
+    return mv;
+  }
 
-    @GetMapping("/myOrder")
-    public ModelAndView myOrder(ModelAndView mv, HttpSession httpSession) {
-        final Integer customerId = (Integer) httpSession.getAttribute("customerId");
-        mv.setViewName("main/myOrder");
-        mv.addObject("types", carTypeService.list());
-        mv.addObject("notices", noticeService.list());
-        mv.addObject("id", customerId);
-        return mv;
-    }
+  @GetMapping("/myOrder")
+  public ModelAndView myOrder(ModelAndView mv, HttpSession httpSession) {
+    final Integer customerId = (Integer) httpSession.getAttribute("customerId");
+    mv.setViewName("main/myOrder");
+    mv.addObject("types", carTypeService.list());
+    mv.addObject("notices", noticeService.list());
+    mv.addObject("id", customerId);
+    return mv;
+  }
 
-    /**
-     * 添加客户
-     */
-    @ResponseBody
-    @PostMapping("/customerRegister")
-    public Meg reg(Customer customer, @RequestParam String authCode, HttpSession httpSession) {
-        if (!authCode.toLowerCase().equals(httpSession.getAttribute("authCode"))) {
-            return Meg.file("验证码错误");
-        }
-        customer.setActivate("on");
-        return customerService.save(customer) ? Meg.success() : Meg.file();
+  /** 添加客户 */
+  @ResponseBody
+  @PostMapping("/customerRegister")
+  public Meg reg(Customer customer, @RequestParam String authCode, HttpSession httpSession) {
+    if (!authCode.toLowerCase().equals(httpSession.getAttribute("authCode"))) {
+      return Meg.file("验证码错误");
     }
+    customer.setActivate("on");
+    return customerService.save(customer) ? Meg.success() : Meg.file();
+  }
 
-    @GetMapping("/customerRegister")
-    public String register() {
-        return "customer/customerRegister";
-    }
+  @GetMapping("/customerRegister")
+  public String register() {
+    return "customer/customerRegister";
+  }
 
-    @Autowired
-    public void setCarInfoService(CarInfoService carInfoService) {
-        this.carInfoService = carInfoService;
-    }
+  @Autowired
+  public void setCarInfoService(CarInfoService carInfoService) {
+    this.carInfoService = carInfoService;
+  }
 
-    @Autowired
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+  @Autowired
+  public void setCustomerService(CustomerService customerService) {
+    this.customerService = customerService;
+  }
 
-    @Autowired
-    public void setHttpSession(HttpSession httpSession) {
-        this.httpSession = httpSession;
-    }
+  @Autowired
+  public void setHttpSession(HttpSession httpSession) {
+    this.httpSession = httpSession;
+  }
 
-    @Autowired
-    public void setLoginService(LoginService loginService) {
-        this.loginService = loginService;
-    }
+  @Autowired
+  public void setLoginService(LoginService loginService) {
+    this.loginService = loginService;
+  }
 
-    @Autowired
-    public void setCarTypeService(CarTypeService carTypeService) {
-        this.carTypeService = carTypeService;
-    }
+  @Autowired
+  public void setCarTypeService(CarTypeService carTypeService) {
+    this.carTypeService = carTypeService;
+  }
 
-    @Autowired
-    public void setNoticeService(NoticeService noticeService) {
-        this.noticeService = noticeService;
-    }
+  @Autowired
+  public void setNoticeService(NoticeService noticeService) {
+    this.noticeService = noticeService;
+  }
 
-    @Autowired
-    public void setCarouselService(CarouselService carouselService) {
-        this.carouselService = carouselService;
-    }
+  @Autowired
+  public void setCarouselService(CarouselService carouselService) {
+    this.carouselService = carouselService;
+  }
 }

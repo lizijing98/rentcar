@@ -21,11 +21,12 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class CarType extends BaseEntity {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-    @NotNull
-    private String name;
-    private String remark;
-    @TableField(exist = false)
-    private List<CarInfo> carInfos;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
+
+  @NotNull private String name;
+  private String remark;
+
+  @TableField(exist = false)
+  private List<CarInfo> carInfos;
 }

@@ -1,494 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css"/>
-  <style>
-      .layui-upload-list {
-          display: inline;
-          height: 100px;
-          width: 100px;
-      }
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .layui-upload-list {
+            display: inline;
+            height: 100px;
+            width: 100px;
+        }
 
-      .layui-upload-img {
-          height: 100px;
-          width: 100px;
-      }
+        .layui-upload-img {
+            height: 100px;
+            width: 100px;
+        }
 
-      .layui-table-cell {
-          height: 36px;
-          line-height: 36px;
-      }
-  </style>
+        .layui-table-cell {
+            height: 36px;
+            line-height: 36px;
+        }
+    </style>
 </head>
 <body>
 
-<div id="car-form" hidden>
-  <form class="layui-form" id="car-form-layui">
-    <div id="id-item" class="layui-form-item">
-      <label class="layui-form-label">id</label>
-      <div class="layui-input-inline">
-        <input type="text" name="id" id="id" readonly autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
-
-    <div class="layui-form-item">
-      <label class="layui-form-label">品牌</label>
-      <div class="layui-input-inline">
-        <input type="text" name="brand" id="brand" required lay-verify="required"
-               placeholder="请输入车牌号" autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">图片</label>
-      <input type="text" name="image" id="image">
-      <div class="layui-input-inline">
-        <div class="layui-upload">
-          <button type="button" class="layui-btn test1" id="test1">上传图片</button>
-          <div class="layui-upload-list">
-            <img class="layui-upload-img demo1" src="" id="demo1">
-            <p id="demoText" class="demoText"></p>
-          </div>
+<div hidden id="car-form">
+    <form class="layui-form" id="car-form-layui">
+        <div class="layui-form-item" id="id-item">
+            <label class="layui-form-label">id</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="id" name="id" readonly type="text"/>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">制造商</label>
-      <div class="layui-input-inline">
-        <input type="text" name="manufacturer" id="manufacturer" required lay-verify="required"
-               placeholder="请输入制造商" autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">品牌</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="brand" lay-verify="required" name="brand"
+                       placeholder="请输入车牌号" required type="text"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片</label>
+            <input id="image" name="image" type="text">
+            <div class="layui-input-inline">
+                <div class="layui-upload">
+                    <button class="layui-btn test1" id="test1" type="button">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img demo1" id="demo1" src="">
+                        <p class="demoText" id="demoText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">生产日期</label>
-      <div class="layui-input-inline">
-        <input type="text" name="producedDate" id="date" required lay-verify="required"
-               class="layui-input date"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">制造商</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="manufacturer" lay-verify="required" name="manufacturer"
+                       placeholder="请输入制造商" required type="text"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">汽车类型</label>
-      <div class="layui-input-inline">
-        <select class="car-type" name="carType" id="carType" required lay-verify="required" lay-search>
-          <option value="">请选择或搜索汽车类型</option>
-        </select>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">生产日期</label>
+            <div class="layui-input-inline">
+                <input class="layui-input date" id="date" lay-verify="required" name="producedDate" required
+                       type="text"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">压金(元)</label>
-      <div class="layui-input-inline">
-        <input type="number" name="cashPledge" id="cashPledge" required lay-verify="required|money" placeholder="请输入租金"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">汽车类型</label>
+            <div class="layui-input-inline">
+                <select class="car-type" id="carType" lay-search lay-verify="required" name="carType" required>
+                    <option value="">请选择或搜索汽车类型</option>
+                </select>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">租金(元/天)</label>
-      <div class="layui-input-inline">
-        <input type="number" name="money" id="money" required lay-verify="required|money" placeholder="请输入租金"
-               autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">压金(元)</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="cashPledge" lay-verify="required|money" name="cashPledge"
+                       placeholder="请输入租金"
+                       required type="number"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">车牌</label>
-      <div class="layui-input-inline">
-        <input type="text" name="plateNumber" id="plateNumber" required lay-verify="plateNumber"
-               placeholder="请输入车牌号" autocomplete="off" class="layui-input"/>
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">租金(元/天)</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money" placeholder="请输入租金"
+                       required type="number"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label">汽车颜色</label>
-      <div class="layui-input-inline">
-        <input id="carColor" type="text" name="carColor" required lay-verify="required" placeholder="请输入汽车颜色"
-               autocomplete="off" class="layui-input">
-      </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">车牌</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="plateNumber" lay-verify="plateNumber" name="plateNumber"
+                       placeholder="请输入车牌号" required type="text"/>
+            </div>
+        </div>
 
-    <div class="layui-form-item layui-form-text">
-      <label class="layui-form-label">备注</label>
-      <div class="layui-input-inline">
-                <textarea type="text" name="remark" id="remark" placeholder="请输入备注" autocomplete="off"
-                          class="layui-textarea"></textarea>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <div class="layui-input-block">
-        <button id="insert" class="layui-btn" lay-submit lay-filter="insert">立即提交</button>
-        <button id="update" class="layui-btn" lay-submit lay-filter="update">立即提交</button>
-        <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
-      </div>
-    </div>
-  </form>
+        <div class="layui-form-item">
+            <label class="layui-form-label">汽车颜色</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="carColor" lay-verify="required" name="carColor" placeholder="请输入汽车颜色"
+                       required type="text">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-inline">
+                <textarea autocomplete="off" class="layui-textarea" id="remark" name="remark" placeholder="请输入备注"
+                          type="text"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="insert" lay-filter="insert" lay-submit>立即提交</button>
+                <button class="layui-btn" id="update" lay-filter="update" lay-submit>立即提交</button>
+                <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>
+            </div>
+        </div>
+    </form>
 </div>
 <div class="layui-form">
-  品牌：
-  <div class="layui-inline">
-    <input class="layui-input" name="brand" autocomplete="off">
-  </div>
-  制造商：
-  <div class="layui-inline">
-    <input class="layui-input" name="manufacturer" autocomplete="off">
-  </div>
-  车牌号：
-  <div class="layui-inline">
-    <input class="layui-input" name="plateNumber" autocomplete="off">
-  </div>
-  <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
+    品牌：
+    <div class="layui-inline">
+        <input autocomplete="off" class="layui-input" name="brand">
+    </div>
+    制造商：
+    <div class="layui-inline">
+        <input autocomplete="off" class="layui-input" name="manufacturer">
+    </div>
+    车牌号：
+    <div class="layui-inline">
+        <input autocomplete="off" class="layui-input" name="plateNumber">
+    </div>
+    <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
 </div>
 <table class="layui-hide" id="car" lay-filter="car"></table>
-<script type="text/html" id="leftBtn">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+<script id="leftBtn" type="text/html">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script type="text/html" id="titleTpl">
-  <img width="100px" height="75px" src="/oss/download?file={{d.image}}">
+<script id="titleTpl" type="text/html">
+    <img width="100px" height="75px" src="/oss/download?file={{d.image}}">
 </script>
 
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
 <script th:inline="none" type="text/javascript">
-  layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
-    const table = layui.table;
-    const layer = layui.layer;
-    const form = layui.form;
-    const upload = layui.upload;
-    const $ = layui.$;
+    layui.use(['table', 'layer', 'form', 'upload', 'laydate'], function () {
+        const table = layui.table;
+        const layer = layui.layer;
+        const form = layui.form;
+        const upload = layui.upload;
+        const $ = layui.$;
 
-    // 表单加载
-    const tableIns = table.render({
-      id: 'car-table',
-      elem: '#car',
-      url: "/car-info/page",
-      contentType: 'application/json',
-      method: 'post', //异步请求方法
-      toolbar: 'default',
-      title: '汽车表',
-      cols: [[
-        {fixed: 'left', type: 'checkbox',},
-        {field: 'id', title: 'id', width: 70,},
-        {field: 'carTypeName', title: '汽车类型',},
-        {field: 'money', title: '租金(元/天)',},
-        {field: 'brand', title: '品牌',},
-        {field: 'cashPledge', title: '押金(元)',},
-        {field: 'image', title: '图片', templet: '#titleTpl'},
-        {field: 'manufacturer', title: '生产厂家',},
-        {field: 'status', title: '状态',},
-        {field: 'producedDate', title: '生产日期',},
-        {field: 'plateNumber', title: '车牌',},
-        {field: 'carColor', title: '汽车颜色',},
-        {field: 'remark', title: '详情'},
-        {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
-      ]],
-      page: true,
-      request: {
-        pageName: 'pageNum', //页码的参数名称，默认：page
-        limitName: 'pageSize' //每页数据量的参数名，默认：limit
-      },
-      response: {
-        statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
-      },
-      parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
-        return {
-          "code": res.code, //解析接口状态
-          "msg": res.message, //解析提示文本
-          "count": res.map.data.total, //解析数据长度
-          "data": res.map.data.records//解析数据列表
-        };
-      },
-    });
+        // 表单加载
+        const tableIns = table.render({
+            id: 'car-table',
+            elem: '#car',
+            url: "/car-info/page",
+            contentType: 'application/json',
+            method: 'post', //异步请求方法
+            toolbar: 'default',
+            title: '汽车表',
+            cols: [[
+                {fixed: 'left', type: 'checkbox',},
+                {field: 'id', title: 'id', width: 70,},
+                {field: 'carTypeName', title: '汽车类型',},
+                {field: 'money', title: '租金(元/天)',},
+                {field: 'brand', title: '品牌',},
+                {field: 'cashPledge', title: '押金(元)',},
+                {field: 'image', title: '图片', templet: '#titleTpl'},
+                {field: 'manufacturer', title: '生产厂家',},
+                {field: 'status', title: '状态',},
+                {field: 'producedDate', title: '生产日期',},
+                {field: 'plateNumber', title: '车牌',},
+                {field: 'carColor', title: '汽车颜色',},
+                {field: 'remark', title: '详情'},
+                {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
+            ]],
+            page: true,
+            request: {
+                pageName: 'pageNum', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            response: {
+                statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+            },
+            parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.map.data.total, //解析数据长度
+                    "data": res.map.data.records//解析数据列表
+                };
+            },
+        });
 
-    // 重载
-    form.on("submit(search)", data => {
-      tableIns.reload({
-        url: "/car-info/page",
-        contentType: 'application/json',
-        method: 'post',
-        where: data.field,
-        page: {
-          pageNum: 1 // 重新从第 1 页开始
-        }
-      });
-    })
+        // 重载
+        form.on("submit(search)", data => {
+            tableIns.reload({
+                url: "/car-info/page",
+                contentType: 'application/json',
+                method: 'post',
+                where: data.field,
+                page: {
+                    pageNum: 1 // 重新从第 1 页开始
+                }
+            });
+        })
 
 
-    // 表单校验
-    form.verify({
-      money: function (value, item) {//value：表单的值、item：表单的DOM对象
-        if (!'.'.includes(value)) {
-          // 加上小数后缀
-          value = value + ".00";
-        }
-        const reg = new RegExp('^(([1-9][0-9]{0,14})|([0])|(([0]\\.\\d{1,2}|[1-9][0-9]{0,14}\\.\\d{1,2})))$');
-        if (!reg.test(value)) {
-          return '请输入合法的金额';
-        }
-      },
-      plateNumber: function (value, item) {
-        // 前端检查车牌号格式
-        const reg = new RegExp('^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z][A-Z][A-Z0-9]{4}[A-Z0-9挂学警港澳]?$');
-        if (!reg.test(value)) {
-          return '车牌号格式不正确';
-        }
-      }
-    });
-    // 添加
-    form.on('submit(insert)', function (data) {
-      const params = JSON.stringify(data.field);
-      console.log(params);
-      const loadIndex = layer.load(2);
-      $.ajax({
-        'contentType': 'application/json;charset=utf-8',
-        'data': params,
-        'url': 'car-info',
-        'type': 'post',
-        success: function (data) {
-          if (data.code && data.code === 200) {
-            layer.msg('添加成功');
-            setTimeout(() => {
-              layer.closeAll();
-              table.reload('car-table', {}, true);
-            }, 1000)
-          } else {
-            layer.close(loadIndex);
-            layer.msg(data.message);
-          }
-        }
-      });
-      return false;
-    })
-    // 修改
-    form.on('submit(update)', function (data) {
-      const id = data.field.id;
-      const params = JSON.stringify(data.field);
-      const loadIndex = layer.load(2);
-      $.ajax({
-        'contentType': 'application/json;charset=utf-8',
-        'data': params,
-        'url': 'car-info/' + id,
-        'type': 'put',
-        success: function (data) {
-          if (data.code && data.code === 200) {
-            layer.msg('修改成功');
-            setTimeout(() => {
-              layer.closeAll();
-              table.reload('car-table', {}, true);
-            }, 1000)
-          } else {
-            layer.close(loadIndex);
-            layer.msg(data.message);
-          }
-        }
-      });
-
-      return false;
-    })
-    // 表单右侧行工具栏
-    table.on('tool(car)', function (obj) {
-      // initCartTypeSelect($, form)
-      const data = obj.data; //获得当前行数据
-      const layEvent = obj.event;
-      if (layEvent === 'del') { //删除
-        layer.confirm('真的删除行么', function (index) {
-          obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-          layer.close(index);
-          //向服务端发送删除指令
-          const loadIndex = layer.load(2);
-          $.ajax({
-            'url': 'car-info/' + data.id,
-            'type': 'delete',
-            success: function (data) {
-              if (data.code && data.code === 200) {
-                setTimeout(() => {
-                  layer.closeAll();
-                  table.reload('car-table');
-                }, 1000)
-              } else {
-                layer.close(loadIndex);
-                layer.msg(data.message);
-              }
+        // 表单校验
+        form.verify({
+            money: function (value, item) {//value：表单的值、item：表单的DOM对象
+                if (!'.'.includes(value)) {
+                    // 加上小数后缀
+                    value = value + ".00";
+                }
+                const reg = new RegExp('^(([1-9][0-9]{0,14})|([0])|(([0]\\.\\d{1,2}|[1-9][0-9]{0,14}\\.\\d{1,2})))$');
+                if (!reg.test(value)) {
+                    return '请输入合法的金额';
+                }
+            },
+            plateNumber: function (value, item) {
+                // 前端检查车牌号格式
+                const reg = new RegExp('^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z][A-Z][A-Z0-9]{4}[A-Z0-9挂学警港澳]?$');
+                if (!reg.test(value)) {
+                    return '车牌号格式不正确';
+                }
             }
-          });
         });
-      } else if (layEvent === 'edit') { //编辑
-        updateLayer(form, layer, data, upload, $)
-      }
-    });
-    // 左侧工具栏的三个功能
-    table.on('toolbar(car)', function (obj) {
+        // 添加
+        form.on('submit(insert)', function (data) {
+            const params = JSON.stringify(data.field);
+            console.log(params);
+            const loadIndex = layer.load(2);
+            $.ajax({
+                'contentType': 'application/json;charset=utf-8',
+                'data': params,
+                'url': 'car-info',
+                'type': 'post',
+                success: function (data) {
+                    if (data.code && data.code === 200) {
+                        layer.msg('添加成功');
+                        setTimeout(() => {
+                            layer.closeAll();
+                            table.reload('car-table', {}, true);
+                        }, 1000)
+                    } else {
+                        layer.close(loadIndex);
+                        layer.msg(data.message);
+                    }
+                }
+            });
+            return false;
+        })
+        // 修改
+        form.on('submit(update)', function (data) {
+            const id = data.field.id;
+            const params = JSON.stringify(data.field);
+            const loadIndex = layer.load(2);
+            $.ajax({
+                'contentType': 'application/json;charset=utf-8',
+                'data': params,
+                'url': 'car-info/' + id,
+                'type': 'put',
+                success: function (data) {
+                    if (data.code && data.code === 200) {
+                        layer.msg('修改成功');
+                        setTimeout(() => {
+                            layer.closeAll();
+                            table.reload('car-table', {}, true);
+                        }, 1000)
+                    } else {
+                        layer.close(loadIndex);
+                        layer.msg(data.message);
+                    }
+                }
+            });
 
-      form.render()
-      let checkStatus = table.checkStatus(obj.config.id).data;
-      switch (obj.event) {
-        case 'add':
-          // 打开添加弹出层
-          addLayer(form, layer, upload, $);
-          break;
-        case 'delete':
-          let params = '';
-          for (let i = 0; i < checkStatus.length; i++) {
-            params += "&id=" + checkStatus[i].id;
-          }
-          params = params.substr(1)
-          console.log(params);
-          const loadIndex = layer.load(2);
-          $.ajax({
-            'data': params,
-            'url': 'car-info',
-            'type': 'delete',
-            success: function (data) {
-              if (data.code && data.code === 200) {
-                layer.msg('删除成功');
-                setTimeout(() => {
-                  layer.closeAll();
-                  table.reload('car-table');
-                }, 1000)
-              } else {
-                layer.close(loadIndex);
-                layer.msg(data.message);
-              }
+            return false;
+        })
+        // 表单右侧行工具栏
+        table.on('tool(car)', function (obj) {
+            // initCartTypeSelect($, form)
+            const data = obj.data; //获得当前行数据
+            const layEvent = obj.event;
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    const loadIndex = layer.load(2);
+                    $.ajax({
+                        'url': 'car-info/' + data.id,
+                        'type': 'delete',
+                        success: function (data) {
+                            if (data.code && data.code === 200) {
+                                setTimeout(() => {
+                                    layer.closeAll();
+                                    table.reload('car-table');
+                                }, 1000)
+                            } else {
+                                layer.close(loadIndex);
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+                });
+            } else if (layEvent === 'edit') { //编辑
+                updateLayer(form, layer, data, upload, $)
             }
-          });
-
-          break;
-        case 'update':
-          if (checkStatus.length === 1) {
-            const data = checkStatus[0];
-            updateLayer(form, layer, data, upload, $)
-          } else if (checkStatus.length === 0) {
-            layer.msg('请选择一个要编辑的行');
-          } else {
-            layer.msg('您只能选择一行');
-          }
-          break;
-      }
-      ;
-    })
-  });
-
-  // 添加弹层
-  function addLayer(form, layer, upload, $) {
-
-    layer.open({
-      title: '添加汽车',
-      type: 1,
-      skin: 'layui-layer-rim', //加上边框
-      area: ['400px', '500px'], //宽高
-      offset: 'auto',
-      closeBtn: 1,
-      content: $("#car-form"),
-      success: function (layero) {
-        //执行一个laydate实例
-        layero.find('#carType option').remove()
-        initCartTypeSelect($, layero)
-        uploadInit(upload, $, layero)
-        layero.find('#update').hide();
-        layero.find('#id-item').hide();
-        layero.find('#image').hide();
-        form.render();
-        layui.use('laydate', function () {
-          const laydate = layui.laydate;
-          //常规用法
-          laydate.render({
-            elem: document.getElementById('date'),
-          });
         });
+        // 左侧工具栏的三个功能
+        table.on('toolbar(car)', function (obj) {
 
-      },
+            form.render()
+            let checkStatus = table.checkStatus(obj.config.id).data;
+            switch (obj.event) {
+                case 'add':
+                    // 打开添加弹出层
+                    addLayer(form, layer, upload, $);
+                    break;
+                case 'delete':
+                    let params = '';
+                    for (let i = 0; i < checkStatus.length; i++) {
+                        params += "&id=" + checkStatus[i].id;
+                    }
+                    params = params.substr(1)
+                    console.log(params);
+                    const loadIndex = layer.load(2);
+                    $.ajax({
+                        'data': params,
+                        'url': 'car-info',
+                        'type': 'delete',
+                        success: function (data) {
+                            if (data.code && data.code === 200) {
+                                layer.msg('删除成功');
+                                setTimeout(() => {
+                                    layer.closeAll();
+                                    table.reload('car-table');
+                                }, 1000)
+                            } else {
+                                layer.close(loadIndex);
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+
+                    break;
+                case 'update':
+                    if (checkStatus.length === 1) {
+                        const data = checkStatus[0];
+                        updateLayer(form, layer, data, upload, $)
+                    } else if (checkStatus.length === 0) {
+                        layer.msg('请选择一个要编辑的行');
+                    } else {
+                        layer.msg('您只能选择一行');
+                    }
+                    break;
+            }
+            ;
+        })
     });
-  }
 
-  // 修改弹层
-  function updateLayer(form, layer, data, upload, $) {
-    layer.open({
-      title: '修改汽车',
-      type: 1,
-      skin: 'layui-layer-rim', //加上边框
-      area: ['400px', '500px'], //宽高
-      offset: 'auto',
-      closeBtn: 1,
-      content: $("#car-form"),
-      success: function (layero) {
-        uploadInit(upload, $, layero)
-        layero.find('#insert').hide();
-        layero.find('#reset').hide();
-        layero.find('#image').hide();
-        layero.find('#id').val(data.id);
-        layero.find('#money').val(data.money);
-        layero.find('#plateNumber').val(data.plateNumber);
-        layero.find('#carColor').val(data.carColor);
-        layero.find('#brand').val(data.brand);
-        layero.find('#manufacturer').val(data.manufacturer);
-        layero.find('#cashPledge').val(data.cashPledge);
-        layero.find('#remark').val(data.remark);
-        layero.find('#demo1').attr('src', "/oss/upload?file=" + data.image)
-        layero.find('#carType option').remove()
-        initCartTypeSelect($, layero)
-        form.render();
-        layui.use('laydate', function () {
-          const laydate = layui.laydate;
-          //常规用法
-          laydate.render({
-            elem: document.getElementById('date'),
-          });
-        });
-      },
-    });
-  }
+    // 添加弹层
+    function addLayer(form, layer, upload, $) {
 
-  // 上传初始化
-  function uploadInit(upload, $, layero) {
-    const uploadInst = upload.render({
-      elem: '#test1',
-      url: '/oss/upload/', //改成您自己的上传接口
-      before: function (obj) {
-        //预读本地文件示例，不支持ie8
-        obj.preview(function (index, file, result) {
-          $('.demo1').attr('src', result); //图片链接（base64）
-        });
-      },
-      done: function (res) {
-        //如果上传失败
-        if (res.code !== 200) {
-          return layer.msg('上传失败');
-        } else {
-          layero.find("#image").val(res.data)
-          console.log(res.data)
-          return layer.msg('上传成功')
-        }
-        //上传成功
-      },
-      error: function () {
-        //演示失败状态，并实现重传
-        const demoText = $('.demoText');
-        demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-        demoText.find('.demo-reload').on('click', function () {
-          uploadInst.upload();
-        });
-      }
-    });
-  }
+        layer.open({
+            title: '添加汽车',
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['400px', '500px'], //宽高
+            offset: 'auto',
+            closeBtn: 1,
+            content: $("#car-form"),
+            success: function (layero) {
+                //执行一个laydate实例
+                layero.find('#carType option').remove()
+                initCartTypeSelect($, layero)
+                uploadInit(upload, $, layero)
+                layero.find('#update').hide();
+                layero.find('#id-item').hide();
+                layero.find('#image').hide();
+                form.render();
+                layui.use('laydate', function () {
+                    const laydate = layui.laydate;
+                    //常规用法
+                    laydate.render({
+                        elem: document.getElementById('date'),
+                    });
+                });
 
-  // 初始化下拉框
-  const initCartTypeSelect = function ($, layero) {
-    $.ajaxSettings.async = false;
-    // 先从后台拿到汽车类型
-    $.get('/car-type/list', function (data) {
-      layero.find('#carType').append("<option value=''>请选择或搜索汽车类型</option>")
-      const typeList = data.map.data;
-      for (let i = 0; i < typeList.length; i++) {
-        const carType = typeList[i];
-        layero.find('#carType').append("<option value=" + carType.id + ">" + carType.name + "</option>")
-      }
-      console.log('success')
-    })
-    $.ajaxSettings.async = true;
-  }
+            },
+        });
+    }
+
+    // 修改弹层
+    function updateLayer(form, layer, data, upload, $) {
+        layer.open({
+            title: '修改汽车',
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['400px', '500px'], //宽高
+            offset: 'auto',
+            closeBtn: 1,
+            content: $("#car-form"),
+            success: function (layero) {
+                uploadInit(upload, $, layero)
+                layero.find('#insert').hide();
+                layero.find('#reset').hide();
+                layero.find('#image').hide();
+                layero.find('#id').val(data.id);
+                layero.find('#money').val(data.money);
+                layero.find('#plateNumber').val(data.plateNumber);
+                layero.find('#carColor').val(data.carColor);
+                layero.find('#brand').val(data.brand);
+                layero.find('#manufacturer').val(data.manufacturer);
+                layero.find('#cashPledge').val(data.cashPledge);
+                layero.find('#remark').val(data.remark);
+                layero.find('#demo1').attr('src', "/oss/upload?file=" + data.image)
+                layero.find('#carType option').remove()
+                initCartTypeSelect($, layero)
+                form.render();
+                layui.use('laydate', function () {
+                    const laydate = layui.laydate;
+                    //常规用法
+                    laydate.render({
+                        elem: document.getElementById('date'),
+                    });
+                });
+            },
+        });
+    }
+
+    // 上传初始化
+    function uploadInit(upload, $, layero) {
+        const uploadInst = upload.render({
+            elem: '#test1',
+            url: '/oss/upload/', //改成您自己的上传接口
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('.demo1').attr('src', result); //图片链接（base64）
+                });
+            },
+            done: function (res) {
+                //如果上传失败
+                if (res.code !== 200) {
+                    return layer.msg('上传失败');
+                } else {
+                    layero.find("#image").val(res.data)
+                    console.log(res.data)
+                    return layer.msg('上传成功')
+                }
+                //上传成功
+            },
+            error: function () {
+                //演示失败状态，并实现重传
+                const demoText = $('.demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+    }
+
+    // 初始化下拉框
+    const initCartTypeSelect = function ($, layero) {
+        $.ajaxSettings.async = false;
+        // 先从后台拿到汽车类型
+        $.get('/car-type/list', function (data) {
+            layero.find('#carType').append("<option value=''>请选择或搜索汽车类型</option>")
+            const typeList = data.map.data;
+            for (let i = 0; i < typeList.length; i++) {
+                const carType = typeList[i];
+                layero.find('#carType').append("<option value=" + carType.id + ">" + carType.name + "</option>")
+            }
+            console.log('success')
+        })
+        $.ajaxSettings.async = true;
+    }
 </script>
 </body>
 </html>

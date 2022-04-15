@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>首页，欢迎租车</title>
-  <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css"/>
+    <meta charset="UTF-8">
+    <title>首页，欢迎租车</title>
+    <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
 </head>
 <style>
     .layui-body {
@@ -29,149 +29,159 @@
 
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-  <div class="layui-header">
-    <div class="layui-logo">汽车租赁</div>
-    <!-- 头部区域（可配合layui 已有的水平导航） -->
-    <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item layui-this"><a href="#">首页</a></li>
-      <li class="layui-nav-item"><a th:href="'/main/type?carTypeId='+${types.get(0).id}">车辆分类</a></li>
-      <li class="layui-nav-item"><a th:href="'/main/notice/'+${notices.get(0).id}">公告</a></li>
-    </ul>
-    <ul class="layui-nav layui-layout-right">
-      <li th:if="not ${session.customerId}" class="layui-nav-item"><a id="login" href="/customerLogin">登录</a></li>
-      <li th:if="${session.customerId}" class="layui-nav-item"><img src="/default.jpg" class="layui-nav-img"></li>
-      <li th:if="${session.customerId}" class="layui-nav-item"><span th:text="${session.customer.username}"></span></li>
-      <li th:if="${session.customerId}" class="layui-nav-item"><a href="/myOrder">我的订单</a></li>
-      <li th:if="${session.customerId}" class="layui-nav-item"><a href="/customerInfo">个人中心</a></li>
-      <li th:if="${session.customerId}" class="layui-nav-item"><a id="exit" href="/customer/exit">退出</a></li>
-    </ul>
-  </div>
-
-  <div class="layui-body layui-container">
-    <div class="layui-container" style="padding: 15px;">
-      <div class="layui-row  layui-col-space10">
-        <div class="layui-col-md2">
-          <div style="text-align: center;background: #a3b9c3;font-size: 20px;" >汽车分类</div>
-          <div class="layui-panel">
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
-              <li th:each="type:${types}" class="layui-nav-item layui-nav-itemed" style="height: 50px;">
-                <div class="layui-menu-body-title">
-                  <a th:href="'/main/type?carTypeId='+${type.id}" th:text="${type.name}"></a>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="layui-col-md8 center-context">
-
-          <div class="layui-carousel" id="test10">
-            <div carousel-item="">
-              <div th:each="carousel:${carousels}"><img height="440px" width="750px" th:src="'/'+${carousel.imageUrl}" alt="car"></div>
-            </div>
-          </div>
-
-          <div th:each="type:${types}">
-            <fieldset th:if="${type.carInfos.size()} gt 0" class="layui-elem-field layui-field-title">
-              <legend th:text="${type.name}"></legend>
-            </fieldset>
-            <div class="layui-row layui-col-space4">
-              <div th:if="${infoStat.count} lt 5" class=" layui-col-md3" th:each="info:${type.carInfos}">
-                <div class="layui-card">
-                  <div class="layui-card-header">[[${info.plateNumber}]]([[${info.brand}]]-[[${info.carColor}]])</div>
-                  <div class="layui-card-body">
-                    <img th:src="'/'+${info.image}" style="width: 150px;height: 80px">
-                    <div>押金:[[${info.cashPledge}]]</div>
-                    <div>租金:[[${info.money}]]/天</div>
-                    <div>制造地:[[${info.manufacturer}]]</div>
-                    <div>生产日期:[[${#dates.format(info.producedDate, 'yyyy-MM-dd')}]]</div>
-                    <div>状态:[[${info.status}]]
-                      <button th:onclick="goToZL([[${info.id}]])" th:if="${info.status} eq '未出租'"
-                              style="margin-left: 5px" type="button" class="layui-btn layui-btn-xs">点击租赁
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div th:if="${type.carInfos.size()} gt 4" class="layui-row layui-col-space4">
-              <div th:if="${infoStat.count} gt 4" class="layui-col-md3" th:each="info:${type.carInfos}">
-                <div class="layui-card">
-                  <div class="layui-card-header">[[${info.plateNumber}]]([[${info.brand}]]-[[${info.carColor}]])</div>
-                  <div class="layui-card-body">
-                    <image th:src="'/oss/download?file='+${info.image}" style="width: 150px;height: 80px"></image>
-                    <div>押金:[[${info.cashPledge}]]</div>
-                    <div>租金:[[${info.money}]]/天</div>
-                    <div>制造地:[[${info.manufacturer}]]</div>
-                    <div>生产日期:[[${#dates.format(info.producedDate, 'yyyy-MM-dd')}]]</div>
-                    <div>状态:[[${info.status}]]
-                      <button th:onclick="goToZL([[${info.id}]])" th:if="${info.status} eq '未出租'"
-                              style="margin-left: 5px" type="button"
-                              class="layui-btn layui-btn-sm">点击租赁
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-md2">
-          <div style="text-align: center;background: #a3b9c3;font-size: 20px;" >公告</div>
-          <div class="layui-panel call-board layui-nav layui-bg-cyan">
-            <div th:each="notice:${notices}" style="margin-bottom: 10px;"><a th:href="'/main/notice/'+${notice.id}" style="color: #ffffffbd;">[[${notice.title}]]</a></div>
-            <div style="text-align: center" th:if="${notices.size() eq 0}"> 暂无</div>
-          </div>
-        </div>
-      </div>
+    <div class="layui-header">
+        <div class="layui-logo">汽车租赁</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item layui-this"><a href="#">首页</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/type?carTypeId='+${types.get(0).id}">车辆分类</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/notice/'+${notices.get(0).id}">公告</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item" th:if="not ${session.customerId}"><a href="/customerLogin" id="login">登录</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><img class="layui-nav-img" src="/default.jpg"></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><span
+                    th:text="${session.customer.username}"></span></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/myOrder">我的订单</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customerInfo">个人中心</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customer/exit" id="exit">退出</a></li>
+        </ul>
     </div>
-  </div>
+
+    <div class="layui-body layui-container">
+        <div class="layui-container" style="padding: 15px;">
+            <div class="layui-row  layui-col-space10">
+                <div class="layui-col-md2">
+                    <div style="text-align: center;background: #a3b9c3;font-size: 20px;">汽车分类</div>
+                    <div class="layui-panel">
+                        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                            <li class="layui-nav-item layui-nav-itemed" style="height: 50px;" th:each="type:${types}">
+                                <div class="layui-menu-body-title">
+                                    <a th:href="'/main/type?carTypeId='+${type.id}" th:text="${type.name}"></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="layui-col-md8 center-context">
+
+                    <div class="layui-carousel" id="test10">
+                        <div carousel-item="">
+                            <div th:each="carousel:${carousels}"><img alt="car" height="440px"
+                                                                      th:src="'/'+${carousel.imageUrl}" width="750px"></div>
+                        </div>
+                    </div>
+
+                    <div th:each="type:${types}">
+                        <fieldset class="layui-elem-field layui-field-title" th:if="${type.carInfos.size()} gt 0">
+                            <legend th:text="${type.name}"></legend>
+                        </fieldset>
+                        <div class="layui-row layui-col-space4">
+                            <div class=" layui-col-md3" th:each="info:${type.carInfos}" th:if="${infoStat.count} lt 5">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">
+                                        [[${info.plateNumber}]]([[${info.brand}]]-[[${info.carColor}]])
+                                    </div>
+                                    <div class="layui-card-body">
+                                        <img style="width: 150px;height: 80px" th:src="'/'+${info.image}">
+                                        <div>押金:[[${info.cashPledge}]]</div>
+                                        <div>租金:[[${info.money}]]/天</div>
+                                        <div>制造地:[[${info.manufacturer}]]</div>
+                                        <div>生产日期:[[${#dates.format(info.producedDate, 'yyyy-MM-dd')}]]</div>
+                                        <div>状态:[[${info.status}]]
+                                            <button class="layui-btn layui-btn-xs" style="margin-left: 5px"
+                                                    th:if="${info.status} eq '未出租'" th:onclick="goToZL([[${info.id}]])"
+                                                    type="button">点击租赁
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row layui-col-space4" th:if="${type.carInfos.size()} gt 4">
+                            <div class="layui-col-md3" th:each="info:${type.carInfos}" th:if="${infoStat.count} gt 4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">
+                                        [[${info.plateNumber}]]([[${info.brand}]]-[[${info.carColor}]])
+                                    </div>
+                                    <div class="layui-card-body">
+                                        <image style="width: 150px;height: 80px"
+                                               th:src="'/oss/download?file='+${info.image}"></image>
+                                        <div>押金:[[${info.cashPledge}]]</div>
+                                        <div>租金:[[${info.money}]]/天</div>
+                                        <div>制造地:[[${info.manufacturer}]]</div>
+                                        <div>生产日期:[[${#dates.format(info.producedDate, 'yyyy-MM-dd')}]]</div>
+                                        <div>状态:[[${info.status}]]
+                                            <button class="layui-btn layui-btn-sm" style="margin-left: 5px"
+                                                    th:if="${info.status} eq '未出租'" th:onclick="goToZL([[${info.id}]])"
+                                                    type="button">点击租赁
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md2">
+                    <div style="text-align: center;background: #a3b9c3;font-size: 20px;">公告</div>
+                    <div class="layui-panel call-board layui-nav layui-bg-cyan">
+                        <div style="margin-bottom: 10px;" th:each="notice:${notices}"><a
+                                style="color: #ffffffbd;" th:href="'/main/notice/'+${notice.id}">[[${notice.title}]]</a>
+                        </div>
+                        <div style="text-align: center" th:if="${notices.size() eq 0}"> 暂无</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
 <script>
-  layui.use('carousel', function () {
-    const carousel = layui.carousel;
-    //图片轮播
-    carousel.render({
-      elem: '#test10'
-      , width: '750px'
-      , height: '440px'
-      , interval: 5000
-    });
-
-  })
-
-  function goToZL(id) {
-    layui.use(['layer'], function () {
-      const layer = layui.layer;
-      const $ = layui.$;
-
-      layer.prompt({title: '请输入要租赁的天数'}, function (value) {
-        const reg = new RegExp('^[1-9]\\d*$');
-        if (!reg.test(value)) {
-          layer.msg('请输入合法的天数(不包括0)。')
-          return
-        }
-
-        $.ajax({
-          'data': 'carInfoId=' + id + "&day=" + value,
-          'url': '/api/order/initOrder',
-          'type': 'post',
-          success: function (data) {
-            if (data.code && data.code === 200) {
-              layer.msg('订单创建成功，等待工作人员审核。');
-              setTimeout(() => {
-                location.reload();
-              }, 1000)
-            } else {
-              layer.msg(data.message);
-            }
-          }
+    layui.use('carousel', function () {
+        const carousel = layui.carousel;
+        //图片轮播
+        carousel.render({
+            elem: '#test10'
+            , width: '750px'
+            , height: '440px'
+            , interval: 5000
         });
-      });
-    });
-  }
+
+    })
+
+    function goToZL(id) {
+        layui.use(['layer'], function () {
+            const layer = layui.layer;
+            const $ = layui.$;
+
+            layer.prompt({title: '请输入要租赁的天数'}, function (value) {
+                const reg = new RegExp('^[1-9]\\d*$');
+                if (!reg.test(value)) {
+                    layer.msg('请输入合法的天数(不包括0)。')
+                    return
+                }
+
+                $.ajax({
+                    'data': 'carInfoId=' + id + "&day=" + value,
+                    'url': '/api/order/initOrder',
+                    'type': 'post',
+                    success: function (data) {
+                        if (data.code && data.code === 200) {
+                            layer.msg('订单创建成功，等待工作人员审核。');
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000)
+                        } else {
+                            layer.msg(data.message);
+                        }
+                    }
+                });
+            });
+        });
+    }
 </script>
 </body>
 </html>

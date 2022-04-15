@@ -9,6 +9,4 @@ import com.rentcar.bean.Carousel;
  * @author lzj
  * @date 2021-04-27
  */
-public interface CarouselService extends IService<Carousel> {
-
-}
+public interface CarouselService extends IService<Carousel> {}

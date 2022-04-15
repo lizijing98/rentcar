@@ -122,7 +122,7 @@ CREATE TABLE `customer`
     email       VARCHAR(255)            DEFAULT NULL COMMENT '邮箱',
     phone       VARCHAR(255)            DEFAULT NULL COMMENT '手机号码',
     gender      VARCHAR(10)             DEFAULT NULL COMMENT '性别',
-    money     DECIMAL(10, 2) NOT NULL DEFAULT 0 COMMENT '余额',
+    money       DECIMAL(10, 2) NOT NULL DEFAULT 0 COMMENT '余额',
     id_number   VARCHAR(18)             DEFAULT NULL COMMENT '身份证号',
     address     VARCHAR(255)            DEFAULT NULL COMMENT '住址',
     profession  VARCHAR(255)            DEFAULT NULL COMMENT '职业',

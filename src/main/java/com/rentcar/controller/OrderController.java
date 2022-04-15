@@ -22,55 +22,57 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/api/order")
 public class OrderController {
 
-    private OrderService service;
+  private OrderService service;
 
-    @GetMapping("/{id}")
-    public Meg getById(@PathVariable Integer id) {
-        final Order bean = service.getById(id);
-        return Meg.success().add("data", bean);
+  @GetMapping("/{id}")
+  public Meg getById(@PathVariable Integer id) {
+    final Order bean = service.getById(id);
+    return Meg.success().add("data", bean);
+  }
+
+  @PutMapping("/{id}")
+  public Meg update(Order bean) {
+    boolean bool = service.updateById(bean);
+    return bool ? Meg.success() : Meg.file();
+  }
+
+  @PostMapping("/page")
+  public Meg page(@RequestBody OrderSearchFrom searchFrom) {
+    log.info("搜索订单：{}", searchFrom);
+    final Page<Order> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
+    return Meg.success().add("data", page);
+  }
+
+  @DeleteMapping("/{id}")
+  public Meg del(@PathVariable Integer id) {
+    boolean bool = service.removeById(id);
+    return bool ? Meg.success() : Meg.file();
+  }
+
+  @PostMapping("/{id}/state/{state}")
+  public Meg handler(@PathVariable Integer id, @PathVariable Integer state, String feedback) {
+    boolean bool = service.updateState(id, state, feedback);
+    return bool ? Meg.success() : Meg.file();
+  }
+
+  @PostMapping("/initOrder")
+  public Meg initOrder(
+      @RequestParam("carInfoId") Integer carInfoId,
+      @RequestParam("day") Integer day,
+      HttpSession httpSession) {
+    Object customerId = httpSession.getAttribute("customerId");
+    if (customerId == null) {
+      Meg meg = new Meg();
+      meg.setMessage("请先登录！");
+      meg.setCode(403);
+      return meg;
     }
+    boolean bool = service.initOrder(carInfoId, customerId + "", day);
+    return bool ? Meg.success() : Meg.file();
+  }
 
-    @PutMapping("/{id}")
-    public Meg update(Order bean) {
-        boolean bool = service.updateById(bean);
-        return bool ? Meg.success() : Meg.file();
-    }
-
-    @PostMapping("/page")
-    public Meg page(@RequestBody OrderSearchFrom searchFrom) {
-        log.info("搜索订单：{}", searchFrom);
-        final Page<Order> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
-        return Meg.success().add("data", page);
-    }
-
-    @DeleteMapping("/{id}")
-    public Meg del(@PathVariable Integer id) {
-        boolean bool = service.removeById(id);
-        return bool ? Meg.success() : Meg.file();
-    }
-
-    @PostMapping("/{id}/state/{state}")
-    public Meg handler(@PathVariable Integer id, @PathVariable Integer state, String feedback) {
-        boolean bool = service.updateState(id, state, feedback);
-        return bool ? Meg.success() : Meg.file();
-    }
-
-
-    @PostMapping("/initOrder")
-    public Meg initOrder(@RequestParam("carInfoId") Integer carInfoId, @RequestParam("day") Integer day, HttpSession httpSession) {
-        Object customerId = httpSession.getAttribute("customerId");
-        if (customerId == null) {
-            Meg meg = new Meg();
-            meg.setMessage("请先登录！");
-            meg.setCode(403);
-            return meg;
-        }
-        boolean bool = service.initOrder(carInfoId, customerId + "", day);
-        return bool ? Meg.success() : Meg.file();
-    }
-
-    @Autowired
-    public void setOrderService(OrderService service) {
-        this.service = service;
-    }
+  @Autowired
+  public void setOrderService(OrderService service) {
+    this.service = service;
+  }
 }

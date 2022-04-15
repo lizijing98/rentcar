@@ -12,32 +12,31 @@ import javax.servlet.http.HttpSession;
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
-    private HttpSession httpSession;
+  private HttpSession httpSession;
 
-    @Override
-    public void insertFill(MetaObject metaObject) {
-        int userId = 10086;
-        Object creatorId = httpSession.getAttribute("userId");
-        if (creatorId != null){
-            userId = Integer.parseInt(creatorId.toString());
-        }
-
-        this.strictInsertFill(metaObject, "creatorId", Integer.class, userId); // 起始版本 3.3.0(推荐使用)
-
+  @Override
+  public void insertFill(MetaObject metaObject) {
+    int userId = 10086;
+    Object creatorId = httpSession.getAttribute("userId");
+    if (creatorId != null) {
+      userId = Integer.parseInt(creatorId.toString());
     }
 
-    @Override
-    public void updateFill(MetaObject metaObject) {
-        int userId = 10086;
-        Object creatorId = httpSession.getAttribute("userId");
-        if (creatorId != null){
-            userId = Integer.parseInt(creatorId.toString());
-        }
-        this.strictUpdateFill(metaObject, "modifyId", Integer.class, userId); // 起始版本 3.3.0(推荐)
-    }
+    this.strictInsertFill(metaObject, "creatorId", Integer.class, userId); // 起始版本 3.3.0(推荐使用)
+  }
 
-    @Autowired
-    public void setHttpSession(HttpSession httpSession) {
-        this.httpSession = httpSession;
+  @Override
+  public void updateFill(MetaObject metaObject) {
+    int userId = 10086;
+    Object creatorId = httpSession.getAttribute("userId");
+    if (creatorId != null) {
+      userId = Integer.parseInt(creatorId.toString());
     }
+    this.strictUpdateFill(metaObject, "modifyId", Integer.class, userId); // 起始版本 3.3.0(推荐)
+  }
+
+  @Autowired
+  public void setHttpSession(HttpSession httpSession) {
+    this.httpSession = httpSession;
+  }
 }

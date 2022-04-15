@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
-    @Override
-    public void action(Integer id, String roleActivate) {
-        this.baseMapper.action(id, roleActivate);
-    }
+  @Override
+  public void action(Integer id, String roleActivate) {
+    this.baseMapper.action(id, roleActivate);
+  }
 }

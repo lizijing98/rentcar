@@ -16,21 +16,21 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements CheckService {
 
-    private OrderService orderService;
+  private OrderService orderService;
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void init(Check check) {
-        boolean save = this.save(check);
-        if (save){
-            orderService.updateState(check.getOrderId(), 4, null);
-        } else {
-            throw new BusinessException("提交检查单失败");
-        }
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void init(Check check) {
+    boolean save = this.save(check);
+    if (save) {
+      orderService.updateState(check.getOrderId(), 4, null);
+    } else {
+      throw new BusinessException("提交检查单失败");
     }
+  }
 
-    @Autowired
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
-    }
+  @Autowired
+  public void setOrderService(OrderService orderService) {
+    this.orderService = orderService;
+  }
 }

@@ -1,3 +1,4 @@
+USE `car`;
 TRUNCATE `car_type`;
 INSERT INTO `car_type`(id, name, remark, creator_id)
 VALUES (1, '经济型轿车', '一种发动机排量较小、车身尺寸较小、油耗相对较经济、价格也相应较低的一类轿车。', 1),
@@ -101,7 +102,7 @@ VALUES (1, 'admin', '123456', 'on', 'admin@back.com', '17600001111', '男'),
 
 TRUNCATE `user_role`;
 INSERT INTO `user_role`(user_id, role_id)
-VALUES (1,1),
-       (11,11),
-       (21,21),
-       (31,31);
+VALUES (1, 1),
+       (11, 11),
+       (21, 21),
+       (31, 31);

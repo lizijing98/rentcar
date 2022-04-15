@@ -7,11 +7,11 @@ import com.rentcar.bean.User;
  * @author lzj
  */
 public interface UserService extends IService<User> {
-    /**
-     * 激活
-     *
-     * @param id
-     * @param userActivate
-     */
-    void action(Integer id, String userActivate);
+  /**
+   * 激活
+   *
+   * @param id
+   * @param userActivate
+   */
+  void action(Integer id, String userActivate);
 }

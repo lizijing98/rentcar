@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface CarInfoService extends IService<CarInfo> {
 
-    /**
-     * 根据汽车类型获取总条数
-     *
-     * @param asList
-     * @return
-     */
-    Integer getCountByTypeIds(List<Serializable> asList);
+  /**
+   * 根据汽车类型获取总条数
+   *
+   * @param asList
+   * @return
+   */
+  Integer getCountByTypeIds(List<Serializable> asList);
 }
