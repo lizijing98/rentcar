@@ -18,14 +18,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">标题</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="title" lay-verify="required" name="title" placeholder="请输入用户名"
+                <input autocomplete="off" class="layui-input" id="title" lay-verify="required" name="title" placeholder="请输入公告标题"
                        required type="text"/>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">内容</label>
             <div class="layui-input-inline">
-                 <textarea autocomplete="off" class="layui-textarea" id="context" name="context" placeholder="请输入内容"
+                 <textarea autocomplete="off" class="layui-textarea" id="context" name="context" placeholder="请输入公告内容"
                            type="text"></textarea>
             </div>
         </div>
@@ -68,7 +68,7 @@
             contentType: 'application/json',
             method: 'post', //异步请求方法
             toolbar: 'default',
-            title: '汽车类型表',
+            title: '公告表',
             cols: [[
                 {type: 'checkbox', fixed: 'left'},
                 {field: 'id', title: 'id', width: 70,},
@@ -241,7 +241,7 @@
 
     function updateLayer(layer, $, form, data) {
         layer.open({
-            title: '修改汽车类型',
+            title: '修改公告信息',
             type: 1,
             skin: 'layui-layer-rim', //加上边框
             area: ['400px', '400px'], //宽高
@@ -262,7 +262,7 @@
 
     function addLayer(layer, $, form) {
         layer.open({
-            title: '添加汽车类型',
+            title: '添加公告',
             type: 1,
             skin: 'layui-layer-rim', //加上边框
             area: ['400px', '300px'], //宽高

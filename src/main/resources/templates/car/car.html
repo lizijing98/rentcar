@@ -34,10 +34,10 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">品牌</label>
+            <label class="layui-form-label">车辆型号</label>
             <div class="layui-input-inline">
                 <input autocomplete="off" class="layui-input" id="brand" lay-verify="required" name="brand"
-                       placeholder="请输入车牌号" required type="text"/>
+                       placeholder="请输入车辆型号" required type="text"/>
             </div>
         </div>
         <div class="layui-form-item">
@@ -57,7 +57,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">制造商</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="manufacturer" lay-verify="required" name="manufacturer"
+                <input autocomplete="off" class="layui-input" id="manufacturer" lay-verify="required"
+                       name="manufacturer"
                        placeholder="请输入制造商" required type="text"/>
             </div>
         </div>
@@ -80,10 +81,11 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">压金(元)</label>
+            <label class="layui-form-label">押金(元)</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="cashPledge" lay-verify="required|money" name="cashPledge"
-                       placeholder="请输入租金"
+                <input autocomplete="off" class="layui-input" id="cashPledge" lay-verify="required|money"
+                       name="cashPledge"
+                       placeholder="请输入押金"
                        required type="number"/>
             </div>
         </div>
@@ -91,15 +93,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">租金(元/天)</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money" placeholder="请输入租金"
+                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money"
+                       placeholder="请输入租金"
                        required type="number"/>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">车牌</label>
+            <label class="layui-form-label">车牌号码</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="plateNumber" lay-verify="plateNumber" name="plateNumber"
+                <input autocomplete="off" class="layui-input" id="plateNumber" lay-verify="plateNumber"
+                       name="plateNumber"
                        placeholder="请输入车牌号" required type="text"/>
             </div>
         </div>
@@ -107,7 +111,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">汽车颜色</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="carColor" lay-verify="required" name="carColor" placeholder="请输入汽车颜色"
+                <input autocomplete="off" class="layui-input" id="carColor" lay-verify="required" name="carColor"
+                       placeholder="请输入汽车颜色"
                        required type="text">
             </div>
         </div>
@@ -129,7 +134,7 @@
     </form>
 </div>
 <div class="layui-form">
-    品牌：
+    车辆型号：
     <div class="layui-inline">
         <input autocomplete="off" class="layui-input" name="brand">
     </div>
@@ -175,7 +180,7 @@
                 {field: 'id', title: 'id', width: 70,},
                 {field: 'carTypeName', title: '汽车类型',},
                 {field: 'money', title: '租金(元/天)',},
-                {field: 'brand', title: '品牌',},
+                {field: 'brand', title: '车辆型号',},
                 {field: 'cashPledge', title: '押金(元)',},
                 {field: 'image', title: '图片', templet: '#titleTpl'},
                 {field: 'manufacturer', title: '生产厂家',},

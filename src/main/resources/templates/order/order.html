@@ -11,7 +11,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">订单号码</label>
             <div class="layui-input-block">
-                <input autocomplete="off" class="layui-input" id="orderNumber" lay-verify="required" name="orderNumber" readonly
+                <input autocomplete="off" class="layui-input" id="orderNumber" lay-verify="required" name="orderNumber"
+                       readonly
                        required type="text">
             </div>
         </div>
@@ -19,15 +20,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">赔付金额(元)</label>
             <div class="layui-input-block">
-                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money" readonly
-                       required type="number">
+                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money"
+                       readonly
+                       value="0" required type="number">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">存在问题</label>
             <div class="layui-input-block">
-                <input autocomplete="off" class="layui-input" id="question" lay-verify="required" name="question" readonly
+                <input autocomplete="off" class="layui-input" id="question" lay-verify="required" name="question"
+                       readonly
                        required type="text">
             </div>
         </div>
@@ -59,7 +62,7 @@
 <table class="layui-hide" id="order" lay-filter="order"></table>
 <script id="leftBtn" type="text/html">
     {{#  if(d.state == 1){ }}
-    <a class="layui-btn layui-btn-norma layui-btn-xs" lay-event="AgreeBorrowCar">同意借车</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="AgreeBorrowCar">同意借车</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="RefuseBorrowCar">拒绝借车</a>
     {{#  } }}
     {{#  if(d.state == 4){ }}

@@ -31,9 +31,9 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">押金</label>
+            <label class="layui-form-label">余额</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money" placeholder="请输入押金"
+                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money" placeholder="请输入余额"
                        required type="money"/>
             </div>
         </div>
@@ -161,7 +161,7 @@
                 {field: 'password', title: '密码',},
                 {field: 'activate', templet: '#checkboxTpl', unresize: true, title: '激活'},
                 {field: 'email', title: '邮箱'},
-                {field: 'money', title: '押金'},
+                {field: 'money', title: '余额'},
                 {field: 'phone', title: '电话'},
                 {field: 'gender', title: '性别'},
                 {field: 'profession', title: '职业'},
@@ -366,7 +366,7 @@
 
     function updateLayer(layer, $, form, data) {
         layer.open({
-            title: '修改汽车类型',
+            title: '修改用户信息',
             type: 1,
             skin: 'layui-layer-rim', //加上边框
             area: ['400px', '400px'], //宽高
@@ -396,7 +396,7 @@
 
     function addLayer(layer, $, form) {
         layer.open({
-            title: '添加汽车类型',
+            title: '添加用户信息',
             type: 1,
             skin: 'layui-layer-rim', //加上边框
             area: ['400px', '300px'], //宽高
