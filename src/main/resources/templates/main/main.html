@@ -35,6 +35,7 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item layui-this"><a href="#">首页</a></li>
             <li class="layui-nav-item"><a th:href="'/main/type?carTypeId='+${types.get(0).id}">车辆分类</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/search'">车辆搜索</a></li>
             <li class="layui-nav-item"><a th:href="'/main/notice/'+${notices.get(0).id}">公告</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
@@ -69,7 +70,8 @@
                     <div class="layui-carousel" id="test10">
                         <div carousel-item="">
                             <div th:each="carousel:${carousels}"><img alt="car" height="440px"
-                                                                      th:src="'/'+${carousel.imageUrl}" width="750px"></div>
+                                                                      th:src="'/'+${carousel.imageUrl}" width="750px">
+                            </div>
                         </div>
                     </div>
 
@@ -95,6 +97,13 @@
                                                     type="button">点击租赁
                                             </button>
                                         </div>
+                                        <div>
+                                            <button class="layui-btn layui-btn-sm"
+                                                    style="margin-left: 5px;margin-right:5px;margin-top:5px;width: max-content"
+                                                    th:onclick="goToDetail([[${info}]])"
+                                                    type="button">查看详情
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -116,6 +125,13 @@
                                             <button class="layui-btn layui-btn-sm" style="margin-left: 5px"
                                                     th:if="${info.status} eq '未出租'" th:onclick="goToZL([[${info.id}]])"
                                                     type="button">点击租赁
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button class="layui-btn layui-btn-sm"
+                                                    style="margin-left: 5px;margin-right:5px;margin-top:5px;width: max-content"
+                                                    th:onclick="goToDetail([[${info}]])"
+                                                    type="button">查看详情
                                             </button>
                                         </div>
                                     </div>
