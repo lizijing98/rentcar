@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-    <title></title>
+    <title>Home</title>
     <link href="layui2.4/css/layui.css" rel="stylesheet">
     <link href="home.css" rel="stylesheet">
 </head>
@@ -13,7 +13,7 @@
         <div class="layui-logo">汽车租赁</div>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item"><span th:text="${session.user.username}"></span></li>
-            <li class="layui-nav-item"><a href="exit" id="exit">退出</a></li>
+            <li class="layui-nav-item"><a href="exit" id="/exit">退出</a></li>
             <li class="layui-nav-item layui-this"><a href="/loginView">我的后台</a></li>
         </ul>
     </div>
