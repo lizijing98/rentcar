@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -36,6 +37,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
   private CarInfoService carInfoService;
   private OrderUtils orderUtils;
   private CheckService checkService;
+  @Resource
+  private OrderMapper orderMapper;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -188,6 +191,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
       carInfoService.updateById(carInfo);
     }
     return true;
+  }
+
+  @Override
+  public Order getOneByOrderNum(String orderNum) {
+    return orderMapper.getOneByOrderNum(orderNum);
   }
 
   @Autowired

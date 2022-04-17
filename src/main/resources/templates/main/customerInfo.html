@@ -43,7 +43,8 @@
             <li class="layui-nav-item" th:if="${session.customerId}"><span
                     th:text="${session.customer.username}"></span></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><a href="/myOrder">我的订单</a></li>
-            <li class="layui-nav-item  layui-this" th:if="${session.customerId}"><a href="#">个人中心</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/myAssess">我的评价</a></li>
+            <li class="layui-nav-item layui-this" th:if="${session.customerId}"><a href="#">个人中心</a></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customer/exit" id="exit">退出</a></li>
         </ul>
     </div>
@@ -68,7 +69,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">用户名</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" id="username" lay-verify="required" name="username"
+                                <input autocomplete="off" class="layui-input" id="username" lay-verify="required"
+                                       name="username"
                                        readonly
                                        required th:value="${info.username}"
                                        type="text">
@@ -79,7 +81,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">余额</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" lay-verify="required|money" name="money" placeholder="请输入余额"
+                                <input autocomplete="off" class="layui-input" lay-verify="required|money" name="money"
+                                       placeholder="请输入余额"
                                        readonly
                                        required th:value="${info.money}"
                                        type="text">
@@ -93,7 +96,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">手机号</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" id="phone" lay-verify="required|phone" name="phone"
+                                <input autocomplete="off" class="layui-input" id="phone" lay-verify="required|phone"
+                                       name="phone"
                                        placeholder="请输入手机号"
                                        required
                                        th:value="${info.phone}" type="tel">
@@ -144,7 +148,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">身份证</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" lay-verify="required|identity" name="idNumber"
+                                <input autocomplete="off" class="layui-input" lay-verify="required|identity"
+                                       name="idNumber"
                                        placeholder="请输入身份证"
                                        required th:value="${info.idNumber}"
                                        type="text">
@@ -162,7 +167,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">旧密码</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" id="oldPassword" lay-verify="required|pass"
+                                <input autocomplete="off" class="layui-input" id="oldPassword"
+                                       lay-verify="required|pass"
                                        name="oldPassword"
                                        placeholder="请输入密码"
                                        required type="password">
@@ -172,7 +178,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">新密码</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" id="newPassword" lay-verify="required|pass"
+                                <input autocomplete="off" class="layui-input" id="newPassword"
+                                       lay-verify="required|pass"
                                        name="newPassword"
                                        placeholder="请输新入密码"
                                        required type="password">
@@ -182,7 +189,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">确认密码</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" id="newPassword2" lay-verify="required|pass"
+                                <input autocomplete="off" class="layui-input" id="newPassword2"
+                                       lay-verify="required|pass"
                                        name="newPassword2"
                                        placeholder="请再一次输入"
                                        required type="password">

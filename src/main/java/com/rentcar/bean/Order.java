@@ -58,6 +58,15 @@ public class Order extends BaseEntity {
   private BigDecimal cashPledge;
   // 租期
   private Integer tenancyTerm;
-  // 状态 1 申请借车，2 借车成功，3 借车失败，4 申请还车，5 拒绝还车，6 同意还车订单完成。7 订单取消
+  /**
+    状态:
+        1 申请借车
+        2 借车成功
+        3 借车失败
+        4 申请还车
+        5 拒绝还车
+        6 同意还车订单完成
+        7 订单取消
+    */
   private Integer state;
 }

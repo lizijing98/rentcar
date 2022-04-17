@@ -1,4 +1,4 @@
-package com.rentcar.controller;
+package com.rentcar.servlet;
 
 import com.rentcar.service.MenuCheckService;
 import com.rentcar.util.Meg;

@@ -131,15 +131,25 @@ public class CustomerViewController {
     return mv;
   }
 
+  @GetMapping("/myAssess")
+  public ModelAndView myAssess(ModelAndView mv, HttpSession httpSession) {
+    final Integer customerId = (Integer) httpSession.getAttribute("customerId");
+    mv.setViewName("main/myAssess");
+    mv.addObject("types", carTypeService.list());
+    mv.addObject("notices", noticeService.list());
+    mv.addObject("id", customerId);
+    return mv;
+  }
+
   /** 添加客户 */
   @ResponseBody
   @PostMapping("/customerRegister")
   public Meg reg(Customer customer, @RequestParam String authCode, HttpSession httpSession) {
     if (!authCode.toLowerCase().equals(httpSession.getAttribute("authCode"))) {
-      return Meg.file("验证码错误");
+      return Meg.fail("验证码错误");
     }
     customer.setActivate("on");
-    return customerService.save(customer) ? Meg.success() : Meg.file();
+    return customerService.save(customer) ? Meg.success() : Meg.fail();
   }
 
   @GetMapping("/customerRegister")

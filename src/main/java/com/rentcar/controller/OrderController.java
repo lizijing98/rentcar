@@ -33,7 +33,7 @@ public class OrderController {
   @PutMapping("/{id}")
   public Meg update(Order bean) {
     boolean bool = service.updateById(bean);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping("/page")
@@ -46,13 +46,13 @@ public class OrderController {
   @DeleteMapping("/{id}")
   public Meg del(@PathVariable Integer id) {
     boolean bool = service.removeById(id);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping("/{id}/state/{state}")
   public Meg handler(@PathVariable Integer id, @PathVariable Integer state, String feedback) {
     boolean bool = service.updateState(id, state, feedback);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping("/initOrder")
@@ -68,7 +68,7 @@ public class OrderController {
       return meg;
     }
     boolean bool = service.initOrder(carInfoId, customerId + "", day);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @Autowired

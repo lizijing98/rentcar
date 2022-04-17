@@ -1,4 +1,4 @@
-package com.rentcar.controller;
+package com.rentcar.servlet;
 
 import com.rentcar.service.LoginService;
 import com.rentcar.util.IpUtil;

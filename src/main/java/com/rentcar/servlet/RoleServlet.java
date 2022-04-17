@@ -1,4 +1,4 @@
-package com.rentcar.controller;
+package com.rentcar.servlet;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rentcar.bean.Role;
@@ -26,21 +26,21 @@ public class RoleServlet {
   @RequestMapping("/roleInsert")
   public Meg roleInsert(Role role) {
     boolean i = roleService.save(role);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   @ResponseBody
   @RequestMapping("/roleUpdate")
   public Meg roleUpdate(Role role) {
     boolean i = roleService.updateById(role);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   @ResponseBody
   @RequestMapping("/roleDelete")
   public Meg roleDelete(@Param("id") Integer id) {
     boolean i = roleService.removeById(id);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   @ResponseBody

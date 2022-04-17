@@ -1,4 +1,4 @@
-package com.rentcar.controller;
+package com.rentcar.servlet;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rentcar.bean.UpdatePass;
@@ -31,7 +31,7 @@ public class UserServlet {
   /** 添加用户 */
   @RequestMapping("/userInsert")
   public Meg userInsert(User user) {
-    return userService.save(user) ? Meg.success() : Meg.file();
+    return userService.save(user) ? Meg.success() : Meg.fail();
   }
 
   /** 添加用户 */
@@ -40,10 +40,10 @@ public class UserServlet {
     authCode = authCode.toLowerCase();
     boolean bool = authCode.equals(httpSession.getAttribute("authCode"));
     if (!bool) {
-      return Meg.file("验证码错误");
+      return Meg.fail("验证码错误");
     }
     user.setActivate("on");
-    return userService.save(user) ? Meg.success() : Meg.file();
+    return userService.save(user) ? Meg.success() : Meg.fail();
   }
 
   /** 更新用户 */
@@ -53,14 +53,14 @@ public class UserServlet {
       user.setActivate("off");
     }
     boolean i = userService.updateById(user);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   /** 删除用户 */
   @RequestMapping("/userDelete")
   public Meg userDelete(@Param("id") Integer id) {
     boolean i = userService.removeById(id);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   @RequestMapping("/userActivate")
@@ -87,7 +87,7 @@ public class UserServlet {
     User user = (User) httpSession.getAttribute("user");
     if (!user.getPassword().equals(oldPassword)) {
       System.out.println(user);
-      return Meg.file("密码错误");
+      return Meg.fail("密码错误");
     }
     if (newPassword.equals(newPassword2)) {
       user.setPassword(newPassword);
@@ -95,7 +95,7 @@ public class UserServlet {
       httpSession.setAttribute("user", user);
       return Meg.success();
     } else {
-      return Meg.file("密码不一致");
+      return Meg.fail("密码不一致");
     }
   }
 

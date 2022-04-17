@@ -1,4 +1,4 @@
-package com.rentcar.controller;
+package com.rentcar.servlet;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rentcar.bean.Menu;
@@ -31,7 +31,7 @@ public class MenuServlet {
   @RequestMapping("/menuInsert")
   public Meg menuInsert(Menu menu) {
     boolean i = menuService.save(menu);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   /** 修改菜单的处理 */
@@ -40,7 +40,7 @@ public class MenuServlet {
   public Meg menuUpdate(Menu menu) {
     System.out.println(menu.getMenuName());
     boolean i = menuService.updateById(menu);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   /** 删除菜单 */
@@ -48,7 +48,7 @@ public class MenuServlet {
   @RequestMapping("/menuDelete")
   public Meg menuDelete(@Param("id") Integer id) {
     boolean i = menuService.removeById(id);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   /** 对菜单进行激活和禁用 */

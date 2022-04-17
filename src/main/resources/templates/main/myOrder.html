@@ -34,8 +34,8 @@
         <!-- 头部区域（可配合layui 已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="/main">首页</a></li>
-            <li class="layui-nav-item"><a th:href="'/main/type?carTypeId='+${types.get(0).id}">车辆分类</a></li>
-            <li class="layui-nav-item"><a th:href="'/main/notice/'+${notices.get(0).id}">公告</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/type?carTypeId=1'">车辆分类</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/notice/1'">公告</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item" th:if="not ${session.customerId}"><a href="/customerLogin" id="login">登录</a></li>
@@ -43,51 +43,25 @@
             <li class="layui-nav-item" th:if="${session.customerId}"><span
                     th:text="${session.customer.username}"></span></li>
             <li class="layui-nav-item layui-this" th:if="${session.customerId}"><a href="/myOrder">我的订单</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/myAssess">我的评价</a></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customerInfo">个人中心</a></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customer/exit" id="exit">退出</a></li>
         </ul>
     </div>
 
-    <div class="layui-body layui-container">
-        <div class="layui-container" style="padding: 15px;">
-            <div class="layui-row  layui-col-space10">
-                <div class="layui-col-md2">
-                    <div style="text-align: center;background: #a3b9c3;font-size: 20px;">汽车分类</div>
-                    <div class="layui-panel">
-                        <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                            <li class="layui-nav-item layui-nav-itemed" style="height: 50px;" th:each="type:${types}">
-                                <div class="layui-menu-body-title">
-                                    <a th:href="'/main/type?carTypeId='+${type.id}" th:text="${type.name}"></a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="layui-col-md8 center-context">
-                    <div class="layui-form">
-                        订单号：
-                        <div class="layui-inline">
-                            <input autocomplete="off" class="layui-input" name="orderNumber">
-                        </div>
-                        车牌号：
-                        <div class="layui-inline">
-                            <input autocomplete="off" class="layui-input" name="carPlateNumber">
-                        </div>
-                        <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
-                    </div>
-                    <table class="layui-hide" id="order" lay-filter="order"></table>
-                </div>
-                <div class="layui-col-md2">
-                    <div style="text-align: center;background: #a3b9c3;font-size: 20px;">公告</div>
-                    <div class="layui-panel call-board layui-nav layui-bg-cyan">
-                        <div style="margin-bottom: 10px;" th:each="notice:${notices}"><a
-                                style="color: #ffffffbd;" th:href="'/main/notice/'+${notice.id}">[[${notice.title}]]</a>
-                        </div>
-                        <div style="text-align: center" th:if="${notices.size() eq 0}"> 暂无</div>
-                    </div>
-                </div>
+    <div class="layui-body layui-container center-context">
+        <div class="layui-form">
+            订单号：
+            <div class="layui-inline">
+                <input autocomplete="off" class="layui-input" name="orderNumber">
             </div>
+            车牌号：
+            <div class="layui-inline">
+                <input autocomplete="off" class="layui-input" name="carPlateNumber">
+            </div>
+            <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
         </div>
+        <table class="layui-hide" id="order" lay-filter="order"></table>
     </div>
 
 </div>
@@ -116,6 +90,7 @@
     {{#  } }}
     {{#  if(d.state == 2){ }}
     <a class="layui-btn layui-btn-xs" lay-event="applyReturnCar">申请还车</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="applyExtension">申请延期</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="accidentReport">事故上报</a>
     {{#  } }}
     {{#  if(d.state == 5){ }}
@@ -179,7 +154,7 @@
                     {field: 'cashPledge', title: '押金(元)',},
                     {field: 'money', title: '租金(元/天)',},
                     {field: 'feedback', title: '处理意见',},
-                    {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 180}
+                    {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 250}
                 ]],
             page: true
             , response: {
@@ -252,6 +227,40 @@
             if (layEvent === 'applyReturnCar') {
                 layer.open({
                     title: '检查单',
+                    type: 2,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['450px', '500px'], //宽高
+                    offset: 'auto',
+                    closeBtn: 1,
+                    content: '/return',
+                    success: function (layero, index) {
+                        let body = layer.getChildFrame('body', index);
+                        body.find('#orderId').val(data.id);
+                        body.find('#orderNumber').val(data.orderNumber);
+                    },
+                });
+            }
+            // 事故上报
+            if (layEvent === 'accidentReport') {
+                layer.open({
+                    title: '提交事故',
+                    type: 2,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['450px', '500px'], //宽高
+                    offset: 'auto',
+                    closeBtn: 1,
+                    content: '/check',
+                    success: function (layero, index) {
+                        let body = layer.getChildFrame('body', index);
+                        body.find('#orderId').val(data.id);
+                        body.find('#orderNumber').val(data.orderNumber);
+                    },
+                });
+            }
+            // 申请延期
+            if (layEvent === 'applyExtension') {
+                layer.open({
+                    title: '申请延期',
                     type: 2,
                     skin: 'layui-layer-rim', //加上边框
                     area: ['450px', '500px'], //宽高

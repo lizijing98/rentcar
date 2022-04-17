@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rentcar.mapper.AssessMapper">
+    <select id="selectPage" resultType="com.rentcar.bean.Assess">
+        SELECT ca.*,ci.plate_number car_plate_number,cus.username customer_name
+        FROM car.car_assess ca
+        LEFT JOIN car.customer cus on cus.id = ca.customer_id
+        LEFT JOIN car.car_order co on ca.order_number = co.order_number
+        LEFT JOIN car.car_info ci on ci.id = ca.car_info_id
+        <if test="ew.customSqlSegment != '' and ew.customSqlSegment != null">
+            ${ew.customSqlSegment}
+        </if>
+    </select>
+</mapper>

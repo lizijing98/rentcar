@@ -35,13 +35,13 @@ public class LoginLogController {
   @PostMapping
   public Meg insert(@RequestBody LoginLog loginLog) {
     boolean i = loginLogService.save(loginLog);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   @PutMapping("/{id}")
   public Meg update(@RequestBody LoginLog loginLog) {
     boolean i = loginLogService.updateById(loginLog);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 
   /**
@@ -53,6 +53,6 @@ public class LoginLogController {
   @DeleteMapping("/{id}")
   public Meg remove(@PathVariable Integer id) {
     boolean i = loginLogService.removeById(id);
-    return i ? Meg.success() : Meg.file();
+    return i ? Meg.success() : Meg.fail();
   }
 }

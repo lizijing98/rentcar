@@ -27,7 +27,7 @@ public class ApiExceptionHandler {
   @ResponseBody
   public Meg error(Exception e) {
     e.printStackTrace();
-    return Meg.file(e.getMessage());
+    return Meg.fail(e.getMessage());
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -36,7 +36,7 @@ public class ApiExceptionHandler {
     List<ObjectError> errors = c.getBindingResult().getAllErrors();
     StringBuffer errorMsg = new StringBuffer();
     errors.stream().forEach(x -> errorMsg.append(x.getDefaultMessage()).append(";"));
-    return Meg.file(errorMsg.toString());
+    return Meg.fail(errorMsg.toString());
   }
 
   /**
@@ -48,6 +48,6 @@ public class ApiExceptionHandler {
   @ExceptionHandler(BusinessException.class)
   @ResponseBody
   public Meg businessException(BusinessException e) {
-    return Meg.file(e.getMessage());
+    return Meg.fail(e.getMessage());
   }
 }

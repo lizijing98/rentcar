@@ -38,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
     authCode = authCode.toLowerCase();
     boolean bool = authCode.equals(httpSession.getAttribute("authCode"));
     if (!bool) {
-      return Meg.Message(1000, "验证码错误！");
+      return Meg.message(1000, "验证码错误！");
     }
     if (b == null || b == 0) {
       return Meg.userAction();
@@ -64,7 +64,7 @@ public class LoginServiceImpl implements LoginService {
   public Meg homeJson(HttpSession httpSession) {
     User user = (User) httpSession.getAttribute("user");
     if (user == null) {
-      return Meg.file("请先登录！！");
+      return Meg.fail("请先登录！！");
     }
     List roleId = getRole(user.getId());
     return Meg.success().add("data", getMenuJson(0, roleId));
@@ -108,7 +108,7 @@ public class LoginServiceImpl implements LoginService {
     authCode = authCode.toLowerCase();
     boolean bool = authCode.equals(httpSession.getAttribute("authCode"));
     if (!bool) {
-      return Meg.Message(1000, "验证码错误！");
+      return Meg.message(1000, "验证码错误！");
     }
     if (customer == null) {
       return Meg.userAction();

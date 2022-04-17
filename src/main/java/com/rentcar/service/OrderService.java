@@ -32,4 +32,12 @@ public interface OrderService extends IService<Order> {
    * @return
    */
   boolean updateState(Integer id, Integer state, String feedback);
+
+  /**
+   * 通过 OrderNum 查询订单
+   *
+   * @param orderNum 订单号
+   * @return Order 实体
+   */
+  Order getOneByOrderNum(String orderNum);
 }

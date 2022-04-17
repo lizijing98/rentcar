@@ -43,6 +43,7 @@
             <li class="layui-nav-item" th:if="${session.customerId}"><span
                     th:text="${session.customer.username}"></span></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><a href="/myOrder">我的订单</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/myAssess">我的评价</a></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customerInfo">个人中心</a></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customer/exit" id="exit">退出</a></li>
         </ul>

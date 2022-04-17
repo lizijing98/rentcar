@@ -36,7 +36,7 @@ public class CarInfoController {
   @PutMapping("/{id}")
   public Meg update(@RequestBody CarInfo carInfo) {
     boolean bool = service.updateById(carInfo);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping("/page")
@@ -48,18 +48,18 @@ public class CarInfoController {
   @DeleteMapping("/{id}")
   public Meg del(@PathVariable Integer id) {
     boolean bool = service.removeById(id);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping
   public Meg insert(@RequestBody CarInfo carInfo) {
     boolean bool = service.save(carInfo);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @DeleteMapping
   public Meg del(@RequestParam("id") Integer[] ids) {
     final boolean bool = service.removeByIds(Arrays.asList(ids));
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 }

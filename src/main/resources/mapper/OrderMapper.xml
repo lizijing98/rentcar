@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rentcar.mapper.OrderMapper">
-  <select id="selectPage" resultType="com.rentcar.bean.Order">
-    select car_order.*, car_info.plate_number car_plate_number, customer.username customer_name
-    from car_order
-    left join customer on customer.id = car_order.customer_id
-    left join car_info on car_info.id = car_order.car_info_id
-    <if test="ew.customSqlSegment != '' and ew.customSqlSegment != null">
-      ${ew.customSqlSegment}
-    </if>
-  </select>
+    <select id="selectPage" resultType="com.rentcar.bean.Order">
+        select car_order.*, car_info.plate_number car_plate_number, customer.username customer_name
+        from car_order
+        left join customer on customer.id = car_order.customer_id
+        left join car_info on car_info.id = car_order.car_info_id
+        <if test="ew.customSqlSegment != '' and ew.customSqlSegment != null">
+            ${ew.customSqlSegment}
+        </if>
+    </select>
+    <select id="getOneByOrderNum" resultType="com.rentcar.bean.Order">
+        SELECT *
+        FROM car.car_order co
+        WHERE co.deleted = 0;
+    </select>
 </mapper>

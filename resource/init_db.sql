@@ -58,6 +58,28 @@ CREATE TABLE `car_order`
     AUTO_INCREMENT = 10
     DEFAULT CHARACTER SET = utf8mb4;
 
+DROP TABLE IF EXISTS `car_assess`;
+CREATE TABLE `car_assess`
+(
+    id           INTEGER(11)  NOT NULL AUTO_INCREMENT COMMENT '评价 ID',
+    order_number VARCHAR(64) DEFAULT NULL COMMENT '订单号',
+    car_info_id  INTEGER(11)  NOT NULL COMMENT '车辆 ID',
+    customer_id  INTEGER(11)  NOT NULL COMMENT '客户 ID',
+    remark       VARCHAR(500) NOT NULL COMMENT '详情',
+    state        INTEGER(11) DEFAULT 0 COMMENT '评价状态',
+    fversion     INTEGER(11) DEFAULT 0 COMMENT '版本',
+    create_time  TIMESTAMP   DEFAULT now() COMMENT '创建时间',
+    modify_time  TIMESTAMP   DEFAULT NULL COMMENT '修改时间',
+    creator_id   INTEGER(11) DEFAULT 0 COMMENT '创建人',
+    modify_id    INTEGER(11) DEFAULT NULL COMMENT '修改人',
+    deleted      TINYINT(1)  DEFAULT 0 COMMENT '删除标记，0 代表未删除，1 代表已删除',
+    PRIMARY KEY pk_id (id) USING BTREE COMMENT '评价 ID 主键'
+)
+    COMMENT '评价表'
+    ENGINE = InnoDB
+    AUTO_INCREMENT = 10
+    DEFAULT CHARACTER SET = utf8mb4;
+
 DROP TABLE IF EXISTS `car_type`;
 CREATE TABLE `car_type`
 (
@@ -96,15 +118,15 @@ CREATE TABLE `check`
     id           INTEGER(11)  NOT NULL AUTO_INCREMENT COMMENT '检修单 ID',
     order_id     INTEGER(11)  NOT NULL COMMENT '订单 ID',
     order_number VARCHAR(64)  NOT NULL COMMENT '订单编号',
-    question     VARCHAR(500) NOT NULL COMMENT '问题',
-    money        DECIMAL(10, 2) DEFAULT NULL COMMENT '赔付金额',
-    remark       VARCHAR(500)   DEFAULT NULL COMMENT '详细经过',
-    fversion     INTEGER(11)    DEFAULT 0 COMMENT '版本',
-    create_time  TIMESTAMP      DEFAULT now() COMMENT '创建时间',
-    modify_time  TIMESTAMP      DEFAULT NULL COMMENT '修改时间',
-    creator_id   INTEGER(11)    DEFAULT 0 COMMENT '创建人',
-    modify_id    INTEGER(11)    DEFAULT NULL COMMENT '修改人',
-    deleted      TINYINT(1)     DEFAULT 0 COMMENT '删除标记，0 代表未删除，1 代表已删除',
+    question     VARCHAR(500) NOT NULL DEFAULT '用户未发现异常' COMMENT '问题',
+    money        DECIMAL(10, 2)        DEFAULT NULL COMMENT '赔付金额',
+    remark       VARCHAR(500)          DEFAULT NULL COMMENT '详细经过',
+    fversion     INTEGER(11)           DEFAULT 0 COMMENT '版本',
+    create_time  TIMESTAMP             DEFAULT now() COMMENT '创建时间',
+    modify_time  TIMESTAMP             DEFAULT NULL COMMENT '修改时间',
+    creator_id   INTEGER(11)           DEFAULT 0 COMMENT '创建人',
+    modify_id    INTEGER(11)           DEFAULT NULL COMMENT '修改人',
+    deleted      TINYINT(1)            DEFAULT 0 COMMENT '删除标记，0 代表未删除，1 代表已删除',
     PRIMARY KEY pk_id (id) USING BTREE COMMENT '检修单 ID 主键'
 )
     COMMENT '检修单表'

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页，欢迎租车</title>
+    <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
+</head>
+<style>
+    .layui-body {
+        margin-top: 60px;
+        position: initial !important;
+
+    }
+
+    .center-context {
+        background: #f2f2f2;
+    }
+
+    .call-board > a {
+        height: 25px;
+        padding-left: 5px;
+    }
+
+    .layui-footer {
+        left: 0 !important;
+        text-align: center;
+    }
+</style>
+
+<body class="layui-layout-body">
+<div class="layui-hide" id="assess-form">
+    <form class="layui-form" id="assess-form-layui">
+        <div class="layui-form-item" id="id-item">
+            <label class="layui-form-label">id</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="id" name="id" readonly type="text"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单号</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="orderNum" name="orderNum" readonly type="text"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">车牌号</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="carPlateNumber" name="carPlateNumber" readonly
+                       type="text"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="remark">评价详情</label>
+            <div class="layui-input-inline">
+                <textarea autocomplete="off" class="layui-textarea" id="remark" name="remark" type="text"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="update" lay-filter="update" lay-submit>立即提交</button>
+                <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">汽车租赁</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/main">首页</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/type?carTypeId=1'">车辆分类</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/search'">车辆搜索</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/notice/1'">公告</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item" th:if="not ${session.customerId}"><a href="/customerLogin" id="login">登录</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><img class="layui-nav-img" src="/default.jpg"></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><span
+                    th:text="${session.customer.username}"></span></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/myOrder">我的订单</a></li>
+            <li class="layui-nav-item layui-this" th:if="${session.customerId}"><a href="/myAssess">我的评价</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customerInfo">个人中心</a></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><a href="/customer/exit" id="exit">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-body layui-container center-context">
+        <div class="layui-form">
+            订单号：
+            <div class="layui-inline">
+                <input autocomplete="off" class="layui-input" name="orderNumber">
+            </div>
+            车牌号：
+            <div class="layui-inline">
+                <input autocomplete="off" class="layui-input" name="carPlateNumber">
+            </div>
+            <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
+        </div>
+        <table class="layui-hide" id="assess" lay-filter="assess"></table>
+    </div>
+
+</div>
+<script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+<script id="leftBtn" type="text/html">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script th:inline="javascript" type="text/javascript">
+    layui.use(['table', 'layer', 'form', 'upload'], function () {
+        const table = layui.table;
+        const layer = layui.layer;
+        const form = layui.form;
+        const $ = layui.$;
+        const tableIns = table.render({
+            id: 'assess-table',
+            elem: '#assess',
+            url: "/api/assess/page",
+            method: 'post', //异步请求方法
+            defaultToolbar: ['filter'],
+            contentType: 'application/json',
+            title: '评价表',
+            where: {customerId: [[${id}]]},
+            cellMinWidth: 200,
+            cols: [
+                [
+                    {type: 'checkbox', fixed: 'left'},
+                    {field: 'id', title: 'id', width: 70,},
+                    {field: 'orderNumber', title: '订单号',},
+                    {field: 'carPlateNumber', title: '车牌号', width: 200},
+                    {field: 'customerName', title: '客户名称', width: 200},
+                    {field: 'remark', title: '评价详情',},
+                    {
+                        field: 'state', title: '状态', templet: function (d) {
+                            switch (d.state) {
+                                case 0:
+                                    return '<span style="color: #00CC03;">评价正常</span>'
+                                case 1:
+                                    return '<span style="color: #D0D0D0;">评价异常</span>';
+                            }
+                        }
+                    },
+                    {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
+                ]],
+            page: true
+            , response: {
+                statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+            }
+            , request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                console.log(res);
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.map.data.total, //解析数据长度
+                    "data": res.map.data.records//解析数据列表
+                };
+            }
+        });
+
+        // 重载
+        form.on("submit(search)", data => {
+            tableIns.reload({
+                url: "/api/assess/page",
+                contentType: 'application/json',
+                method: 'post',
+                where: data.field,
+                page: {
+                    pageNum: 1 // 重新从第 1 页开始
+                }
+            });
+        })
+
+        form.on("submit(update)", function (data) {
+            const id = data.field.id;
+            const params = JSON.stringify(data.field);
+            const loadIndex = layer.load(2);
+            $.ajax({
+                'contentType': 'application/json;charset=utf-8',
+                'data': params,
+                'url': '/api/assess/' + id,
+                'type': 'put',
+                success: function (data) {
+                    if (data.code && data.code === 200) {
+                        layer.msg('修改成功');
+                        setTimeout(() => {
+                            layer.closeAll();
+                            table.reload('carousel-table', {}, true);
+                        }, 1000)
+                    } else {
+                        layer.close(loadIndex);
+                        layer.msg(data.message);
+                    }
+                }
+            });
+
+            return false;
+        })
+
+        table.on("tool(assess)", (obj) => {
+            const data = obj.data; //获得当前行数据
+            const layEvent = obj.event;
+            console.log(data);
+            // 删除数据
+            if (layEvent === 'del') {
+                layer.confirm('是否确定删除评价', function (index) {
+                    obj.del();
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    const loadIndex = layer.load(2);
+                    $.ajax({
+                        'url': '/api/assess/' + data.id,
+                        'type': 'delete',
+                        success: function (data) {
+                            if (data.code && data.code === 200) {
+                                setTimeout(() => {
+                                    layer.closeAll();
+                                    table.reload('assess-table');
+                                }, 1000)
+                            } else {
+                                layer.close(loadIndex);
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+                })
+            }
+            // 编辑数据
+            else if (layEvent === 'edit') {
+                layer.open({
+                    title: '修改评价',
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['500px', '500px'], //宽高
+                    shade: 0.8,
+                    offset: 'auto',
+                    closeBtn: 1,
+                    moveType: 1,
+                    content: $("#assess-form").html(),
+                    success: function (layero) {
+                        form.render()
+                        layero.find('#insert').hide();
+                        layero.find('#reset').hide();
+                        layero.find('#id').val(data.id);
+                        layero.find('#orderNumber').val(data.orderNumber);
+                        layero.find('#carPlateNumber').val(data.carPlateNumber);
+                        layero.find('#remark').val(data.remark);
+                        table.reload('assess-table');
+                    }
+                })
+            }
+        })
+    });
+
+</script>
+</body>
+</html>

@@ -33,7 +33,7 @@ public class NoticeController {
   @PutMapping("/{id}")
   public Meg update(@RequestBody Notice bean) {
     boolean bool = service.updateById(bean);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping("/page")
@@ -45,12 +45,12 @@ public class NoticeController {
   @DeleteMapping("/{id}")
   public Meg del(@PathVariable Integer id) {
     boolean bool = service.removeById(id);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping
   public Meg insert(@RequestBody Notice bean) {
     boolean bool = service.save(bean);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 }

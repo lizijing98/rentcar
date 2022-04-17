@@ -33,7 +33,7 @@ public class CustomerController {
   public Meg update(@RequestBody Customer bean, @PathVariable Integer id) {
     bean.setId(id);
     boolean bool = service.updateById(bean);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping("/page")
@@ -45,13 +45,13 @@ public class CustomerController {
   @DeleteMapping("/{id}")
   public Meg del(@PathVariable Integer id) {
     boolean bool = service.removeById(id);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping
   public Meg insert(@RequestBody Customer bean) {
     boolean bool = service.save(bean);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping("/{id}/active")
@@ -60,7 +60,7 @@ public class CustomerController {
     customer.setId(id);
     customer.setActivate(active);
     boolean bool = service.updateById(customer);
-    return bool ? Meg.success() : Meg.file();
+    return bool ? Meg.success() : Meg.fail();
   }
 
   @PostMapping("/topUp")
@@ -82,7 +82,7 @@ public class CustomerController {
     final Customer customer = service.getById(customerId);
     if (!customer.getPassword().equals(oldPassword)) {
       System.out.println(customer);
-      return Meg.file("密码错误");
+      return Meg.fail("密码错误");
     }
     if (newPassword.equals(newPassword2)) {
       customer.setPassword(newPassword);
@@ -90,7 +90,7 @@ public class CustomerController {
       httpSession.setAttribute("customer", customer);
       return Meg.success();
     } else {
-      return Meg.file("密码不一致");
+      return Meg.fail("密码不一致");
     }
   }
 

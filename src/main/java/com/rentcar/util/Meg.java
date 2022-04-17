@@ -36,21 +36,21 @@ public class Meg {
     return meg;
   }
 
-  public static Meg file() {
+  public static Meg fail() {
     Meg meg = new Meg();
     meg.code = 0;
-    meg.message = "file";
+    meg.message = "fail";
     return meg;
   }
 
-  public static Meg file(String message) {
+  public static Meg fail(String message) {
     Meg meg = new Meg();
     meg.code = 0;
     meg.message = message;
     return meg;
   }
 
-  public static Meg Message(int code, String message) {
+  public static Meg message(int code, String message) {
     Meg meg = new Meg();
     meg.code = code;
     meg.message = message;
