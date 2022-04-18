@@ -23,7 +23,7 @@ public class ThymeleafConfig implements WebMvcConfigurer {
     // 订单
     registry.addViewController("/order").setViewName("order/order");
     // 评价
-    registry.addViewController("/assess").setViewName("assess/assess");
+    registry.addViewController("/assess").setViewName("main/myAssess");
     // 公告管理
     registry.addViewController("/notice").setViewName("notice/notice");
     // 客户列表
@@ -32,6 +32,10 @@ public class ThymeleafConfig implements WebMvcConfigurer {
     registry.addViewController("/carInfo").setViewName("car/car");
     // 汽车信息列表
     registry.addViewController("/carType").setViewName("carType/carType");
+    // 汽车搜索
+    registry.addViewController("/search").setViewName("main/search");
+    // 汽车搜索
+    registry.addViewController("/carDetail").setViewName("main/carDetail");
     // 用户信息页
     registry.addViewController("/loginLog").setViewName("loginLog");
     // 用户信息页

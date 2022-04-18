@@ -1,12 +1,11 @@
 package com.rentcar.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rentcar.bean.CarInfo;
-import com.rentcar.bean.Check;
-import com.rentcar.bean.Customer;
-import com.rentcar.bean.Order;
+import com.rentcar.bean.*;
 import com.rentcar.exception.BusinessException;
+import com.rentcar.mapper.AssessMapper;
 import com.rentcar.mapper.OrderMapper;
 import com.rentcar.service.CarInfoService;
 import com.rentcar.service.CheckService;
@@ -39,6 +38,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
   private CheckService checkService;
   @Resource
   private OrderMapper orderMapper;
+  @Resource
+  private AssessMapper assessMapper;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -130,7 +131,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
     // 同意还车
     if (state == 6) {
-      if (order.getState().equals(4)) {
+      if (order.getState().equals(4) || order.getState().equals(7)) {
         log.info("还车开始---");
         order.setState(state);
         order.setInDate(new Date());
@@ -156,8 +157,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         final Check check = checkService.list(queryWrapper).get(0);
         BigDecimal pf = check.getMoney();
         BigDecimal result = zj.add(fj).add(pf);
+        result = result.setScale(0, BigDecimal.ROUND_UP);
         log.info(
-            "日租金{},租期:{},逾期:{},正常租金:{},罚金:{},赔付金额:{},总金额：{}",
+            "订单 ID:{},日租金:{},租期:{},逾期:{},正常租金:{},罚金:{},赔付金额:{},总金额：{}",
+            id,
             money,
             order.getTenancyTerm(),
             day,
@@ -170,12 +173,26 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         customer.setMoney(customer.getMoney().subtract(result));
         customerService.updateById(customer);
         this.updateById(order);
+		// 保存评价
+        Assess assess = BeanUtil.copyProperties(order, Assess.class, "id,fversion,state");
+        assess.setRemark(check.getRemark());
+		assessMapper.insert(assess);
       } else {
         throw new BusinessException("订单处理失败！请稍后重试。");
       }
     }
-    // 取消订单
+    // 提交事故
     if (state == 7) {
+      if (order.getState().equals(2)) {
+        order.setState(state);
+        this.updateById(order);
+      } else {
+        throw new BusinessException("订单状态异常，无法创建事故单");
+      }
+    }
+
+    // 取消订单
+    if (state == 8) {
       if (order.getState().equals(1)) {
         order.setState(state);
         this.updateById(order);
@@ -184,10 +201,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
       }
     }
     // 修改汽车状态
-    if (state == 6 || state == 7 || state == 3) {
+    if (state == 6 || state == 8 || state == 3) {
       Integer carInfoId = order.getCarInfoId();
       CarInfo carInfo = new CarInfo();
       carInfo.setId(carInfoId).setStatus("未出租");
+      carInfoService.updateById(carInfo);
+    } else if (state == 7) {
+      CarInfo carInfo = new CarInfo();
+      carInfo.setId(order.getCarInfoId()).setStatus("事故处理中");
       carInfoService.updateById(carInfo);
     }
     return true;
@@ -196,6 +217,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
   @Override
   public Order getOneByOrderNum(String orderNum) {
     return orderMapper.getOneByOrderNum(orderNum);
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public Boolean updataMoney(Integer id, BigDecimal money) {
+    log.info("修改订单金额: 订单 ID {}, 增加金额 {}", id, money);
+    Order order = this.getById(id);
+    order.setMoney(order.getMoney().add(money));
+    return this.updateById(order);
   }
 
   @Autowired

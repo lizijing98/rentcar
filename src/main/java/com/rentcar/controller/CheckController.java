@@ -22,6 +22,11 @@ public class CheckController {
     return Meg.success();
   }
 
+  @PostMapping("/accident")
+  public Meg accident(@RequestBody Check check) {
+    return checkService.accident(check) ? Meg.success() : Meg.fail();
+  }
+
   @GetMapping
   public Meg get(Integer orderId) {
     QueryWrapper<Check> queryWrapper = new QueryWrapper<>();

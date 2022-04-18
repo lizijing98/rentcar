@@ -92,17 +92,17 @@
                                         <div>租金:[[${info.money}]]/天</div>
                                         <div>制造地:[[${info.manufacturer}]]</div>
                                         <div>生产日期:[[${#dates.format(info.producedDate, 'yyyy-MM-dd')}]]</div>
-                                        <div>状态:[[${info.status}]]
-                                            <button class="layui-btn layui-btn-xs" style="margin-left: 5px"
+                                        <div>状态:[[${info.status}]]</div>
+                                        <div class="layui-btn-container">
+                                            <a class="layui-btn layui-btn-xs"
+                                               style="margin-top:5px;"
+                                               th:href="'/main/carDetail/'+${info.id}"
+                                               type="button">查看详情
+                                            </a>
+                                            <button class="layui-btn layui-btn-xs"
+                                                    style="margin-top:5px;"
                                                     th:if="${info.status} eq '未出租'" th:onclick="goToZL([[${info.id}]])"
                                                     type="button">点击租赁
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <button class="layui-btn layui-btn-sm"
-                                                    style="margin-left: 5px;margin-right:5px;margin-top:5px;width: max-content"
-                                                    th:onclick="goToDetail([[${info}]])"
-                                                    type="button">查看详情
                                             </button>
                                         </div>
                                     </div>
@@ -122,17 +122,17 @@
                                         <div>租金:[[${info.money}]]/天</div>
                                         <div>制造地:[[${info.manufacturer}]]</div>
                                         <div>生产日期:[[${#dates.format(info.producedDate, 'yyyy-MM-dd')}]]</div>
-                                        <div>状态:[[${info.status}]]
-                                            <button class="layui-btn layui-btn-sm" style="margin-left: 5px"
+                                        <div>状态:[[${info.status}]]</div>
+                                        <div class="layui-btn-container">
+                                            <a class="layui-btn layui-btn-xs"
+                                                 style="margin-top:5px;"
+                                                 th:href="'/main/carDetail/'+${info.id}"
+                                                 type="button">查看详情
+                                            </a>
+                                            <button class="layui-btn layui-btn-xs"
+                                                    style="margin-top:5px;"
                                                     th:if="${info.status} eq '未出租'" th:onclick="goToZL([[${info.id}]])"
                                                     type="button">点击租赁
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <button class="layui-btn layui-btn-sm"
-                                                    style="margin-left: 5px;margin-right:5px;margin-top:5px;width: max-content"
-                                                    th:onclick="goToDetail([[${info}]])"
-                                                    type="button">查看详情
                                             </button>
                                         </div>
                                     </div>

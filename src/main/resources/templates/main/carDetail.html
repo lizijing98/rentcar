@@ -33,10 +33,10 @@
         <div class="layui-logo">汽车租赁</div>
         <!-- 头部区域（可配合layui 已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="/main">首页</a></li>
-            <li class="layui-nav-item"><a th:href="'/main/type?carTypeId='+${types.get(0).id}">车辆分类</a></li>
+            <li class="layui-nav-item layui-this"><a href="/main">首页</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/type?carTypeId=1'">车辆分类</a></li>
             <li class="layui-nav-item"><a th:href="'/main/search'">车辆搜索</a></li>
-            <li class="layui-nav-item layui-this"><a href="#">公告</a></li>
+            <li class="layui-nav-item"><a href="#">公告</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item" th:if="not ${session.customerId}"><a href="/customerLogin" id="login">登录</a></li>
@@ -53,33 +53,12 @@
     <div class="layui-body layui-container">
         <div class="layui-container" style="padding: 15px;">
             <div class="layui-row  layui-col-space10">
-                <div class="layui-col-md2">
-                    <div style="text-align: center;background: #a3b9c3;font-size: 20px;">汽车分类</div>
-                    <div class="layui-panel">
-                        <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                            <li class="layui-nav-item layui-nav-itemed" style="height: 50px;" th:each="type:${types}">
-                                <div class="layui-menu-body-title">
-                                    <a th:href="'/main/type?carTypeId='+${type.id}" th:text="${type.name}"></a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="layui-col-md8 center-context">
-                    <h1 style="text-align: center">[[${notice.title}]]</h1>
+                <div class="layui-col-md8 center-context" style="align-content: center">
+                    <h1 style="text-align: center">测试</h1>
                     <div class="layui-panel">
                         <div style="padding: 30px;">
-                            <p style="font-weight: bold">[[${notice.context}]]</p>
+                            <p style="font-weight: bold">测试</p>
                         </div>
-                    </div>
-                </div>
-                <div class="layui-col-md2">
-                    <div style="text-align: center;background: #a3b9c3;font-size: 20px;">公告</div>
-                    <div class="layui-panel call-board layui-nav layui-bg-cyan">
-                        <div style="margin-bottom: 10px;" th:each="notice:${notices}"><a
-                                style="color: #ffffffbd;" th:href="'/main/notice/'+${notice.id}">[[${notice.title}]]</a>
-                        </div>
-                        <div style="text-align: center" th:if="${notices.size() eq 0}"> 暂无</div>
                     </div>
                 </div>
             </div>

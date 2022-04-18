@@ -66,7 +66,8 @@ public class Order extends BaseEntity {
         4 申请还车
         5 拒绝还车
         6 同意还车订单完成
-        7 订单取消
+   		7 事故处理
+        8 订单取消
     */
   private Integer state;
 }

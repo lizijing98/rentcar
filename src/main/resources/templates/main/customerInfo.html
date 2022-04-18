@@ -35,6 +35,7 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="/main">首页</a></li>
             <li class="layui-nav-item"><a th:href="'/main/type?carTypeId='+${types.get(0).id}">车辆分类</a></li>
+            <li class="layui-nav-item"><a th:href="'/main/search'">车辆搜索</a></li>
             <li class="layui-nav-item"><a th:href="'/main/notice/'+${notices.get(0).id}">公告</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
@@ -53,10 +54,10 @@
         <div class="layui-container" style="padding: 15px;">
             <div class="layui-row  layui-col-space10">
                 <div class="layui-col-md2">
-                    <div style="text-align: center">汽车分类</div>
+                    <div style="text-align: center;background: #a3b9c3;font-size: 20px;">汽车分类</div>
                     <div class="layui-panel">
-                        <ul class="layui-menu">
-                            <li th:each="type:${types}">
+                        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                            <li class="layui-nav-item layui-nav-itemed" style="height: 50px;" th:each="type:${types}">
                                 <div class="layui-menu-body-title">
                                     <a th:href="'/main/type?carTypeId='+${type.id}" th:text="${type.name}"></a>
                                 </div>
@@ -243,7 +244,7 @@
         });
 
         form.on('submit(submitTopUp)', () => {
-            layer.prompt("请输入要充值的钱数", (value, index) => {
+            layer.prompt({title: '模拟充值，输入金额'}, (value, index) => {
                 if (!'.'.includes(value)) {
                     // 加上小数后缀
                     value = value + ".00";

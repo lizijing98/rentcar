@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rentcar.bean.Order;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * controller 控制器
@@ -16,20 +17,20 @@ public interface OrderService extends IService<Order> {
   /**
    * 初始化订单
    *
-   * @param carInfoId
-   * @param customerId
-   * @param day
-   * @return
+   * @param carInfoId 车辆 ID
+   * @param customerId 顾客 ID
+   * @param day 租借时间
+   * @return 结果
    */
   boolean initOrder(Serializable carInfoId, Serializable customerId, Integer day);
 
   /**
    * 修改状态
    *
-   * @param id
-   * @param state
-   * @param feedback
-   * @return
+   * @param id 订单 ID
+   * @param state 状态
+   * @param feedback 回调？
+   * @return 结果
    */
   boolean updateState(Integer id, Integer state, String feedback);
 
@@ -40,4 +41,13 @@ public interface OrderService extends IService<Order> {
    * @return Order 实体
    */
   Order getOneByOrderNum(String orderNum);
+
+  /**
+   * 修改订单金额
+   *
+   * @param id 订单 ID
+   * @param money 金额
+   * @return 结果
+   */
+  Boolean updataMoney(Integer id, BigDecimal money);
 }

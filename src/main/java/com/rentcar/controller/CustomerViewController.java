@@ -59,7 +59,7 @@ public class CustomerViewController {
   @GetMapping("/main/type")
   public ModelAndView typeList(
       ModelAndView mv,
-      @RequestParam("carTypeId") Integer carTypeId,
+      @RequestParam(value = "carTypeId",defaultValue = "1") Integer carTypeId,
       @RequestParam(defaultValue = "1") Integer pageNum) {
     log.info("分类页面:typeId:{},pageNum:{}", carTypeId, pageNum);
     mv.setViewName("main/carType");
@@ -75,6 +75,27 @@ public class CustomerViewController {
     mv.addObject("carousels", carouselService.list());
     return mv;
   }
+
+	@GetMapping("/main/search")
+	public ModelAndView search(
+			ModelAndView mv
+//			@RequestParam(value = "carTypeId",defaultValue = "1") Integer carTypeId,
+//			@RequestParam(defaultValue = "1") Integer pageNum
+	) {
+//		log.info("分类页面:typeId:{},pageNum:{}", carTypeId, pageNum);
+		mv.setViewName("main/search");
+//		QueryWrapper<CarInfo> qw = new QueryWrapper<>();
+//		qw.eq("car_type", carTypeId);
+//		qw.eq("info.deleted", "0");
+//		qw.eq("type.deleted", "0");
+//		Page<CarInfo> page = carInfoService.page(new Page<>(pageNum, 8), qw);
+//		mv.addObject("type", carTypeService.getById(carTypeId));
+//		mv.addObject("notices", noticeService.list());
+//		mv.addObject("page", page);
+//		mv.addObject("types", carTypeService.list());
+//		mv.addObject("carousels", carouselService.list());
+		return mv;
+	}
 
   @GetMapping("/customerLogin")
   public String login() {
@@ -121,12 +142,19 @@ public class CustomerViewController {
     return mv;
   }
 
+  @GetMapping("/main/carDetail/{id}")
+  public ModelAndView carDetail(ModelAndView mv, @PathVariable String id) {
+    mv.setViewName("main/carDetail");
+    mv.addObject("types", carTypeService.list());
+    mv.addObject("notices", noticeService.list());
+    mv.addObject("notice", noticeService.getById(id));
+    return mv;
+  }
+
   @GetMapping("/myOrder")
   public ModelAndView myOrder(ModelAndView mv, HttpSession httpSession) {
     final Integer customerId = (Integer) httpSession.getAttribute("customerId");
     mv.setViewName("main/myOrder");
-    mv.addObject("types", carTypeService.list());
-    mv.addObject("notices", noticeService.list());
     mv.addObject("id", customerId);
     return mv;
   }
@@ -135,8 +163,6 @@ public class CustomerViewController {
   public ModelAndView myAssess(ModelAndView mv, HttpSession httpSession) {
     final Integer customerId = (Integer) httpSession.getAttribute("customerId");
     mv.setViewName("main/myAssess");
-    mv.addObject("types", carTypeService.list());
-    mv.addObject("notices", noticeService.list());
     mv.addObject("id", customerId);
     return mv;
   }
