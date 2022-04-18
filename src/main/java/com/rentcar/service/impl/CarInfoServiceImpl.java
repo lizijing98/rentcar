@@ -10,6 +10,7 @@ import com.rentcar.service.CarTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,12 +24,16 @@ import java.util.List;
 public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo>
     implements CarInfoService {
 
-  private CarTypeService carTypeService;
+//  @Resource
+//  private CarTypeService carTypeService;
 
-  @Autowired
-  public void setCarTypeService(CarTypeService carTypeService) {
-    this.carTypeService = carTypeService;
-  }
+  @Resource
+  private CarInfoMapper carInfoMapper;
+
+//  @Autowired
+//  public void setCarTypeService(CarTypeService carTypeService) {
+//    this.carTypeService = carTypeService;
+//  }
 
   @Override
   public boolean save(CarInfo entity) {
@@ -58,5 +63,10 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo>
     queryWrapper.eq("deleted", "0");
     queryWrapper.in(typeIds.size() > 0, "car_type", typeIds);
     return this.list(queryWrapper).size();
+  }
+
+  @Override
+  public CarInfo getOneById(String id) {
+    return carInfoMapper.getOneById(id);
   }
 }

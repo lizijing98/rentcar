@@ -118,7 +118,7 @@
                                     <div>押金:[[${info.cashPledge}]]</div>
                                     <div>租金:[[${info.money}]]/天</div>
                                     <div>制造地:[[${info.manufacturer}]]</div>
-                                    <div>生产日期:[[${info.producedDate}]]</div>
+                                    <div>生产日期:[[${#dates.format(info.producedDate, 'yyyy-MM-dd')}]]</div>
                                     <div>状态:[[${info.status}]]</div>
                                     <div class="layui-btn-container">
                                         <a class="layui-btn layui-btn-xs"

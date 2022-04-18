@@ -11,4 +11,13 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2021-04-09
  */
 @Mapper
-public interface CarInfoMapper extends BaseMapper<CarInfo> {}
+public interface CarInfoMapper extends BaseMapper<CarInfo> {
+
+  /**
+   * 通过 ID 获取信息
+   *
+   * @param id 车辆 ID
+   * @return 结果
+   */
+  CarInfo getOneById(String id);
+}

@@ -10,4 +10,11 @@
             ${ew.customSqlSegment}
         </if>
     </select>
+    <select id="getOneById" resultType="com.rentcar.bean.CarInfo">
+        SELECT ci.*, ct.name car_type_name
+        FROM car.car_info ci
+                 LEFT JOIN car.car_type ct
+                           ON ci.car_type = ct.id
+        WHERE ci.id = ${id};
+    </select>
 </mapper>

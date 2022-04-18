@@ -91,6 +91,10 @@
 
     <div class="layui-body layui-container center-context" style="padding: 20px">
         <div class="layui-form">
+            用户 ID：
+            <div class="layui-inline">
+                <input autocomplete="off" class="layui-input" name="customerId" th:value="${id}" readonly>
+            </div>
             订单号：
             <div class="layui-inline">
                 <input autocomplete="off" class="layui-input" name="orderNumber">
@@ -130,12 +134,12 @@
                 [
                     {type: 'checkbox', fixed: 'left'},
                     {field: 'id', title: 'id', width: 70,},
-                    {field: 'orderNumber', title: '订单号',},
-                    {field: 'carPlateNumber', title: '车牌号', width: 200},
-                    {field: 'customerName', title: '客户名称', width: 200},
+                    {field: 'orderNumber', title: '订单号',width: 100},
+                    {field: 'carPlateNumber', title: '车牌号', width: 120},
+                    {field: 'customerName', title: '客户名称', width: 120},
                     {field: 'remark', title: '评价详情',},
                     {
-                        field: 'state', title: '状态', templet: function (d) {
+                        field: 'state', title: '状态',width: 100, templet: function (d) {
                             switch (d.state) {
                                 case 0:
                                     return '<span style="color: #00CC03;">评价正常</span>'
@@ -197,11 +201,10 @@
                     } else {
                         layer.close(loadIndex);
                         layer.msg(data.message);
+                        table.reload('carousel-table', {}, true);
                     }
                 }
             });
-
-            return false;
         })
 
         table.on("tool(assess)", (obj) => {

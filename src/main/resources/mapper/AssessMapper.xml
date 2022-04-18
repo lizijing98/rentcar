@@ -11,4 +11,12 @@
             ${ew.customSqlSegment}
         </if>
     </select>
+    <select id="getAssessByCarId" resultType="com.rentcar.bean.Assess">
+        SELECT ca.*, ci.plate_number car_plate_number, cus.username customer_name
+        FROM car.car_assess ca
+                 LEFT JOIN car.car_info ci on ci.id = ca.car_info_id
+                 LEFT JOIN car.customer cus on cus.id = ca.customer_id
+        WHERE ca.car_info_id = ${id}
+          AND ca.deleted = 0;
+    </select>
 </mapper>

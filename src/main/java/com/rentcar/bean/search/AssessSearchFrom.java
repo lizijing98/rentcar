@@ -20,6 +20,7 @@ public class AssessSearchFrom {
 	private String orderNumber;
 	private String customerName;
 	private String carPlateNumber;
+	private String carId;
 
 	public Page<Assess> getPage() {
 		return new Page<>(pageNum, pageSize);
@@ -32,6 +33,7 @@ public class AssessSearchFrom {
 		queryWrapper.like(!StringUtils.isEmpty(orderNumber), "co.order_number", orderNumber);
 		queryWrapper.like(!StringUtils.isEmpty(customerName), "cus.username", customerName);
 		queryWrapper.like(!StringUtils.isEmpty(carPlateNumber), "ci.plate_number", carPlateNumber);
+		queryWrapper.like(!StringUtils.isEmpty(carId), "ci.id", carId);
 		return queryWrapper;
 	}
 }

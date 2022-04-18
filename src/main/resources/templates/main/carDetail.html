@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>首页，欢迎租车</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../static/layui/css/layui.css" media="all">
     <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
 </head>
 <style>
@@ -33,9 +36,10 @@
         <div class="layui-logo">汽车租赁</div>
         <!-- 头部区域（可配合layui 已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item layui-this"><a href="/main">首页</a></li>
+            <li class="layui-nav-item"><a href="/main">首页</a></li>
             <li class="layui-nav-item"><a th:href="'/main/type?carTypeId=1'">车辆分类</a></li>
             <li class="layui-nav-item"><a th:href="'/main/search'">车辆搜索</a></li>
+            <li class="layui-nav-item layui-this"><a th:href="'/main/carDetail/'+${carInfo.id}">车辆详情</a></li>
             <li class="layui-nav-item"><a href="#">公告</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
@@ -50,22 +54,110 @@
         </ul>
     </div>
 
-    <div class="layui-body layui-container">
+    <div class="layui-body layui-container" style="align-content: center;border: 30px">
         <div class="layui-container" style="padding: 15px;">
-            <div class="layui-row  layui-col-space10">
-                <div class="layui-col-md8 center-context" style="align-content: center">
-                    <h1 style="text-align: center">测试</h1>
-                    <div class="layui-panel">
-                        <div style="padding: 30px;">
-                            <p style="font-weight: bold">测试</p>
+            <div class="layui-panel" style="padding: 10px">
+                <h1 style="text-align: left">[[${carInfo.plateNumber}]]</h1>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-sm6">
+                    <img class="layui-panel" style="width: 500px;padding: 15px" th:src="'/'+${carInfo.image}">
+                    <div class="layui-btn-container" style="padding-top: 20px;margin-top: 10px">
+                        <button class="layui-btn"
+                                style="margin: 30px 30px"
+                                th:if="${carInfo.status} eq '未出租'" th:onclick="goToZL([[${carInfo.id}]])"
+                                type="button">点击租赁
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-col-sm6">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">车牌号</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${carInfo.plateNumber}]]</label>
                         </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">车辆类型</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${carInfo.carTypeName}]]</label>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">车辆品牌</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${carInfo.brand}]]</label>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">车身颜色</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${carInfo.carColor}]]</label>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">制造商</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${carInfo.manufacturer}]]</label>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">生产日期</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${#dates.format(carInfo.producedDate,
+                                'yyyy-MM-dd')}]]</label>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">租金(元/天)</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${carInfo.money}]]</label>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">押金(元)</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${carInfo.cashPledge}]]</label>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">车辆状态</label>
+                            <label class="layui-form-label" style="width: max-content;text-align: left">[[${carInfo.status}]]</label>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="layui-bg-gray" style="padding: 30px;">
+                <div class="layui-panel" th:each="assess:${assesss}">
+                    <div style="padding: 20px 20px;">[[${assess.remark}]]</div>
+                    <div style="padding: 10px 10px;text-align: right">[[${assess.customerName}]]</div>
+                    <div class="layui-panel" th:if="${assesss.size() eq 0}">
+                        <div style="padding: 50px 30px;">暂无</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</div>
-<script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+    </div>
 </body>
+<script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+<script>
+    function goToZL(id) {
+        layui.use(['layer'], function () {
+            const layer = layui.layer;
+            const $ = layui.$;
+
+            layer.prompt({title: '请输入要租赁的天数'}, function (value) {
+                const reg = new RegExp('^[1-9]\\d*$');
+                if (!reg.test(value)) {
+                    layer.msg('请输入合法的天数(不包括0)。')
+                    return
+                }
+
+                $.ajax({
+                    'data': 'carInfoId=' + id + "&day=" + value,
+                    'url': '/api/order/initOrder',
+                    'type': 'post',
+                    success: function (data) {
+                        if (data.code && data.code === 200) {
+                            layer.msg('订单创建成功，等待工作人员审核。');
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000)
+                        } else {
+                            layer.msg(data.message);
+                        }
+                    }
+                });
+            });
+        });
+    }
+</script>
 </html>

@@ -52,6 +52,10 @@
 
     <div class="layui-body layui-container center-context" style="padding: 20px">
         <div class="layui-form">
+            用户 ID：
+            <div class="layui-inline">
+                <input autocomplete="off" class="layui-input" name="customerId" th:value="${id}" readonly>
+            </div>
             订单号：
             <div class="layui-inline">
                 <input autocomplete="off" class="layui-input" name="orderNumber">
@@ -177,7 +181,7 @@
                 method: 'post',
                 where: data.field,
                 page: {
-                    pageNum: 2 // 重新从第 1 页开始
+                    pageNum: 1 // 重新从第 1 页开始
                 }
             });
         })

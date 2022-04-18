@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rentcar.bean.Assess;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Assess Service 接口
@@ -22,4 +23,12 @@ public interface AssessService extends IService<Assess> {
    * @return 结果
    */
   boolean initAssess(String orderNum, Serializable customerId, String remake);
+
+  /**
+   * 根据车辆 ID 获取评价列表
+   *
+   * @param id 车辆 ID
+   * @return 结果
+   */
+  List<Assess> getAssessByCarId(String id);
 }

@@ -76,10 +76,14 @@
                 <div class="layui-col-md2">
                     <div style="text-align: center;background: #a3b9c3;font-size: 20px;">公告</div>
                     <div class="layui-panel call-board layui-nav layui-bg-cyan">
-                        <div style="margin-bottom: 10px;" th:each="notice:${notices}"><a
-                                style="color: #ffffffbd;" th:href="'/main/notice/'+${notice.id}">[[${notice.title}]]</a>
+                        <div style="margin-bottom: 10px;" th:each="notice:${notices}">
+                            <a
+                                    style="color: #ffffffbd;"
+                                    th:href="'/main/notice/'+${notice.id}">[[${notice.title}]]</a>
                         </div>
-                        <div style="text-align: center" th:if="${notices.size() eq 0}"> 暂无</div>
+                        <div style="
+                        text-align: center" th:if="${notices.size() eq 0}"> 暂无
+                        </div>
                     </div>
                 </div>
             </div>

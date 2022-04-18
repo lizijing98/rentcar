@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Assess Service 接口实现
@@ -25,6 +26,7 @@ import java.io.Serializable;
 @Slf4j
 public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> implements AssessService {
   @Resource private OrderService orderService;
+  @Resource private AssessMapper assessMapper;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -37,5 +39,10 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
     assess.setState(0);
     assess.setRemark(remake);
     return this.save(assess);
+  }
+
+  @Override
+  public List<Assess> getAssessByCarId(String id) {
+    return assessMapper.getAssessByCarId(id);
   }
 }
