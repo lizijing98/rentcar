@@ -1,6 +1,7 @@
 package com.rentcar.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.rentcar.bean.Delay;
 import com.rentcar.bean.Order;
 import com.rentcar.bean.search.OrderSearchFrom;
 import com.rentcar.service.OrderService;
@@ -69,6 +70,11 @@ public class OrderController {
     }
     boolean bool = service.initOrder(carInfoId, customerId + "", day);
     return bool ? Meg.success() : Meg.fail();
+  }
+
+  @PostMapping("/delay")
+  public Meg delay(@RequestBody Delay delay) {
+    return service.delay(delay.getOrderId(), delay.getDay()) ? Meg.success() : Meg.fail();
   }
 
   @Autowired

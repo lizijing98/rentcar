@@ -6,12 +6,11 @@ import com.rentcar.bean.CarInfo;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.CarInfoMapper;
 import com.rentcar.service.CarInfoService;
-import com.rentcar.service.CarTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -24,16 +23,15 @@ import java.util.List;
 public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo>
     implements CarInfoService {
 
-//  @Resource
-//  private CarTypeService carTypeService;
+  //  @Resource
+  //  private CarTypeService carTypeService;
 
-  @Resource
-  private CarInfoMapper carInfoMapper;
+  @Resource private CarInfoMapper carInfoMapper;
 
-//  @Autowired
-//  public void setCarTypeService(CarTypeService carTypeService) {
-//    this.carTypeService = carTypeService;
-//  }
+  //  @Autowired
+  //  public void setCarTypeService(CarTypeService carTypeService) {
+  //    this.carTypeService = carTypeService;
+  //  }
 
   @Override
   public boolean save(CarInfo entity) {
@@ -68,5 +66,10 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo>
   @Override
   public CarInfo getOneById(String id) {
     return carInfoMapper.getOneById(id);
+  }
+
+  @Override
+  public BigDecimal getMoneyById(Integer id) {
+    return carInfoMapper.getMoneyById(id);
   }
 }

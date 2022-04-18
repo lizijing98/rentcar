@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rentcar.bean.CarInfo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -29,4 +30,12 @@ public interface CarInfoService extends IService<CarInfo> {
    * @return 结果
    */
   CarInfo getOneById(String id);
+
+  /**
+   * 通过 ID 获取租金
+   *
+   * @param id 车辆 ID
+   * @return 结果
+   */
+  BigDecimal getMoneyById(Integer id);
 }

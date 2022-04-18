@@ -17,4 +17,9 @@
                            ON ci.car_type = ct.id
         WHERE ci.id = ${id};
     </select>
+    <select id="getMoneyById" resultType="java.math.BigDecimal">
+        SELECT ci.money
+        FROM car.car_info ci
+        WHERE ci.id = ${id};
+    </select>
 </mapper>

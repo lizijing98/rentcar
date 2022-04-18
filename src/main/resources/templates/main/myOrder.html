@@ -119,11 +119,11 @@
                 [
                     {type: 'checkbox', fixed: 'left'},
                     {field: 'id', title: 'id', width: 70,},
-                    {field: 'orderNumber', title: '订单号',},
-                    {field: 'carPlateNumber', title: '车牌号',},
-                    {field: 'customerName', title: '客户名称',},
+                    {field: 'orderNumber', title: '订单号', width: 200,},
+                    {field: 'carPlateNumber', title: '车牌号', width: 120},
+                    {field: 'customerName', title: '客户名称', width: 100},
                     {
-                        field: 'state', title: '状态', templet: function (d) {
+                        field: 'state', title: '状态', width: 120, templet: function (d) {
                             switch (d.state) {
                                 case 1:
                                     return '<span style="color: #00cc03;">申请借车</span>';
@@ -144,14 +144,14 @@
                             }
                         }
                     },
-                    {field: 'tenancyTerm', title: '租期',},
-                    {field: 'startDate', title: '开始租期',},
-                    {field: 'endDate', title: '结束租期',},
-                    {field: 'outDate', title: '出库时间',},
-                    {field: 'inDate', title: '入库时间',},
-                    {field: 'cashPledge', title: '押金(元)',},
-                    {field: 'money', title: '租金(元)',},
-                    {field: 'feedback', title: '处理意见',},
+                    {field: 'tenancyTerm', title: '租期', width: 70,},
+                    {field: 'cashPledge', title: '押金(元)', width: 100,},
+                    {field: 'money', title: '租金(元)', width: 100,},
+                    {field: 'startDate', title: '开始租期', width: 120,},
+                    {field: 'endDate', title: '结束租期', width: 120,},
+                    {field: 'outDate', title: '出库时间', width: 120,},
+                    {field: 'inDate', title: '入库时间', width: 120,},
+                    {field: 'feedback', title: '处理意见', width: 100,},
                     {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 250}
                 ]],
             page: true
@@ -224,7 +224,7 @@
             // 申请还车
             if (layEvent === 'applyReturnCar') {
                 layer.open({
-                    title: '检查单',
+                    title: '评价单',
                     type: 2,
                     skin: 'layui-layer-rim', //加上边框
                     area: ['450px', '500px'], //宽高
@@ -264,7 +264,7 @@
                     area: ['450px', '500px'], //宽高
                     offset: 'auto',
                     closeBtn: 1,
-                    content: '/check',
+                    content: '/delay',
                     success: function (layero, index) {
                         let body = layer.getChildFrame('body', index);
                         body.find('#orderId').val(data.id);

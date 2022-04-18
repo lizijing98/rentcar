@@ -49,5 +49,14 @@ public interface OrderService extends IService<Order> {
    * @param money 金额
    * @return 结果
    */
-  Boolean updataMoney(Integer id, BigDecimal money);
+  Boolean updateMoney(Integer id, BigDecimal money);
+
+  /**
+   * 延长订单
+   *
+   * @param id 订单 ID
+   * @param day 延长时间
+   * @return
+   */
+  Boolean delay(Integer id, Integer day);
 }

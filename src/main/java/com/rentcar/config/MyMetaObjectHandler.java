@@ -22,7 +22,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
       userId = Integer.parseInt(creatorId.toString());
     }
 
-    this.strictInsertFill(metaObject, "creatorId", Integer.class, userId); // 起始版本 3.3.0(推荐使用)
+    this.strictInsertFill(metaObject, "creatorId", Integer.class, userId);
+    // 起始版本 3.3.0(推荐使用)
   }
 
   @Override
@@ -32,7 +33,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     if (creatorId != null) {
       userId = Integer.parseInt(creatorId.toString());
     }
-    this.strictUpdateFill(metaObject, "modifyId", Integer.class, userId); // 起始版本 3.3.0(推荐)
+    this.strictUpdateFill(metaObject, "modifyId", Integer.class, userId);
+    // 起始版本 3.3.0(推荐)
   }
 
   @Autowired

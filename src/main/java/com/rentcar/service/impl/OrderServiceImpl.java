@@ -1,6 +1,7 @@
 package com.rentcar.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rentcar.bean.*;
@@ -36,10 +37,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
   private CarInfoService carInfoService;
   private OrderUtils orderUtils;
   private CheckService checkService;
-  @Resource
-  private OrderMapper orderMapper;
-  @Resource
-  private AssessMapper assessMapper;
+  @Resource private OrderMapper orderMapper;
+  @Resource private AssessMapper assessMapper;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -173,10 +172,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         customer.setMoney(customer.getMoney().subtract(result));
         customerService.updateById(customer);
         this.updateById(order);
-		// 保存评价
+        // 保存评价
         Assess assess = BeanUtil.copyProperties(order, Assess.class, "id,fversion,state");
         assess.setRemark(check.getRemark());
-		assessMapper.insert(assess);
+        assessMapper.insert(assess);
       } else {
         throw new BusinessException("订单处理失败！请稍后重试。");
       }
@@ -221,10 +220,31 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public Boolean updataMoney(Integer id, BigDecimal money) {
+  public Boolean updateMoney(Integer id, BigDecimal money) {
     log.info("修改订单金额: 订单 ID {}, 增加金额 {}", id, money);
     Order order = this.getById(id);
     order.setMoney(order.getMoney().add(money));
+    return this.updateById(order);
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public Boolean delay(Integer id, Integer day) {
+    log.info("延长订单时间: ");
+    Order order = this.getById(id);
+    if (order.getState() != 2) {
+      throw new BusinessException("订单状态不正确，无法延期");
+    }
+    // 修改租期
+    order.setTenancyTerm(order.getTenancyTerm() + day);
+    // 修改结束时间
+    Date oldEndData = order.getEndDate();
+    Date newEndData = DateUtil.offsetDay(oldEndData, day);
+    order.setEndDate(newEndData);
+    // 修改订单金额
+    BigDecimal carMoney = carInfoService.getMoneyById(order.getCarInfoId());
+    BigDecimal newMoney = order.getMoney().add(carMoney.multiply(BigDecimal.valueOf(day)));
+    order.setMoney(newMoney);
     return this.updateById(order);
   }
 
