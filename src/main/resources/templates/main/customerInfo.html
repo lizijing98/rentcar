@@ -127,9 +127,9 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">地址</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" lay-verify="required" name="address"
+                                <input autocomplete="off" class="layui-input" name="address"
                                        placeholder="请输入地址"
-                                       required th:value="${info.address}"
+                                       th:value="${info.address}"
                                        type="text">
                             </div>
                             <div class="layui-form-mid layui-word-aux">地址</div>
@@ -138,9 +138,9 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">职业</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" lay-verify="required" name="profession"
-                                       placeholder="请输入身份证"
-                                       required th:value="${info.profession}"
+                                <input autocomplete="off" class="layui-input" name="profession"
+                                       placeholder="请输入职业"
+                                       th:value="${info.profession}"
                                        type="text">
                             </div>
                             <div class="layui-form-mid layui-word-aux">职业</div>
@@ -149,10 +149,10 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">身份证</label>
                             <div class="layui-input-inline">
-                                <input autocomplete="off" class="layui-input" lay-verify="required|identity"
+                                <input autocomplete="off" class="layui-input"
                                        name="idNumber"
                                        placeholder="请输入身份证"
-                                       required th:value="${info.idNumber}"
+                                       th:value="${info.idNumber}"
                                        type="text">
                             </div>
                             <div class="layui-form-mid layui-word-aux">身份证</div>

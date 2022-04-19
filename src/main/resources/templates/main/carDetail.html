@@ -57,8 +57,11 @@
     <div class="layui-body layui-container" style="align-content: center;border: 30px">
         <div class="layui-container" style="padding: 15px;">
             <div class="layui-panel" style="padding: 10px">
-                <h1 style="text-align: left">[[${carInfo.plateNumber}]]</h1>
+                <h1 style="text-align: left;margin: 20px 10px">[[${carInfo.plateNumber}]]</h1>
             </div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;margin-bottom: 10px">
+                <legend>车辆详情</legend>
+            </fieldset>
             <div class="layui-row">
                 <div class="layui-col-sm6">
                     <img class="layui-panel" style="width: 500px;padding: 15px" th:src="'/'+${carInfo.image}">
@@ -113,6 +116,10 @@
                     </form>
                 </div>
             </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;margin-bottom: 10px">
+                <legend>用户评价</legend>
+            </fieldset>
 
             <div class="layui-bg-gray" style="padding: 30px;">
                 <div class="layui-panel" th:each="assess:${assesss}">
