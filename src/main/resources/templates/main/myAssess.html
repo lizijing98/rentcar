@@ -91,8 +91,7 @@
 
     <div class="layui-body layui-container center-context" style="padding: 20px">
         <div class="layui-form">
-            用户 ID：
-            <div class="layui-inline">
+            <div class="layui-inline layui-hide">
                 <input autocomplete="off" class="layui-input" name="customerId" th:value="${id}" readonly>
             </div>
             订单号：
@@ -132,14 +131,14 @@
             cellMinWidth: 200,
             cols: [
                 [
-                    {type: 'checkbox', fixed: 'left'},
-                    {field: 'id', title: 'id', width: 70,},
-                    {field: 'orderNumber', title: '订单号',width: 100},
-                    {field: 'carPlateNumber', title: '车牌号', width: 120},
+                    // {type: 'checkbox', fixed: 'left'},
+                    // {field: 'id', title: 'id', width: 70,},
+                    {field: 'orderNumber', title: '订单号', width: 100},
+                    {field: 'carPlateNumber', title: '车牌号', width: 120, event: 'openDetail', style: 'color:#4682B4'},
                     {field: 'customerName', title: '客户名称', width: 120},
                     {field: 'remark', title: '评价详情',},
                     {
-                        field: 'state', title: '状态',width: 100, templet: function (d) {
+                        field: 'state', title: '状态', width: 100, templet: function (d) {
                             switch (d.state) {
                                 case 0:
                                     return '<span style="color: #00CC03;">评价正常</span>'
@@ -258,6 +257,8 @@
                         table.reload('assess-table');
                     }
                 })
+            } else if (layEvent === 'openDetail') {
+                open("/main/carDetail/" + data.carInfoId, "_self");
             }
         })
     });

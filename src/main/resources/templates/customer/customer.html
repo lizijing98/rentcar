@@ -18,14 +18,16 @@
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="username" lay-verify="required" name="username" placeholder="请输入用户名"
+                <input autocomplete="off" class="layui-input" id="username" lay-verify="required" name="username"
+                       placeholder="请输入用户名"
                        required type="text"/>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="password" lay-verify="required" name="password" placeholder="请输入密码"
+                <input autocomplete="off" class="layui-input" id="password" lay-verify="required" name="password"
+                       placeholder="请输入密码"
                        required type="text"/>
             </div>
         </div>
@@ -33,7 +35,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">余额</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money" placeholder="请输入余额"
+                <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money"
+                       placeholder="请输入余额"
                        required type="money"/>
             </div>
         </div>
@@ -41,42 +44,46 @@
         <div class="layui-form-item">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="email" lay-verify="required|email" name="email" placeholder="请输入email"
-                       required type="text"/>
+                <input autocomplete="off" class="layui-input" id="email" lay-verify="email" name="email"
+                       placeholder="请输入email"
+                       type="text"/>
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">身份证</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="idNumber" lay-verify="required|identity" name="idNumber"
+                <input autocomplete="off" class="layui-input" id="idNumber"
+                       name="idNumber"
                        placeholder="请输入身份证"
-                       required type="text"/>
+                       type="text"/>
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">地址</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="address" lay-verify="required" name="address" placeholder="请输入地址"
-                       required type="text"/>
+                <input autocomplete="off" class="layui-input" id="address" name="address"
+                       placeholder="请输入地址"
+                       type="text"/>
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">职业</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="profession" lay-verify="required" name="profession" placeholder="请输入职业"
-                       required type="text"/>
+                <input autocomplete="off" class="layui-input" id="profession" name="profession"
+                       placeholder="请输入职业"
+                       type="text"/>
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">电话</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="phone" lay-verify="required|number|phone" name="phone"
+                <input autocomplete="off" class="layui-input" id="phone" lay-verify="number|phone" name="phone"
                        placeholder="请输入手机号"
-                       required type="number"/>
+                       type="number"/>
             </div>
         </div>
 
@@ -91,8 +98,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">激活</label>
             <div class="layui-input-inline">
-                <input id="activate" lay-filter="switchTest" lay-skin="switch" lay-text="ON|OFF" name="activate"
-                       type="checkbox"/>
+                <input type="radio" name="activate" value="on" title="on" checked="">
+                <input type="radio" name="activate" value="off" title="off">
             </div>
         </div>
 
@@ -134,7 +141,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script id="checkboxTpl" type="text/html">
-    <input type="checkbox" name="activate" value="{{d.id}}" title="激活" lay-skin="switch" lay-text="on|off"
+    <input type="checkbox" name="activate" value="{{d.id}}" title="激活" lay-skin="switch" lay-text="激活|未激活"
            lay-filter="lockDemo" {{ d.activate=="on"?'checked':'' }}>
 </script>
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
