@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author lzj
@@ -40,16 +40,16 @@ public class Order extends BaseEntity {
   private String orderNumber;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date startDate;
+  private LocalDateTime startDate;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date endDate;
+  private LocalDateTime endDate;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date outDate;
+  private LocalDateTime outDate;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date inDate;
+  private LocalDateTime inDate;
 
   private BigDecimal money;
 
@@ -58,16 +58,6 @@ public class Order extends BaseEntity {
   private BigDecimal cashPledge;
   // 租期
   private Integer tenancyTerm;
-  /**
-    状态:
-        1 申请借车
-        2 借车成功
-        3 借车失败
-        4 申请还车
-        5 拒绝还车
-        6 同意还车订单完成
-   		7 事故处理
-        8 订单取消
-    */
+  /** 状态: 1 申请借车 2 借车成功 3 借车失败 4 申请还车 5 拒绝还车 6 同意还车订单完成 7 事故处理 8 订单取消 */
   private Integer state;
 }

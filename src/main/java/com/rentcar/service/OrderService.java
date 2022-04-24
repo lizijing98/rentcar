@@ -2,6 +2,7 @@ package com.rentcar.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rentcar.bean.Order;
+import com.rentcar.bean.VO.InitOrderVO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -23,6 +24,15 @@ public interface OrderService extends IService<Order> {
    * @return 结果
    */
   boolean initOrder(Serializable carInfoId, Serializable customerId, Integer day);
+
+  /**
+   * 初始化订单
+   *
+   * @param initOrderVO 创建订单 VO
+   * @param customerId 顾客 ID
+   * @return 结果
+   */
+  Boolean initOrder(InitOrderVO initOrderVO, Serializable customerId);
 
   /**
    * 修改状态

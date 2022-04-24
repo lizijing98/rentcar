@@ -1,10 +1,15 @@
 package com.rentcar.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rentcar.bean.*;
+import com.rentcar.bean.CarInfo;
+import com.rentcar.bean.Check;
+import com.rentcar.bean.Customer;
+import com.rentcar.bean.Order;
+import com.rentcar.bean.VO.InitOrderVO;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.AssessMapper;
 import com.rentcar.mapper.OrderMapper;
@@ -18,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
@@ -54,18 +62,56 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
     long now = System.currentTimeMillis();
     long end = now + day * 24 * 60 * 60 * 1000;
-    Date startDate = new Date(now);
-    Date endDate = new Date(end);
+    //    Date startDate = new Date(now);
+    //    Date endDate = new Date(end);
     Order order = new Order();
     order.setCarInfoId(carInfo.getId());
     order.setCustomerId(customer.getId());
     order.setTenancyTerm(day);
-    order.setStartDate(startDate);
-    order.setEndDate(endDate);
+    order.setStartDate(LocalDateTimeUtil.of(now));
+    order.setEndDate(LocalDateTimeUtil.of(end));
     order.setCashPledge(carInfo.getCashPledge());
     order.setMoney(carInfo.getMoney());
     order.setTenancyTerm(day);
     order.setState(1);
+    // 生成订单编号
+    order.setOrderNumber(orderUtils.getOrderCode(customer.getId()));
+    int i = getBaseMapper().insert(order);
+    if (i > 0) {
+      carInfo.setStatus("已出租");
+      carInfoService.updateById(carInfo);
+    }
+    return i > 0;
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public Boolean initOrder(InitOrderVO initOrderVO, Serializable customerId) {
+    log.info("******初始化订单******");
+    log.info("orderInfo:{},customerId:{}", initOrderVO.toString(), customerId);
+    Customer customer = customerService.getById(customerId);
+    CarInfo carInfo = carInfoService.getById(initOrderVO.getCarInfoId());
+    log.info("carInfo:{}, customer:{}", carInfo, customer);
+    // 客户的余额小于押金
+    if (customer.getMoney().compareTo(carInfo.getMoney()) <= 0) {
+      throw new BusinessException("余额不足，不能租赁");
+    }
+    if ("已出租".equals(carInfo.getStatus())) {
+      throw new BusinessException("该汽车已经被出租");
+    }
+    Date startDate = DateUtil.parse(initOrderVO.getCreateDate(), "yyyy-MM-dd HH:mm:ss");
+    Date endDate = DateUtil.parse(initOrderVO.getFinishDate(), "yyyy-MM-dd HH:mm:ss");
+    long day = DateUtil.between(startDate, endDate, DateUnit.DAY);
+    Order order =
+        new Order()
+            .setCarInfoId(carInfo.getId())
+            .setCustomerId(customer.getId())
+            .setStartDate(LocalDateTimeUtil.of(startDate))
+            .setEndDate(LocalDateTimeUtil.of(endDate))
+            .setCashPledge(carInfo.getCashPledge())
+            .setMoney(carInfo.getMoney())
+            .setTenancyTerm(Math.toIntExact(day))
+            .setState(1);
     // 生成订单编号
     order.setOrderNumber(orderUtils.getOrderCode(customer.getId()));
     int i = getBaseMapper().insert(order);
@@ -101,7 +147,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     if (state == 2 || state == 3) {
       if (order.getState().equals(1)) {
         if (state == 2) {
-          order.setOutDate(new Date());
+          order.setOutDate(LocalDateTime.now());
         }
         order.setState(state);
         if (!this.updateById(order)) {
@@ -131,18 +177,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
       if (order.getState().equals(4) || order.getState().equals(7)) {
         log.info("还车开始---");
         order.setState(state);
-        order.setInDate(new Date());
-        Date endDate = order.getEndDate();
+        order.setInDate(LocalDateTime.now());
+        LocalDateTime endDate = order.getEndDate();
         // 结束日期在当前时间之后
         BigDecimal money = order.getMoney();
         // 正常租金
         BigDecimal zj = BigDecimal.valueOf(order.getTenancyTerm()).multiply(money);
         BigDecimal fj = BigDecimal.ZERO;
         double day = 0;
-        if (endDate.compareTo(new Date()) < 0) {
+        if (endDate.compareTo(LocalDateTime.now()) < 0) {
           // 不满一天按一天算
           day =
-              (System.currentTimeMillis() * 1.0 - endDate.getTime() * 1.0)
+              (System.currentTimeMillis() * 1.0 - Timestamp.valueOf(endDate).getTime())
                       / (1000.0 * 60 * 60.0 * 24.0)
                   + 1;
           // 2倍的日租金罚金
@@ -238,8 +284,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     // 修改租期
     order.setTenancyTerm(order.getTenancyTerm() + day);
     // 修改结束时间
-    Date oldEndData = order.getEndDate();
-    Date newEndData = DateUtil.offsetDay(oldEndData, day);
+    LocalDateTime oldEndData = order.getEndDate();
+    LocalDateTime newEndData = LocalDateTimeUtil.offset(oldEndData, day, ChronoUnit.DAYS);
     order.setEndDate(newEndData);
     // 修改订单金额
     BigDecimal carMoney = carInfoService.getMoneyById(order.getCarInfoId());

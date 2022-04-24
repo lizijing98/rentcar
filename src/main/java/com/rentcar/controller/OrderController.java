@@ -3,6 +3,7 @@ package com.rentcar.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rentcar.bean.Delay;
 import com.rentcar.bean.Order;
+import com.rentcar.bean.VO.InitOrderVO;
 import com.rentcar.bean.search.OrderSearchFrom;
 import com.rentcar.service.OrderService;
 import com.rentcar.util.Meg;
@@ -56,11 +57,23 @@ public class OrderController {
     return bool ? Meg.success() : Meg.fail();
   }
 
+  //  @PostMapping("/initOrder")
+  //  public Meg initOrder(
+  //      @RequestParam("carInfoId") Integer carInfoId,
+  //      @RequestParam("day") Integer day,
+  //      HttpSession httpSession) {
+  //    Object customerId = httpSession.getAttribute("customerId");
+  //    if (customerId == null) {
+  //      Meg meg = new Meg();
+  //      meg.setMessage("请先登录！");
+  //      meg.setCode(403);
+  //      return meg;
+  //    }
+  //    boolean bool = service.initOrder(carInfoId, customerId + "", day);
+  //    return bool ? Meg.success() : Meg.fail();
+  //  }
   @PostMapping("/initOrder")
-  public Meg initOrder(
-      @RequestParam("carInfoId") Integer carInfoId,
-      @RequestParam("day") Integer day,
-      HttpSession httpSession) {
+  public Meg initOrder(@RequestBody InitOrderVO initOrderVO, HttpSession httpSession) {
     Object customerId = httpSession.getAttribute("customerId");
     if (customerId == null) {
       Meg meg = new Meg();
@@ -68,7 +81,7 @@ public class OrderController {
       meg.setCode(403);
       return meg;
     }
-    boolean bool = service.initOrder(carInfoId, customerId + "", day);
+    boolean bool = service.initOrder(initOrderVO, customerId + "");
     return bool ? Meg.success() : Meg.fail();
   }
 
