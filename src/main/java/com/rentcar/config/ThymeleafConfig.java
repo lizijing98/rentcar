@@ -18,6 +18,8 @@ public class ThymeleafConfig implements WebMvcConfigurer {
     registry.addViewController("/check").setViewName("main/check");
     // 还车单
     registry.addViewController("/return").setViewName("main/return");
+    // 预定单信息
+    registry.addViewController("/destine").setViewName("main/destine");
     // 延期单
     registry.addViewController("/delay").setViewName("main/delay");
     // 轮播

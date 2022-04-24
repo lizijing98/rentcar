@@ -146,7 +146,13 @@
                     {field: 'tenancyTerm', title: '租期', width: 70,},
                     {field: 'cashPledge', title: '押金(元)', width: 100,},
                     {field: 'money', title: '租金(元)', width: 100,},
-                    {field: 'startDate', title: '开始租期', width: 120,},
+                    {
+                        field: 'startDate', title: '开始租期', width: 120, templet: function (date) {
+
+                            console.log(date.startDate)
+                            return layui.util.toDateString(date.startDate, "yyyy-MM-dd HH:mm:ss")
+                        }
+                    },
                     {field: 'endDate', title: '结束租期', width: 120,},
                     {field: 'outDate', title: '出库时间', width: 120,},
                     {field: 'inDate', title: '入库时间', width: 120,},
@@ -270,8 +276,7 @@
                         body.find('#orderNumber').val(data.orderNumber);
                     },
                 });
-            }
-            else if (layEvent === 'openDetail') {
+            } else if (layEvent === 'openDetail') {
                 open("/main/carDetail/" + data.carInfoId, "_self");
             }
         })
