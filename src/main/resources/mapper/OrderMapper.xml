@@ -13,6 +13,7 @@
     <select id="getOneByOrderNum" resultType="com.rentcar.bean.Order">
         SELECT *
         FROM car.car_order co
-        WHERE co.deleted = 0;
+        WHERE co.order_number = ${orderNum}
+          AND co.deleted = 0;
     </select>
 </mapper>

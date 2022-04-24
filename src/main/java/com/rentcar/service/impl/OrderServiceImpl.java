@@ -8,10 +8,7 @@ import com.rentcar.bean.*;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.AssessMapper;
 import com.rentcar.mapper.OrderMapper;
-import com.rentcar.service.CarInfoService;
-import com.rentcar.service.CheckService;
-import com.rentcar.service.CustomerService;
-import com.rentcar.service.OrderService;
+import com.rentcar.service.*;
 import com.rentcar.util.OrderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +36,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
   private CheckService checkService;
   @Resource private OrderMapper orderMapper;
   @Resource private AssessMapper assessMapper;
+  @Resource private AssessService assessService;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -173,9 +171,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         customerService.updateById(customer);
         this.updateById(order);
         // 保存评价
-        Assess assess = BeanUtil.copyProperties(order, Assess.class, "id,fversion,state");
-        assess.setRemark(check.getRemark());
-        assessMapper.insert(assess);
+        //        Assess assess = BeanUtil.copyProperties(order, Assess.class, "id,fversion,state");
+        //		assess.setState(0);
+        //        assess.setRemark(check.getRemark());
+        assessService.initAssess(order.getOrderNumber(), order.getCustomerId(), check.getRemark());
+        //        assessMapper.insert(assess);
       } else {
         throw new BusinessException("订单处理失败！请稍后重试。");
       }

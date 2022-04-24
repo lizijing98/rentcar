@@ -35,7 +35,7 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
     if (!order.getCustomerId().equals(customerId)) {
       throw new BusinessException("顾客身份不符");
     }
-    Assess assess = BeanUtil.copyProperties(order, Assess.class);
+    Assess assess = BeanUtil.copyProperties(order, Assess.class, "id", "fversion", "state");
     assess.setState(0);
     assess.setRemark(remake);
     return this.save(assess);
