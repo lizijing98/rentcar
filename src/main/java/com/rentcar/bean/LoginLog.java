@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author lzj
@@ -31,7 +31,7 @@ public class LoginLog extends BaseEntity {
 
   /** 登录时间 */
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  public Date loginTime;
+  public LocalDateTime loginTime;
   /** 登录ip */
   public String loginIp;
 }

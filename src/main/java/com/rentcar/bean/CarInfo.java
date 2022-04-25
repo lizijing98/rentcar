@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @Author: lzj
@@ -39,7 +39,7 @@ public class CarInfo extends BaseEntity {
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   @JsonFormat(pattern = "yyyy-MM-dd")
-  private Date producedDate;
+  private LocalDateTime producedDate;
 
   private String remark;
   // 图片

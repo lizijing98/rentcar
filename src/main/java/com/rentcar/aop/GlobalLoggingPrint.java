@@ -1,5 +1,7 @@
 package com.rentcar.aop;
 
+import cn.hutool.json.JSONUtil;
+import com.rentcar.util.Meg;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -40,13 +42,13 @@ public class GlobalLoggingPrint implements Ordered {
         Arrays.toString(point.getArgs()));
     long startTime = System.currentTimeMillis();
     Object result = point.proceed();
-    if (result != null) {
+    if (result instanceof Meg) {
       log.info(
           "Response,{},{},{},{},{}",
           request.getRequestURI(),
           request.getMethod(),
           Arrays.toString(point.getArgs()),
-          result,
+          JSONUtil.parse(result),
           (System.currentTimeMillis() - startTime) + "ms");
     } else {
       log.info(

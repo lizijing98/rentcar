@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,7 @@ class RentcarApplicationTests {
     LoginLog loginLog = new LoginLog();
     loginLog.setLoginIp("127.0.0.1");
     loginLog.setUser(2);
-    loginLog.setLoginTime(new Date());
+    loginLog.setLoginTime(LocalDateTime.now());
     loginLogService.save(loginLog);
   }
 

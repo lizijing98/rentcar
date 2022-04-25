@@ -9,7 +9,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author lzj
@@ -20,10 +20,10 @@ public class BaseEntity implements Serializable {
   @TableLogic private Integer deleted;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date createTime;
+  private LocalDateTime createTime;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date modifyTime;
+  private LocalDateTime modifyTime;
 
   @TableField(fill = FieldFill.INSERT_UPDATE)
   private Integer modifyId;

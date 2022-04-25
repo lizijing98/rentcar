@@ -16,7 +16,11 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.management.relation.RoleList;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author lzj
@@ -47,7 +51,7 @@ public class LoginServiceImpl implements LoginService {
     if (user != null) {
       LoginLog loginLog = new LoginLog();
       loginLog.setLoginIp(ip);
-      loginLog.setLoginTime(new Date());
+      loginLog.setLoginTime(LocalDateTime.now());
       loginLog.setUser(user.getId());
       loginLogService.save(loginLog);
       httpSession.removeAttribute("customerId");
@@ -118,7 +122,7 @@ public class LoginServiceImpl implements LoginService {
     if (customer != null) {
       LoginLog loginLog = new LoginLog();
       loginLog.setLoginIp(ip);
-      loginLog.setLoginTime(new Date());
+      loginLog.setLoginTime(LocalDateTime.now());
       loginLog.setUser(customer.getId());
       loginLogService.save(loginLog);
       httpSession.removeAttribute("userId");
