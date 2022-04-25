@@ -57,21 +57,6 @@ public class OrderController {
     return bool ? Meg.success() : Meg.fail();
   }
 
-  //  @PostMapping("/initOrder")
-  //  public Meg initOrder(
-  //      @RequestParam("carInfoId") Integer carInfoId,
-  //      @RequestParam("day") Integer day,
-  //      HttpSession httpSession) {
-  //    Object customerId = httpSession.getAttribute("customerId");
-  //    if (customerId == null) {
-  //      Meg meg = new Meg();
-  //      meg.setMessage("请先登录！");
-  //      meg.setCode(403);
-  //      return meg;
-  //    }
-  //    boolean bool = service.initOrder(carInfoId, customerId + "", day);
-  //    return bool ? Meg.success() : Meg.fail();
-  //  }
   @PostMapping("/initOrder")
   public Meg initOrder(@RequestBody InitOrderVO initOrderVO, HttpSession httpSession) {
     Object customerId = httpSession.getAttribute("customerId");
@@ -88,6 +73,11 @@ public class OrderController {
   @PostMapping("/delay")
   public Meg delay(@RequestBody Delay delay) {
     return service.delay(delay.getOrderId(), delay.getDay()) ? Meg.success() : Meg.fail();
+  }
+
+  @PostMapping("/{id}/idCheck")
+  public Meg checkId(@RequestBody String idNum, @PathVariable Integer id) {
+    return service.checkIdNum(id, idNum) ? Meg.success() : Meg.fail("身份证验证失败");
   }
 
   @Autowired

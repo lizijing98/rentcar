@@ -18,16 +18,6 @@ public interface OrderService extends IService<Order> {
   /**
    * 初始化订单
    *
-   * @param carInfoId 车辆 ID
-   * @param customerId 顾客 ID
-   * @param day 租借时间
-   * @return 结果
-   */
-  boolean initOrder(Serializable carInfoId, Serializable customerId, Integer day);
-
-  /**
-   * 初始化订单
-   *
    * @param initOrderVO 创建订单 VO
    * @param customerId 顾客 ID
    * @return 结果
@@ -66,7 +56,16 @@ public interface OrderService extends IService<Order> {
    *
    * @param id 订单 ID
    * @param day 延长时间
-   * @return
+   * @return 结果
    */
   Boolean delay(Integer id, Integer day);
+
+  /**
+   * 验证租车人身份证信息
+   *
+   * @param id 订单 ID
+   * @param idNum 用户身份证号
+   * @return 结果
+   */
+  Boolean checkIdNum(Integer id, String idNum);
 }

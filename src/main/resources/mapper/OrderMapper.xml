@@ -3,9 +3,9 @@
 <mapper namespace="com.rentcar.mapper.OrderMapper">
     <select id="selectPage" resultType="com.rentcar.bean.Order">
         select car_order.*, car_info.plate_number car_plate_number, customer.username customer_name
-        from car_order
-        left join customer on customer.id = car_order.customer_id
-        left join car_info on car_info.id = car_order.car_info_id
+        from car.car_order
+        left join car.customer on customer.id = car_order.customer_id
+        left join car.car_info on car_info.id = car_order.car_info_id
         <if test="ew.customSqlSegment != '' and ew.customSqlSegment != null">
             ${ew.customSqlSegment}
         </if>
@@ -15,5 +15,10 @@
         FROM car.car_order co
         WHERE co.order_number = ${orderNum}
           AND co.deleted = 0;
+    </select>
+    <select id="getCusIdNumById" resultType="java.lang.String">
+        SELECT co.customer_id_num
+        FROM car.car_order co
+        WHERE co.id = ${id};
     </select>
 </mapper>

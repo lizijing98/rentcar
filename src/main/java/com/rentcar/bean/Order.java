@@ -29,6 +29,8 @@ public class Order extends BaseEntity {
 
   private Integer customerId;
 
+  private String customerIdNum;
+
   private Integer carInfoId;
 
   @TableField(exist = false)
@@ -56,8 +58,8 @@ public class Order extends BaseEntity {
   private String feedback;
 
   private BigDecimal cashPledge;
-  // 租期
-  private Integer tenancyTerm;
+
+  private Double tenancyTerm;
   /** 状态: 1 申请借车 2 借车成功 3 借车失败 4 申请还车 5 拒绝还车 6 同意还车订单完成 7 事故处理 8 订单取消 */
   private Integer state;
 }

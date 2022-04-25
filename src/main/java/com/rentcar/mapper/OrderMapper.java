@@ -19,4 +19,12 @@ public interface OrderMapper extends BaseMapper<Order> {
    * @return Order 实体
    */
   Order getOneByOrderNum(String orderNum);
+
+  /**
+   * 通过 ID 查询订单身份证号码
+   *
+   * @param id 订单 ID
+   * @return 身份证号码
+   */
+  String getCusIdNumById(Integer id);
 }

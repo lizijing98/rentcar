@@ -3,6 +3,8 @@ package com.rentcar.service.impl;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rentcar.bean.CarInfo;
@@ -11,7 +13,6 @@ import com.rentcar.bean.Customer;
 import com.rentcar.bean.Order;
 import com.rentcar.bean.VO.InitOrderVO;
 import com.rentcar.exception.BusinessException;
-import com.rentcar.mapper.AssessMapper;
 import com.rentcar.mapper.OrderMapper;
 import com.rentcar.service.*;
 import com.rentcar.util.OrderUtils;
@@ -43,46 +44,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
   private OrderUtils orderUtils;
   private CheckService checkService;
   @Resource private OrderMapper orderMapper;
-  @Resource private AssessMapper assessMapper;
   @Resource private AssessService assessService;
-
-  @Override
-  @Transactional(rollbackFor = Exception.class)
-  public boolean initOrder(Serializable carInfoId, Serializable customerId, Integer day) {
-    log.info("carInfoId:{},customerId:{},day:{}", carInfoId, customerId, day);
-    Customer customer = customerService.getById(customerId);
-    CarInfo carInfo = carInfoService.getById(carInfoId);
-    log.info("carInfo:{}, customer:{}", carInfo, customer);
-    // 客户的余额小于押金
-    if (customer.getMoney().compareTo(carInfo.getMoney()) <= 0) {
-      throw new BusinessException("余额不足，不能租赁");
-    }
-    if ("已出租".equals(carInfo.getStatus())) {
-      throw new BusinessException("该汽车已经被出租");
-    }
-    long now = System.currentTimeMillis();
-    long end = now + day * 24 * 60 * 60 * 1000;
-    //    Date startDate = new Date(now);
-    //    Date endDate = new Date(end);
-    Order order = new Order();
-    order.setCarInfoId(carInfo.getId());
-    order.setCustomerId(customer.getId());
-    order.setTenancyTerm(day);
-    order.setStartDate(LocalDateTimeUtil.of(now));
-    order.setEndDate(LocalDateTimeUtil.of(end));
-    order.setCashPledge(carInfo.getCashPledge());
-    order.setMoney(carInfo.getMoney());
-    order.setTenancyTerm(day);
-    order.setState(1);
-    // 生成订单编号
-    order.setOrderNumber(orderUtils.getOrderCode(customer.getId()));
-    int i = getBaseMapper().insert(order);
-    if (i > 0) {
-      carInfo.setStatus("已出租");
-      carInfoService.updateById(carInfo);
-    }
-    return i > 0;
-  }
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -101,7 +63,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
     Date startDate = DateUtil.parse(initOrderVO.getCreateDate(), "yyyy-MM-dd HH:mm:ss");
     Date endDate = DateUtil.parse(initOrderVO.getFinishDate(), "yyyy-MM-dd HH:mm:ss");
-    long day = DateUtil.between(startDate, endDate, DateUnit.DAY);
+    Double day = DateUtil.between(startDate, endDate, DateUnit.HOUR) / 24.0;
+    BigDecimal money = NumberUtil.mul(day, carInfo.getMoney());
     Order order =
         new Order()
             .setCarInfoId(carInfo.getId())
@@ -109,8 +72,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             .setStartDate(LocalDateTimeUtil.of(startDate))
             .setEndDate(LocalDateTimeUtil.of(endDate))
             .setCashPledge(carInfo.getCashPledge())
-            .setMoney(carInfo.getMoney())
-            .setTenancyTerm(Math.toIntExact(day))
+            .setMoney(money)
+            .setTenancyTerm(day)
+            .setCustomerIdNum(initOrderVO.getIdNumber())
             .setState(1);
     // 生成订单编号
     order.setOrderNumber(orderUtils.getOrderCode(customer.getId()));
@@ -292,6 +256,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     BigDecimal newMoney = order.getMoney().add(carMoney.multiply(BigDecimal.valueOf(day)));
     order.setMoney(newMoney);
     return this.updateById(order);
+  }
+
+  @Override
+  public Boolean checkIdNum(Integer id, String idNum) {
+    String orderCusIdNum = orderMapper.getCusIdNumById(id);
+    return StrUtil.equals(idNum.substring(6), orderCusIdNum);
   }
 
   @Autowired
