@@ -8,8 +8,7 @@
 <body>
 <form class="layui-form layui-form-pane" style="margin-left: auto;margin-right: auto">
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">信息</label>
+    <div class="layui-form-item" hidden>
         <div class="layui-input-inline">
             <input autocomplete="off" class="layui-input" id="carInfoId" lay-verify="required" name="carInfoId" readonly
                    required
@@ -18,7 +17,7 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 40%;">租车日期</label>
+        <label class="layui-form-label" style="width: 35%;">租车日期</label>
         <div class="layui-input-inline">
             <input class="layui-input" id="createDate" lay-verify="required" name="createDate"
                    placeholder="yyyy-MM-dd HH:mm:ss"
@@ -26,7 +25,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 40%">预计还车时间</label>
+        <label class="layui-form-label" style="width: 35%">预计还车时间</label>
         <div class="layui-input-inline">
             <input class="layui-input" id="finishDate" lay-verify="required" name="finishDate"
                    placeholder="yyyy-MM-dd HH:mm:ss"
@@ -34,25 +33,18 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 40%">输入租车人身份证信息</label>
+        <label class="layui-form-label" style="width: 35%">租车人身份信息</label>
         <div class="layui-input-inline">
             <input autocomplete="off" class="layui-input" id="idNumber" lay-verify="identity" name="idNumber"
                    placeholder="输入身份证号" required type="text"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" id="submit" lay-filter="insert" lay-submit>立即提交</button>
-            <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>
+        <div class="layui-input-block" style="margin-right: auto;margin-left: auto">
+            <button class="layui-btn" id="submit" lay-filter="insert" lay-submit style="margin: auto">立即提交</button>
+            <button class="layui-btn layui-btn-primary" id="reset" style="margin: auto" type="reset">重置</button>
         </div>
     </div>
-    <!--    <div class="layui-form-item">-->
-    <!--        <label class="layui-form-label"></label>-->
-    <!--        <div class="layui-input-inline">-->
-    <!--            <button autocomplete="off" class="layui-btn" lay-filter="insert" lay-submit style="text-align: center">立即提交</button>-->
-    <!--            <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>-->
-    <!--        </div>-->
-    <!--    </div>-->
 </form>
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
 <script>

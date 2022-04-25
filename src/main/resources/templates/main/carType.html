@@ -187,25 +187,21 @@
             const layer = layui.layer;
             const $ = layui.$;
 
-            layer.prompt({title: '请输入要租赁的天数'}, function (value) {
-                const layer = layui.layer;
-
-                layer.open({
-                    title: '提交订单',
-                    type: 2,
-                    skin: 'layui-layer-rim', //加上边框
-                    area: ['400px', '500px'], //宽高
-                    shade: 0.8,
-                    offset: 'auto',
-                    closeBtn: 1,
-                    moveType: 1,
-                    content: '/destine',
-                    success: function (layero, index) {
-                        let body = layer.getChildFrame('body', index);
-                        body.find('#carInfoId').val(id);
-                    },
-                })
-            });
+            layer.open({
+                title: '提交订单',
+                type: 2,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['480px', '400px'], //宽高
+                shade: 0.8,
+                offset: 'auto',
+                closeBtn: 1,
+                moveType: 1,
+                content: '/destine',
+                success: function (layero, index) {
+                    let body = layer.getChildFrame('body', index);
+                    body.find('#carInfoId').val(id);
+                },
+            })
         });
     }
 </script>
