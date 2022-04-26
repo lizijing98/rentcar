@@ -85,8 +85,8 @@
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="AgreeBorrowCar">借车验证</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="RefuseBorrowCar">拒绝借车</a>
     {{#  } }}
-    {{#  if(d.state == 4){ }}
-    <a class="layui-btn layui-btn-norma layui-btn-xs" lay-event="openCarChecked">查看车检</a>
+    {{#  if(d.state == 4 || d.state == 9){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="openCarChecked">查看车检</a>
     {{#  } }}
     {{#  if(d.state == 7){ }}
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="checkAccident">事故处理</a>
@@ -94,7 +94,6 @@
     {{#  if(d.state == 2 || d.state == 3 || d.state == 6 || d.state == 5 || d.state == 8){ }}
     <a class="layui-btn layui-btn-xs layui-btn-disabled">已处理</a>
     {{#  } }}
-
 </script>
 
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
@@ -138,6 +137,8 @@
                                 return '<span style="color: #50525f;">事故处理中</span>';
                             case 8:
                                 return '<span style="color: #50525f;">订单已取消</span>';
+                            case 9:
+                                return '<span style="color: #ccaa00;">车辆复检中</span>';
                         }
                     }
                 },
@@ -223,26 +224,6 @@
                         })
                     }
                 )
-
-
-                // layer.prompt({
-                //     formType: 0,
-                //     title: '处理意见',
-                //     value: '同意借车'
-                // }, function (value) {
-                //     let data = "feedback=" + value;
-                //     $.post(agreeUrl, data, function (data) {
-                //         if (data.code && data.code === 200) {
-                //             layer.msg("处理成功");
-                //             setTimeout(() => {
-                //                 layer.closeAll();
-                //                 table.reload('order-table');
-                //             }, 1000)
-                //         } else {
-                //             layer.msg(data.message);
-                //         }
-                //     })
-                // });
             }
             // 拒绝借车
             if (layEvent === 'RefuseBorrowCar') {
@@ -250,7 +231,7 @@
                 layer.prompt({
                     formType: 0,
                     title: '处理意见',
-                    value: ' '
+                    value: '拒绝借车'
                 }, function (value) {
                     let data = "feedback=" + value;
                     $.post(url, data, function (data) {
@@ -283,8 +264,6 @@
                             $.get(url, function (response) {
                                 const check = response.map.data;
                                 layero.find("#orderNumber1").val(check.orderNumber);
-                                // layero.find("#money").val(check.money);
-                                // layero.find("#question").val(check.question);
                                 layero.find("#remark1").val(check.remark);
                             })
                         },

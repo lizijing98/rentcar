@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rentcar.mapper.CheckMapper">
+    <update id="updateState">
+        UPDATE car.`check` c
+        SET c.state=${state}
+        WHERE c.id = ${id}
+    </update>
+    <select id="selectPage" resultType="com.rentcar.bean.Check">
+        SELECT * FROM car.check_view
+        <if test="ew.customSqlSegment != '' and ew.customSqlSegment != null">
+            ${ew.customSqlSegment}
+        </if>
+    </select>
+
+    <select id="getOneByOrderId" resultType="com.rentcar.bean.Check">
+        SELECT *
+        FROM car.`check` c
+        WHERE c.order_id = ${orderId}
+          AND c.deleted = 0;
+    </select>
+</mapper>

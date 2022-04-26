@@ -6,9 +6,10 @@ import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.CheckMapper;
 import com.rentcar.service.CheckService;
 import com.rentcar.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * @author lzj
@@ -16,32 +17,38 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements CheckService {
 
-  private OrderService orderService;
+  @Resource private OrderService orderService;
+  @Resource private CheckMapper checkMapper;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void init(Check check) {
     boolean save = this.save(check);
     if (save) {
-      orderService.updateState(check.getOrderId(), 4, null);
+      orderService.updateState(check.getOrderId(), 9, null);
     } else {
       throw new BusinessException("提交检查单失败");
     }
   }
 
-	@Override
-	public boolean accident(Check check) {
-		if(this.save(check)){
-			orderService.updateState(check.getOrderId(),7,null);
-//			orderService.updataMoney(check.getOrderId(),check.getMoney());
-			return true;
-		}else {
-			throw new BusinessException("提交事故检查单失败");
-		}
-	}
+  @Override
+  public boolean accident(Check check) {
+    if (this.save(check)) {
+      orderService.updateState(check.getOrderId(), 7, null);
+      //			orderService.updataMoney(check.getOrderId(),check.getMoney());
+      return true;
+    } else {
+      throw new BusinessException("提交事故检查单失败");
+    }
+  }
 
-	@Autowired
-  public void setOrderService(OrderService orderService) {
-    this.orderService = orderService;
+  @Override
+  public Check getOneByOrderId(Integer orderId) {
+    return checkMapper.getOneByOrderId(orderId);
+  }
+
+  @Override
+  public boolean changeState(Integer id, Integer state) {
+    return checkMapper.updateState(id, state) > 0;
   }
 }

@@ -19,4 +19,13 @@
         WHERE ca.car_info_id = ${id}
           AND ca.deleted = 0;
     </select>
+    <select id="getAssessByOrdNum" resultType="com.rentcar.bean.Assess">
+        SELECT *
+        FROM car.car_assess
+        WHERE order_number = ${orderNumber}
+          AND state = 1
+          AND deleted = 0
+        ORDER BY create_time DESC
+        LIMIT 1;
+    </select>
 </mapper>

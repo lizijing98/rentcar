@@ -30,6 +30,12 @@ public class AssessController {
     return Meg.success().add("data", assess);
   }
 
+  @PostMapping
+  public Meg create(@RequestBody Assess assess){
+	  assessService.init(assess);
+	  return Meg.success();
+  }
+
   @PutMapping("/{id}")
   public Meg update(@RequestBody Assess assess) {
     return assessService.updateById(assess) ? Meg.success() : Meg.fail();

@@ -31,4 +31,20 @@ public interface AssessService extends IService<Assess> {
    * @return 结果
    */
   List<Assess> getAssessByCarId(String id);
+
+  /**
+   * 创建评价
+   *
+   * @param assess 评价
+   */
+  void init(Assess assess);
+
+  /**
+   * 修改评价状态
+   *
+   * @param orderNum 订单号
+   * @param status 评价状态
+   * @return 结果
+   */
+  Boolean setStatus(String orderNum, Integer status);
 }

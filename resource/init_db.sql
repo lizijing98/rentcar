@@ -122,6 +122,7 @@ CREATE TABLE `check`
     question     VARCHAR(500) NOT NULL DEFAULT '用户未发现异常' COMMENT '问题',
     money        DECIMAL(10, 2)        DEFAULT 0 COMMENT '赔付金额',
     remark       VARCHAR(500)          DEFAULT '无' COMMENT '详细经过',
+    state        INTEGER(11)           DEFAULT 0 COMMENT '检修单状态',
     fversion     INTEGER(11)           DEFAULT 0 COMMENT '版本',
     create_time  TIMESTAMP             DEFAULT now() COMMENT '创建时间',
     modify_time  TIMESTAMP             DEFAULT NULL COMMENT '修改时间',
@@ -291,5 +292,16 @@ CREATE TABLE `user_role`
     COMMENT '用户_角色表'
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4;
+
+DROP VIEW IF EXISTS `check_view`;
+CREATE VIEW `check_view` AS
+SELECT c.*,
+       ci.plate_number AS car_plate_number,
+       cus.id          AS customer_id,
+       cus.username    AS customer_name
+FROM car.`check` c
+         LEFT JOIN car.car_order co ON c.order_id = co.id
+         LEFT JOIN car.car_info ci ON co.car_info_id = ci.id
+         LEFT JOIN car.customer cus ON co.customer_id = cus.id;
 
 SET @@auto_increment_increment = 10;

@@ -82,7 +82,7 @@
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="applyExtension">申请延期</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="accidentReport">事故上报</a>
     {{#  } }}
-    {{#  if(d.state == 4){ }}
+    {{#  if(d.state == 4||d.state == 9){ }}
     <!--    <a class="layui-btn layui-btn-norma layui-btn-xs layui-btn-disabled">正在处理中</a>-->
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="cancelReturnCar">取消还车</a>
     {{#  } }}
@@ -140,6 +140,8 @@
                                     return '<span style="color: #ccaa00;">事故单处理中</span>';
                                 case 8:
                                     return '<span style="color: #808080;">订单已取消</span>';
+                                case 9:
+                                    return '<span style="color: #ccaa00;">车辆复检中</span>';
                             }
                         }
                     },

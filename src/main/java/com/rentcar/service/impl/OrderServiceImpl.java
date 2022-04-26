@@ -5,8 +5,8 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rentcar.Enum.OrderStatus;
 import com.rentcar.bean.CarInfo;
 import com.rentcar.bean.Check;
 import com.rentcar.bean.Customer;
@@ -17,17 +17,17 @@ import com.rentcar.mapper.OrderMapper;
 import com.rentcar.service.*;
 import com.rentcar.util.OrderUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * service
@@ -39,10 +39,10 @@ import java.util.Date;
 @Slf4j
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
 
-  private CustomerService customerService;
-  private CarInfoService carInfoService;
-  private OrderUtils orderUtils;
-  private CheckService checkService;
+  @Resource private CustomerService customerService;
+  @Resource private CarInfoService carInfoService;
+  @Resource private OrderUtils orderUtils;
+  @Resource private CheckService checkService;
   @Resource private OrderMapper orderMapper;
   @Resource private AssessService assessService;
 
@@ -92,44 +92,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     log.info("处理订单状态 订单id：{}，状态：{}", id, state);
     Order order = getBaseMapper().selectById(id);
     order.setFeedback(feedback);
-    if (state == 4) {
-      if (order.getState().equals(2)) {
-        order.setState(state);
-        if (!this.updateById(order)) {
-          throw new BusinessException("申请还车失败!");
-        }
-      } else if (order.getState().equals(5)) {
-        order.setState(state);
-        if (!this.updateById(order)) {
-          throw new BusinessException("重新申请还车失败!");
-        }
-      } else {
-        throw new BusinessException("其他异常!");
-      }
+    // 申请还车
+    if (state.equals(OrderStatus.ORD_STA_APPLY_RETURN.getCode())) {
+      applyReturn(state, order);
     }
-    // 借车申请处理
-    if (state == 2 || state == 3) {
-      if (order.getState().equals(1)) {
-        if (state == 2) {
-          order.setOutDate(LocalDateTime.now());
-        }
-        order.setState(state);
-        if (!this.updateById(order)) {
-          throw new BusinessException("订单处理失败！请稍后重试。");
-        }
-      } else if (order.getState().equals(4)) {
-        order.setState(state);
-        if (!this.updateById(order)) {
-          throw new BusinessException("取消申请失败!");
-        }
-      } else {
-        throw new BusinessException("其他异常!");
-      }
+    // 申请借车
+    if (state.equals(OrderStatus.ORD_STA_PROGRESSING.getCode())
+        || state.equals(OrderStatus.ORD_STA_FAILED_BORROW.getCode())) {
+      applyReturn(state, order);
     }
 
     // 拒绝还车
-    if (state == 5) {
-      if (order.getState().equals(4)) {
+    if (state.equals(OrderStatus.ORD_STA_REFUSE_RETURN.getCode())) {
+      if (order.getState().equals(OrderStatus.ORD_STA_APPLY_RETURN.getCode())) {
         order.setState(state);
         this.updateById(order);
       } else {
@@ -138,42 +113,47 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
     // 同意还车
     if (state == 6) {
-      if (order.getState().equals(4) || order.getState().equals(7)) {
-        log.info("还车开始---");
+      if (order.getState().equals(9) || order.getState().equals(7)) {
+        log.info("*****还车开始*****");
         order.setState(state);
         order.setInDate(LocalDateTime.now());
+        CarInfo carInfo = carInfoService.getById(order.getCarInfoId());
         LocalDateTime endDate = order.getEndDate();
         // 结束日期在当前时间之后
-        BigDecimal money = order.getMoney();
+        BigDecimal money = carInfo.getMoney();
         // 正常租金
-        BigDecimal zj = BigDecimal.valueOf(order.getTenancyTerm()).multiply(money);
-        BigDecimal fj = BigDecimal.ZERO;
-        double day = 0;
+        BigDecimal rent = BigDecimal.valueOf(order.getTenancyTerm()).multiply(money);
+        BigDecimal fine = BigDecimal.ZERO;
+        double day = 0.0;
         if (endDate.compareTo(LocalDateTime.now()) < 0) {
           // 不满一天按一天算
+          //          day =
+          //              (System.currentTimeMillis() * 1.0 - Timestamp.valueOf(endDate).getTime())
+          //                      / (1000.0 * 60 * 60.0 * 24.0)
+          //                  + 1;
           day =
-              (System.currentTimeMillis() * 1.0 - Timestamp.valueOf(endDate).getTime())
-                      / (1000.0 * 60 * 60.0 * 24.0)
-                  + 1;
+              LocalDateTimeUtil.between(endDate, LocalDateTime.now(), ChronoUnit.HOURS) / 24.0
+                  + 1.0;
           // 2倍的日租金罚金
-          fj = money.multiply(BigDecimal.valueOf(day)).multiply(BigDecimal.valueOf(2));
+          fine = money.multiply(BigDecimal.valueOf(day)).multiply(BigDecimal.valueOf(2));
         }
-        QueryWrapper<Check> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("order_id", order.getId());
-        queryWrapper.orderByDesc("create_time");
-        final Check check = checkService.list(queryWrapper).get(0);
-        BigDecimal pf = check.getMoney();
-        BigDecimal result = zj.add(fj).add(pf);
-        result = result.setScale(0, BigDecimal.ROUND_UP);
+        //        QueryWrapper<Check> queryWrapper = new QueryWrapper<>();
+        //        queryWrapper.eq("order_id", order.getId());
+        //        queryWrapper.orderByDesc("create_time");
+        //        final Check check = checkService.list(queryWrapper).get(0);
+        Check check = checkService.getOneByOrderId(order.getId());
+        BigDecimal compensation = check.getMoney();
+        BigDecimal result = rent.add(fine).add(compensation);
+        result = result.setScale(2, RoundingMode.UP);
         log.info(
             "订单 ID:{},日租金:{},租期:{},逾期:{},正常租金:{},罚金:{},赔付金额:{},总金额：{}",
             id,
             money,
             order.getTenancyTerm(),
             day,
-            zj,
-            fj,
-            pf,
+            rent,
+            fine,
+            compensation,
             result);
         Customer customer = customerService.getById(order.getCustomerId());
         // 减去租金
@@ -181,11 +161,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         customerService.updateById(customer);
         this.updateById(order);
         // 保存评价
-        //        Assess assess = BeanUtil.copyProperties(order, Assess.class, "id,fversion,state");
-        //		assess.setState(0);
-        //        assess.setRemark(check.getRemark());
-        assessService.initAssess(order.getOrderNumber(), order.getCustomerId(), check.getRemark());
-        //        assessMapper.insert(assess);
+        //        assessService.initAssess(order.getOrderNumber(), order.getCustomerId(),
+        // check.getRemark());
+        assessService.setStatus(order.getOrderNumber(), 0);
       } else {
         throw new BusinessException("订单处理失败！请稍后重试。");
       }
@@ -209,6 +187,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         throw new BusinessException("订单状态已改变，不能取消！");
       }
     }
+    // 订单待复检
+    if (state.equals(OrderStatus.ORD_STA_RECHECK.getCode())) {
+      if (order.getState().equals(OrderStatus.ORD_STA_PROGRESSING.getCode())) {
+        order.setState(state);
+        this.updateById(order);
+      } else {
+        throw new BusinessException("订单状态异常");
+      }
+    }
+
     // 修改汽车状态
     if (state == 6 || state == 8 || state == 3) {
       Integer carInfoId = order.getCarInfoId();
@@ -264,23 +252,40 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     return StrUtil.equals(idNum.substring(6), orderCusIdNum);
   }
 
-  @Autowired
-  public void setCarInfoService(CarInfoService carInfoService) {
-    this.carInfoService = carInfoService;
+  @Transactional(rollbackFor = Exception.class)
+  protected void applyReturn(Integer state, Order order) {
+    if (order.getState().equals(OrderStatus.ORD_STA_PROGRESSING.getCode())) {
+      order.setState(state);
+      if (!this.updateById(order)) {
+        throw new BusinessException("申请还车失败!");
+      }
+    } else if (order.getState().equals(OrderStatus.ORD_STA_REFUSE_RETURN.getCode())) {
+      order.setState(state);
+      if (!this.updateById(order)) {
+        throw new BusinessException("重新申请还车失败!");
+      }
+    } else {
+      throw new BusinessException("其他异常!");
+    }
   }
 
-  @Autowired
-  public void setCustomerService(CustomerService customerService) {
-    this.customerService = customerService;
-  }
-
-  @Autowired
-  public void setOrderUtils(OrderUtils orderUtils) {
-    this.orderUtils = orderUtils;
-  }
-
-  @Autowired
-  public void setCheckService(CheckService checkService) {
-    this.checkService = checkService;
+  @Transactional(rollbackFor = Exception.class)
+  protected void applyBorrow(Integer state, Order order) {
+    if (order.getState().equals(OrderStatus.ORD_STA_APPLY_BORROW.getCode())) {
+      if (Objects.equals(state, OrderStatus.ORD_STA_PROGRESSING.getCode())) {
+        order.setOutDate(LocalDateTime.now());
+      }
+      order.setState(state);
+      if (!this.updateById(order)) {
+        throw new BusinessException("订单处理失败！请稍后重试。");
+      }
+    } else if (order.getState().equals(OrderStatus.ORD_STA_APPLY_RETURN.getCode())) {
+      order.setState(state);
+      if (!this.updateById(order)) {
+        throw new BusinessException("取消申请失败!");
+      }
+    } else {
+      throw new BusinessException("其他异常!");
+    }
   }
 }

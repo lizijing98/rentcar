@@ -19,4 +19,12 @@ public interface AssessMapper extends BaseMapper<Assess> {
    * @return 结果
    */
   List<Assess> getAssessByCarId(String id);
+
+  /**
+   * 根据订单号获取评价
+   *
+   * @param orderNumber 订单号
+   * @return 评价
+   */
+  Assess getAssessByOrdNum(String orderNumber);
 }
