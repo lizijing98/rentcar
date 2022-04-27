@@ -3,6 +3,7 @@ package com.rentcar.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rentcar.bean.Order;
 import com.rentcar.bean.VO.InitOrderVO;
+import com.rentcar.util.Meg;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -58,7 +59,7 @@ public interface OrderService extends IService<Order> {
    * @param day 延长时间
    * @return 结果
    */
-  Boolean delay(Integer id, Integer day);
+  Meg delay(Integer id, String day);
 
   /**
    * 验证租车人身份证信息

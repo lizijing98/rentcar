@@ -28,4 +28,11 @@
         ORDER BY create_time DESC
         LIMIT 1;
     </select>
+    <select id="getIdByOrderNum" resultType="java.lang.Integer">
+        SELECT id
+        FROM car.car_assess
+        WHERE order_number = ${orderNumber}
+          AND state = 1
+          AND deleted = 0
+    </select>
 </mapper>

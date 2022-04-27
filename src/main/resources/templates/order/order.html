@@ -56,9 +56,17 @@
         </div>
 
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">订单评价</label>
+            <label class="layui-form-label">复检结果</label>
             <div class="layui-input-block">
-                <textarea autocomplete="off" class="layui-textarea" id="remark1" name="remark" placeholder="问题描述"
+                <textarea autocomplete="off" class="layui-textarea" id="question1" name="question" placeholder="复检结果"
+                          readonly></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">详情</label>
+            <div class="layui-input-block">
+                <textarea autocomplete="off" class="layui-textarea" id="remark1" name="remark" placeholder="详情"
                           readonly></textarea>
             </div>
         </div>
@@ -87,6 +95,9 @@
     {{#  } }}
     {{#  if(d.state == 4 || d.state == 9){ }}
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="openCarChecked">查看车检</a>
+    {{#  } }}
+    {{#  if(d.state == 10){ }}
+    <a class="layui-btn layui-btn-disabled layui-btn-xs">待复检</a>
     {{#  } }}
     {{#  if(d.state == 7){ }}
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="checkAccident">事故处理</a>
@@ -139,6 +150,8 @@
                                 return '<span style="color: #50525f;">订单已取消</span>';
                             case 9:
                                 return '<span style="color: #ccaa00;">车辆复检中</span>';
+                            case 10:
+                                return '<span style="color: #ccaa00;">车辆待复检</span>';
                         }
                     }
                 },
@@ -264,6 +277,7 @@
                             $.get(url, function (response) {
                                 const check = response.map.data;
                                 layero.find("#orderNumber1").val(check.orderNumber);
+                                layero.find("#question1").val(check.question);
                                 layero.find("#remark1").val(check.remark);
                             })
                         },
@@ -272,7 +286,7 @@
                             layer.prompt({
                                 formType: 0,
                                 title: '处理意见',
-                                value: ' '
+                                value: '同意还车'
                             }, function (value) {
                                 let data = "feedback=" + value;
                                 $.post(url, data, function (data) {

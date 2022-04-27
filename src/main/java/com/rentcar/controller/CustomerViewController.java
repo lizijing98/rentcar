@@ -27,13 +27,13 @@ import java.util.List;
 @Controller
 public class CustomerViewController {
 
-  private HttpSession httpSession;
-  private LoginService loginService;
-  private CarTypeService carTypeService;
-  private NoticeService noticeService;
-  private CustomerService customerService;
-  private CarInfoService carInfoService;
-  private CarouselService carouselService;
+  @Resource private HttpSession httpSession;
+  @Resource private LoginService loginService;
+  @Resource private CarTypeService carTypeService;
+  @Resource private NoticeService noticeService;
+  @Resource private CustomerService customerService;
+  @Resource private CarInfoService carInfoService;
+  @Resource private CarouselService carouselService;
   @Resource private AssessService assessService;
 
   @GetMapping("/main")
@@ -169,38 +169,4 @@ public class CustomerViewController {
     return "customer/customerRegister";
   }
 
-  @Autowired
-  public void setCarInfoService(CarInfoService carInfoService) {
-    this.carInfoService = carInfoService;
-  }
-
-  @Autowired
-  public void setCustomerService(CustomerService customerService) {
-    this.customerService = customerService;
-  }
-
-  @Autowired
-  public void setHttpSession(HttpSession httpSession) {
-    this.httpSession = httpSession;
-  }
-
-  @Autowired
-  public void setLoginService(LoginService loginService) {
-    this.loginService = loginService;
-  }
-
-  @Autowired
-  public void setCarTypeService(CarTypeService carTypeService) {
-    this.carTypeService = carTypeService;
-  }
-
-  @Autowired
-  public void setNoticeService(NoticeService noticeService) {
-    this.noticeService = noticeService;
-  }
-
-  @Autowired
-  public void setCarouselService(CarouselService carouselService) {
-    this.carouselService = carouselService;
-  }
 }

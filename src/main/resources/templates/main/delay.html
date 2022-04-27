@@ -20,14 +20,24 @@
         <div class="layui-form-mid layui-word-aux">系统自动带出</div>
     </div>
 
-    <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">延长时间(天)</label>
+    <div class="layui-form-item">
+        <label class="layui-form-label">原定时间</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input" name="day" placeholder="延长时间" type="number"/>
+            <input autocomplete="off" class="layui-input" id="endDate" name="endDate"
+                   readonly
+                   required type="text">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">还车时间</label>
+        <div class="layui-input-inline">
+            <input autocomplete="off" class="layui-input" id="day" lay-verify="required" name="day"
+                   placeholder="yyyy-MM-dd HH:mm:ss"
+                   required type="text">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label"></label>
         <div class="layui-input-inline">
             <button autocomplete="off" class="layui-btn" lay-filter="insert" lay-submit style="text-align: center">立即提交
             </button>
@@ -35,6 +45,15 @@
     </div>
 </form>
 <script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+<script>
+    layui.use('laydate', function () {
+        const laydate = layui.laydate;
+        laydate.render({
+            elem: '#day',
+            type: 'datetime'
+        })
+    })
+</script>
 <script>
     layui.use(['layer', 'form'], function () {
         const layer = layui.layer;
@@ -62,16 +81,6 @@
             });
             return false;
         })
-
-        //表单校验
-        form.verify({
-            day: function (value, item) {//value：表单的值、item：表单的DOM对象
-                const reg = new RegExp('^[1-9]\\d*$');
-                if (!reg.test(value)) {
-                    return '请输入合法的日期';
-                }
-            }
-        });
     });
 </script>
 </body>

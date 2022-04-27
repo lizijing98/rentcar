@@ -124,7 +124,6 @@
             url: "/car-info/page",
             contentType: 'application/json',
             method: 'post', //异步请求方法
-            toolbar: ['filter'],
             cellMinWidth: 200,
             title: '汽车表',
             cols: [
@@ -204,7 +203,7 @@
                 content: '/destine',
                 success: function (layero, index) {
                     let body = layer.getChildFrame('body', index);
-                    body.find('#carInfoId').val(id);
+                    body.find('#carInfoId').val(carInfoId);
                 },
             })
         });

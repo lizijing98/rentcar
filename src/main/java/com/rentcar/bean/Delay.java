@@ -14,5 +14,5 @@ import lombok.EqualsAndHashCode;
 public class Delay extends BaseEntity {
   private Integer orderId;
   private String orderNumber;
-  private Integer day;
+  private String day;
 }

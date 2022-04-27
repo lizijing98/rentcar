@@ -31,7 +31,9 @@ public enum OrderStatus {
   // 8:订单取消
   ORD_STA_CANCELED(8),
   // 9:车辆复检
-  ORD_STA_RECHECK(9);
+  ORD_STA_RECHECK(9),
+  // 10.复检中
+  ORD_STA_CHECKING(10);
 
   private final Integer code;
 }

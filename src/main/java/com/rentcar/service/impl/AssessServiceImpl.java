@@ -2,11 +2,13 @@ package com.rentcar.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rentcar.Enum.OrderStatus;
 import com.rentcar.bean.Assess;
 import com.rentcar.bean.Check;
 import com.rentcar.bean.Order;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.AssessMapper;
+import com.rentcar.mapper.CheckMapper;
 import com.rentcar.service.AssessService;
 import com.rentcar.service.CheckService;
 import com.rentcar.service.OrderService;
@@ -29,6 +31,7 @@ import java.util.List;
 public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> implements AssessService {
   @Resource private OrderService orderService;
   @Resource private CheckService checkService;
+  @Resource private CheckMapper checkMapper;
   @Resource private AssessMapper assessMapper;
 
   @Override
@@ -53,15 +56,29 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
   @Transactional(rollbackFor = Exception.class)
   public void init(Assess assess) {
     Order order = orderService.getOneByOrderNum(assess.getOrderNumber());
+    Integer oldAssessId = assessMapper.getIdByOrderNum(assess.getOrderNumber());
+    if (oldAssessId != null) {
+      assess.setId(oldAssessId);
+    }
+    //	保存用户评价
     assess.setCustomerId(order.getCustomerId()).setCarInfoId(order.getCarInfoId()).setState(1);
-    orderService.updateState(order.getId(), 9, null);
-    Check check =
-        new Check()
-            .setOrderNumber(order.getOrderNumber())
-            .setOrderId(order.getId())
-            .setQuestion("暂未检查")
-            .setRemark("null");
+    // 修改订单状态为复检中
+    orderService.updateState(order.getId(), OrderStatus.ORD_STA_CHECKING.getCode(), null);
+    // 创建检查单
+    Check check = checkService.getOneByOrderId(order.getId());
+    if (check != null) {
+      check.setQuestion("暂未检查").setRemark("null").setState(0);
+    } else {
+      check =
+          new Check()
+              .setOrderNumber(order.getOrderNumber())
+              .setOrderId(order.getId())
+              .setQuestion("暂未检查")
+              .setRemark("null")
+              .setState(0);
+    }
     checkService.save(check);
+    this.saveOrUpdate(assess);
   }
 
   @Override

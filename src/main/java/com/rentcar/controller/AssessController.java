@@ -31,9 +31,9 @@ public class AssessController {
   }
 
   @PostMapping
-  public Meg create(@RequestBody Assess assess){
-	  assessService.init(assess);
-	  return Meg.success();
+  public Meg create(@RequestBody Assess assess) {
+    assessService.init(assess);
+    return Meg.success();
   }
 
   @PutMapping("/{id}")
@@ -60,10 +60,7 @@ public class AssessController {
       HttpSession httpSession) {
     Object customerId = httpSession.getAttribute("customerId");
     if (customerId == null) {
-      Meg meg = new Meg();
-      meg.setMessage("请先登录！");
-      meg.setCode(403);
-      return meg;
+      return Meg.noLogin();
     }
     return assessService.initAssess(orderNum, customerId + "", remark) ? Meg.success() : Meg.fail();
   }

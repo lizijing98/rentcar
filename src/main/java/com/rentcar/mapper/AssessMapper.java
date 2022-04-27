@@ -27,4 +27,12 @@ public interface AssessMapper extends BaseMapper<Assess> {
    * @return 评价
    */
   Assess getAssessByOrdNum(String orderNumber);
+
+  /**
+   * 根据订单号获取评价 ID
+   *
+   * @param orderNumber 订单号
+   * @return 评价 ID
+   */
+  Integer getIdByOrderNum(String orderNumber);
 }

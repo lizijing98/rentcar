@@ -1,6 +1,7 @@
 package com.rentcar.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rentcar.Enum.OrderStatus;
 import com.rentcar.bean.Check;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.CheckMapper;
@@ -48,7 +49,14 @@ public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
   public boolean changeState(Integer id, Integer state) {
-    return checkMapper.updateState(id, state) > 0;
+    Check check = this.getById(id);
+    if (state == 1) {
+      checkMapper.updateState(id, state);
+      orderService.updateState(check.getOrderId(), OrderStatus.ORD_STA_RECHECK.getCode(), "已复查");
+	  return true;
+    }
+    return false;
   }
 }

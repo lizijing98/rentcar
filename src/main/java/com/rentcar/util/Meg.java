@@ -1,95 +1,64 @@
 package com.rentcar.util;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author lzj
+ */
+@Data
+@NoArgsConstructor
 public class Meg {
   private Integer code;
   private String message;
-  private Map<String, Object> map = new HashMap<String, Object>();
+  private Map<String, Object> map = new HashMap<>();
+
+  public Meg(Integer code, String message) {
+    this.code = code;
+    this.message = message;
+  }
 
   public static Meg success() {
-    Meg meg = new Meg();
-    meg.code = 200;
-    meg.message = "success";
-    return meg;
+    return new Meg(200, "success");
   }
 
   public static Meg loginFile() {
-    Meg meg = new Meg();
-    meg.code = 1000;
-    meg.message = "登录失败！账户或密码错误！";
-    return meg;
+    return new Meg(1000, "登录失败！账户或密码错误！");
   }
 
   public static Meg loginSuccess() {
-    Meg meg = new Meg();
-    meg.code = 2000;
-    meg.message = "登录成功，即将转往首页！";
-    return meg;
+    return new Meg(2000, "登录成功，即将转往首页！");
   }
 
   public static Meg success(String message) {
-    Meg meg = new Meg();
-    meg.code = 200;
-    meg.message = message;
-    return meg;
+    return new Meg(200, message);
   }
 
   public static Meg fail() {
-    Meg meg = new Meg();
-    meg.code = 0;
-    meg.message = "fail";
-    return meg;
+    return new Meg(0, "fail");
   }
 
   public static Meg fail(String message) {
-    Meg meg = new Meg();
-    meg.code = 0;
-    meg.message = message;
-    return meg;
+    return new Meg(0, message);
   }
 
   public static Meg message(int code, String message) {
-    Meg meg = new Meg();
-    meg.code = code;
-    meg.message = message;
-    return meg;
+    return new Meg(code, message);
   }
 
   public static Meg userAction() {
-    Meg meg = new Meg();
-    meg.code = 1000;
-    meg.message = "该用户不存在或者被锁定";
-    return meg;
+    return new Meg(1000, "该用户不存在或者被锁定");
+  }
+
+  public static Meg noLogin() {
+    return new Meg(403, "请先登录!");
   }
 
   public Meg add(String key, Object value) {
     this.map.put(key, value);
     return this;
-  }
-
-  public Integer getCode() {
-    return code;
-  }
-
-  public void setCode(Integer code) {
-    this.code = code;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public Map<String, Object> getMap() {
-    return map;
-  }
-
-  public void setMap(Map<String, Object> map) {
-    this.map = map;
   }
 }

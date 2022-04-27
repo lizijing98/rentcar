@@ -72,7 +72,7 @@ public class OrderController {
 
   @PostMapping("/delay")
   public Meg delay(@RequestBody Delay delay) {
-    return service.delay(delay.getOrderId(), delay.getDay()) ? Meg.success() : Meg.fail();
+    return service.delay(delay.getOrderId(), delay.getDay());
   }
 
   @PostMapping("/{id}/idCheck")
