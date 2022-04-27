@@ -124,23 +124,35 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 车辆入库时间
         LocalDateTime inDate = LocalDateTime.now();
         order.setInDate(inDate);
-        // 结束日期在当前时间之后
+        // 订单实际结束时间
+        order.setEndDate(inDate);
         BigDecimal money = carInfo.getMoney();
-        // 正常租金
-        BigDecimal rent = BigDecimal.valueOf(order.getTenancyTerm()).multiply(money);
-        BigDecimal fine = BigDecimal.ZERO;
-        double day = 0.0;
-        if (endDate.compareTo(LocalDateTime.now()) < 0) {
-          day =
-              LocalDateTimeUtil.between(endDate, LocalDateTime.now(), ChronoUnit.HOURS) / 24.0
-                  + 1.0;
-          // 2倍的日租金罚金
-          fine = money.multiply(BigDecimal.valueOf(day)).multiply(BigDecimal.valueOf(2));
+        // 正常租期=出库时间 —— 入库时间
+        double leaseTerm = LocalDateTimeUtil.between(inDate, outDate, ChronoUnit.HOURS) / 24.0;
+		// 不足一天的按一天处理
+        if (leaseTerm < 1.0) {
+          leaseTerm = 1.0;
         }
+        order.setTenancyTerm(leaseTerm);
+        // 正常租金
+        BigDecimal rent = BigDecimal.valueOf(leaseTerm).multiply(money);
+        order.setMoney(rent);
+        // 滞纳金 入库时间 > 订单预期结束时间
+        BigDecimal penalty = BigDecimal.ZERO;
+        double day = 0.0;
+        if (inDate.isAfter(endDate)) {
+          day = LocalDateTimeUtil.between(endDate, inDate, ChronoUnit.HOURS) / 24.0 + 1.0;
+          // 2倍的车辆日租金罚金
+          penalty = money.multiply(BigDecimal.valueOf(day)).multiply(BigDecimal.valueOf(2));
+        }
+        order.setPenalty(penalty);
+        // 检修单罚金
         Check check = checkService.getOneByOrderId(order.getId());
-        BigDecimal compensation = check.getMoney();
-        BigDecimal result = rent.add(fine).add(compensation);
-        result = result.setScale(2, RoundingMode.UP);
+        BigDecimal fine = check.getMoney();
+        order.setFine(fine);
+        // 总金额
+        BigDecimal total = rent.add(penalty).add(fine);
+        total = total.setScale(2, RoundingMode.UP);
         log.info(
             "订单 ID:{},日租金:{},租期:{},逾期:{},正常租金:{},罚金:{},赔付金额:{},总金额：{}",
             id,
@@ -148,12 +160,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             order.getTenancyTerm(),
             day,
             rent,
+            penalty,
             fine,
-            compensation,
-            result);
+            total);
         Customer customer = customerService.getById(order.getCustomerId());
         // 减去租金
-        customer.setMoney(customer.getMoney().subtract(result));
+        customer.setMoney(customer.getMoney().subtract(total).add(customer.getFreeze()));
+        customer.setFreeze(BigDecimal.ZERO);
         customerService.updateById(customer);
         this.updateById(order);
         // 保存评价
@@ -274,14 +287,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
   @Transactional(rollbackFor = Exception.class)
   protected void applyBorrow(Integer state, Order order) {
     if (order.getState().equals(OrderStatus.ORD_STA_APPLY_BORROW.getCode())) {
+      // 预订单转订单
       if (state.equals(OrderStatus.ORD_STA_PROGRESSING.getCode())) {
         order.setOutDate(LocalDateTime.now());
       }
+      Customer customer = customerService.getById(order.getCustomerId());
+      CarInfo carInfo = carInfoService.getById(order.getCarInfoId());
+      // 修改用户余额
+      customer.setFreeze(carInfo.getCashPledge());
+      customer.setMoney(customer.getMoney().subtract(carInfo.getCashPledge()));
       order.setState(state);
+      if (!customerService.updateById(customer)) {
+        throw new BusinessException("用户信息处理失败");
+      }
       if (!this.updateById(order)) {
         throw new BusinessException("订单处理失败！请稍后重试。");
       }
     } else if (order.getState().equals(OrderStatus.ORD_STA_CHECKING.getCode())) {
+      // 取消还车
       order.setState(state);
       if (!this.updateById(order)) {
         throw new BusinessException("取消申请失败!");

@@ -15,8 +15,9 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+
 /**
- * @Author: lzj
+ * @author lzj
  */
 @Data
 @NoArgsConstructor
@@ -42,12 +43,12 @@ public class CarInfo extends BaseEntity {
   private LocalDateTime producedDate;
 
   private String remark;
-  // 图片
+  /** 图片 */
   private String image;
-  // 品牌
+  /** 品牌 */
   private String brand;
-  // 押金
+  /** 押金 */
   private BigDecimal cashPledge;
-  // 制造商
+  /** 制造商 */
   private String manufacturer;
 }

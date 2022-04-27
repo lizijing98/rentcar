@@ -38,6 +38,8 @@ public class Customer extends BaseEntity {
 
   private BigDecimal money;
 
+  private BigDecimal freeze;
+
   private String address;
 
   private String profession;

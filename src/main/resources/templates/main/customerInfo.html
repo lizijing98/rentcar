@@ -78,7 +78,6 @@
                             </div>
                             <div class="layui-form-mid layui-word-aux">用户名不能更改</div>
                         </div>
-                        <!--private BigDecimal money;-->
                         <div class="layui-form-item">
                             <label class="layui-form-label">余额</label>
                             <div class="layui-input-inline">
@@ -90,6 +89,17 @@
                             </div>
                             <div class="layui-form-mid layui-word-aux">余额</div>
                             <button class="layui-btn" lay-filter="submitTopUp" lay-submit type="submit">充值</button>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">冻结金</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" lay-verify="required" name="money"
+                                       placeholder="冻结金"
+                                       readonly
+                                       required th:value="${info.freeze}"
+                                       type="text">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">冻结金</div>
                         </div>
                     </form>
                     <form class="layui-form" lay-filter="info">

@@ -55,22 +55,28 @@ public class Order extends BaseEntity {
 
   private BigDecimal money;
 
+  private BigDecimal fine;
+
+  private BigDecimal penalty;
+
+  private BigDecimal total;
+
   private String feedback;
 
   private BigDecimal cashPledge;
 
   private Double tenancyTerm;
   /** 状态:
-   * 1 申请借车
-   * 2 借车成功
-   * 3 借车失败
-   * 4 申请还车
-   * 5 拒绝还车
-   * 6 同意还车订单完成
-   * 7 事故处理
-   * 8 订单取消
-   * 9 车辆复检
-   * 10 复检中
+   * 1 申请借车,
+   * 2 借车成功,
+   * 3 借车失败,
+   * 4 申请还车,
+   * 5 拒绝还车,
+   * 6 同意还车订单完成,
+   * 7 事故处理,
+   * 8 订单取消,
+   * 9 车辆复检完成,
+   * 10 复检中,
    * */
   private Integer state;
 }

@@ -42,6 +42,15 @@
         </div>
 
         <div class="layui-form-item">
+            <label class="layui-form-label">冻结金</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="freeze" lay-verify="money" name="freeze"
+                       placeholder="冻结金"
+                       required type="money"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-inline">
                 <input autocomplete="off" class="layui-input" id="email" lay-verify="email" name="email"
@@ -169,6 +178,7 @@
                 {field: 'activate', templet: '#checkboxTpl', unresize: true, title: '激活'},
                 {field: 'email', title: '邮箱'},
                 {field: 'money', title: '余额'},
+                {field: 'freeze', title: '冻结金'},
                 {field: 'phone', title: '电话'},
                 {field: 'gender', title: '性别'},
                 {field: 'profession', title: '职业'},
