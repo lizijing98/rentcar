@@ -6,7 +6,7 @@
     <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<form class="layui-form layui-form-pane" style="margin:auto auto">
+<form class="layui-form">
 
     <div class="layui-form-item" hidden>
         <div class="layui-input-inline">
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="layui-form-item">
+    <div class="layui-form-item" style="margin-left: 10%;margin-right: 10%">
         <label class="layui-form-label" style="width: 35%;">租车日期</label>
         <div class="layui-input-inline">
             <input class="layui-input" id="createDate" lay-verify="required" name="createDate"
@@ -24,7 +24,7 @@
                    required type="text">
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" style="margin-left: 10%;margin-right: 10%">
         <label class="layui-form-label" style="width: 35%">预计还车时间</label>
         <div class="layui-input-inline">
             <input class="layui-input" id="finishDate" lay-verify="required" name="finishDate"
@@ -32,17 +32,17 @@
                    required type="text">
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" style="margin-left: 10%;margin-right: 10%">
         <label class="layui-form-label" style="width: 35%">租车人身份信息</label>
         <div class="layui-input-inline">
             <input autocomplete="off" class="layui-input" id="idNumber" lay-verify="identity" name="idNumber"
                    placeholder="输入身份证号" required type="text"/>
         </div>
     </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block" style="margin-right: auto;margin-left: auto">
-            <button class="layui-btn" id="submit" lay-filter="insert" lay-submit style="margin: auto">立即提交</button>
-            <button class="layui-btn layui-btn-primary" id="reset" style="margin: auto" type="reset">重置</button>
+    <div class="layui-form-item" style="margin-left: 10%;margin-right: 10%">
+        <div class="layui-input-block" style="margin-right: 10%;margin-left: 10%">
+            <button class="layui-btn" id="submit" lay-filter="insert" lay-submit>立即提交</button>
+            <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>
         </div>
     </div>
 </form>

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -30,6 +31,7 @@ public class Check extends BaseEntity {
 
   private String remark;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private BigDecimal money;
 
   @TableField(exist = false)
@@ -38,5 +40,5 @@ public class Check extends BaseEntity {
   @TableField(exist = false)
   private String carPlateNumber;
 
-	private Integer state;
+  private Integer state;
 }

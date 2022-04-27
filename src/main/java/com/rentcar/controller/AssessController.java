@@ -3,6 +3,7 @@ package com.rentcar.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rentcar.bean.Assess;
 import com.rentcar.bean.search.AssessSearchFrom;
+import com.rentcar.constant.SystemConstant;
 import com.rentcar.service.AssessService;
 import com.rentcar.util.Meg;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,11 @@ public class AssessController {
   }
 
   @PostMapping("/page")
-  public Meg page(@RequestBody AssessSearchFrom searchFrom) {
+  public Meg page(@RequestBody AssessSearchFrom searchFrom, HttpSession session) {
+    if (session.getAttribute(SystemConstant.CUSTOMER_ID) == null
+        && session.getAttribute(SystemConstant.USER_ID) == null) {
+      return Meg.noLogin().add("data", null);
+    }
     log.info("搜索评价: {}", searchFrom);
     final Page<Assess> page = assessService.page(searchFrom.getPage(), searchFrom.queryWrapper());
     return Meg.success().add("data", page);
@@ -57,8 +62,8 @@ public class AssessController {
   public Meg initAssess(
       @RequestParam("orderNum") String orderNum,
       @RequestParam("remark") String remark,
-      HttpSession httpSession) {
-    Object customerId = httpSession.getAttribute("customerId");
+      HttpSession session) {
+    Object customerId = session.getAttribute("customerId");
     if (customerId == null) {
       return Meg.noLogin();
     }

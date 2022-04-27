@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
 /**
  * @author lzj
  */
@@ -33,9 +32,13 @@ public class CarInfo extends BaseEntity {
   @TableField(exist = false)
   private String carTypeName;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private BigDecimal money;
+
   private String status;
-  @NotNull private String plateNumber;
+
+  @NotNull
+  private String plateNumber;
   private String carColor;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -48,6 +51,7 @@ public class CarInfo extends BaseEntity {
   /** 品牌 */
   private String brand;
   /** 押金 */
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private BigDecimal cashPledge;
   /** 制造商 */
   private String manufacturer;

@@ -5,6 +5,7 @@ import com.rentcar.bean.Delay;
 import com.rentcar.bean.Order;
 import com.rentcar.bean.VO.InitOrderVO;
 import com.rentcar.bean.search.OrderSearchFrom;
+import com.rentcar.constant.SystemConstant;
 import com.rentcar.service.OrderService;
 import com.rentcar.util.Meg;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,11 @@ public class OrderController {
   }
 
   @PostMapping("/page")
-  public Meg page(@RequestBody OrderSearchFrom searchFrom) {
+  public Meg page(@RequestBody OrderSearchFrom searchFrom, HttpSession httpSession) {
+    if (httpSession.getAttribute(SystemConstant.CUSTOMER_ID) == null
+        && httpSession.getAttribute(SystemConstant.USER_ID) == null) {
+      return Meg.noLogin().add("data", null);
+    }
     log.info("搜索订单：{}", searchFrom);
     final Page<Order> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
     return Meg.success().add("data", page);
@@ -61,10 +66,7 @@ public class OrderController {
   public Meg initOrder(@RequestBody InitOrderVO initOrderVO, HttpSession httpSession) {
     Object customerId = httpSession.getAttribute("customerId");
     if (customerId == null) {
-      Meg meg = new Meg();
-      meg.setMessage("请先登录！");
-      meg.setCode(403);
-      return meg;
+      return Meg.noLogin();
     }
     boolean bool = service.initOrder(initOrderVO, customerId + "");
     return bool ? Meg.success() : Meg.fail();

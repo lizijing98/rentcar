@@ -1,5 +1,6 @@
 package com.rentcar.servlet;
 
+import com.rentcar.bean.User;
 import com.rentcar.service.LoginService;
 import com.rentcar.util.IpUtil;
 import com.rentcar.util.Meg;

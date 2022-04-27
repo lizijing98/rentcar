@@ -1,4 +1,4 @@
-package com.rentcar.Enum;
+package com.rentcar.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

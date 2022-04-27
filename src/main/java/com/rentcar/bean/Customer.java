@@ -2,6 +2,7 @@ package com.rentcar.bean;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,8 +37,10 @@ public class Customer extends BaseEntity {
 
   private String activate;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private BigDecimal money;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private BigDecimal freeze;
 
   private String address;

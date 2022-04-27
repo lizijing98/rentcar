@@ -6,12 +6,12 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rentcar.Enum.OrderStatus;
 import com.rentcar.bean.CarInfo;
 import com.rentcar.bean.Check;
 import com.rentcar.bean.Customer;
 import com.rentcar.bean.Order;
 import com.rentcar.bean.VO.InitOrderVO;
+import com.rentcar.enums.OrderStatus;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.OrderMapper;
 import com.rentcar.service.*;
@@ -154,7 +154,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 总金额
         BigDecimal total = rent.add(penalty).add(fine);
         total = total.setScale(2, RoundingMode.UP);
-		order.setTotal(total);
+        order.setTotal(total);
         log.info(
             "订单 ID:{},日租金:{},租期:{},逾期:{},正常租金:{},罚金:{},赔付金额:{},总金额：{}",
             id,
@@ -170,6 +170,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         customer.setMoney(customer.getMoney().subtract(total).add(customer.getFreeze()));
         customer.setFreeze(BigDecimal.ZERO);
         customerService.updateById(customer);
+        if (checkService.getOneByOrderId(order.getId()).getState() == 0) {
+          throw new BusinessException("检查单未处理");
+        }
         this.updateById(order);
         // 保存评价
         assessService.setStatus(order.getOrderNumber(), 0);

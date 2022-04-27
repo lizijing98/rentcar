@@ -1,7 +1,7 @@
 package com.rentcar.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rentcar.Enum.OrderStatus;
+import com.rentcar.enums.OrderStatus;
 import com.rentcar.bean.Check;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.CheckMapper;
