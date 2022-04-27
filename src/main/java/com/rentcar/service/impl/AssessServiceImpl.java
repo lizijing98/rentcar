@@ -84,6 +84,13 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
   @Override
   public Boolean setStatus(String orderNum, Integer status) {
     Assess assess = assessMapper.getAssessByOrdNum(orderNum);
+    if (assess == null) {
+		Order order=orderService.getOneByOrderNum(orderNum);
+		assess=new Assess()
+				.setOrderNumber(orderNum)
+				.setCarInfoId(order.getCarInfoId())
+				.setCustomerId(order.getCustomerId());
+    }
     assess.setState(status);
     return this.updateById(assess);
   }

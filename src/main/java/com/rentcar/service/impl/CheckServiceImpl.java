@@ -34,9 +34,9 @@ public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements
 
   @Override
   public boolean accident(Check check) {
+    check.setRemark("用户提交:" + check.getQuestion());
     if (this.save(check)) {
-      orderService.updateState(check.getOrderId(), 7, null);
-      //			orderService.updataMoney(check.getOrderId(),check.getMoney());
+      orderService.updateState(check.getOrderId(), 7, "提交事故");
       return true;
     } else {
       throw new BusinessException("提交事故检查单失败");
@@ -55,7 +55,7 @@ public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements
     if (state == 1) {
       checkMapper.updateState(id, state);
       orderService.updateState(check.getOrderId(), OrderStatus.ORD_STA_RECHECK.getCode(), "已复查");
-	  return true;
+      return true;
     }
     return false;
   }

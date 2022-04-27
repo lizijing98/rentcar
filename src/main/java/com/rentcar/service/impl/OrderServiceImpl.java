@@ -63,6 +63,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
     Date startDate = DateUtil.parse(initOrderVO.getCreateDate(), "yyyy-MM-dd HH:mm:ss");
     Date endDate = DateUtil.parse(initOrderVO.getFinishDate(), "yyyy-MM-dd HH:mm:ss");
+    if (endDate.before(startDate)) {
+      throw new BusinessException("结束时间不能早于开始时间");
+    }
     // 定期
     Double day = DateUtil.between(startDate, endDate, DateUnit.HOUR) / 24.0;
     BigDecimal money = NumberUtil.mul(day, carInfo.getMoney());
@@ -129,7 +132,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         BigDecimal money = carInfo.getMoney();
         // 正常租期=出库时间 —— 入库时间
         double leaseTerm = LocalDateTimeUtil.between(inDate, outDate, ChronoUnit.HOURS) / 24.0;
-		// 不足一天的按一天处理
+        // 不足一天的按一天处理
         if (leaseTerm < 1.0) {
           leaseTerm = 1.0;
         }
@@ -142,17 +145,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         double day = 0.0;
         if (inDate.isAfter(endDate)) {
           day = LocalDateTimeUtil.between(endDate, inDate, ChronoUnit.HOURS) / 24.0 + 1.0;
-          // 2倍的车辆日租金罚金
+          // 2倍的日租金罚金
           penalty = money.multiply(BigDecimal.valueOf(day)).multiply(BigDecimal.valueOf(2));
         }
         order.setPenalty(penalty);
         // 检修单罚金
-        Check check = checkService.getOneByOrderId(order.getId());
-        BigDecimal fine = check.getMoney();
-        order.setFine(fine);
+        BigDecimal fine = order.getFine();
         // 总金额
         BigDecimal total = rent.add(penalty).add(fine);
         total = total.setScale(2, RoundingMode.UP);
+		order.setTotal(total);
         log.info(
             "订单 ID:{},日租金:{},租期:{},逾期:{},正常租金:{},罚金:{},赔付金额:{},总金额：{}",
             id,
@@ -178,6 +180,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     // 提交事故
     if (state == 7) {
       if (order.getState().equals(2)) {
+        // 检修单罚金
+        Check check = checkService.getOneByOrderId(order.getId());
+        BigDecimal fine = check.getMoney();
+        order.setFine(fine);
         order.setState(state);
         this.updateById(order);
       } else {
@@ -195,7 +201,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
     // 订单完成复查
     if (state.equals(OrderStatus.ORD_STA_RECHECK.getCode())) {
-      if (order.getState().equals(OrderStatus.ORD_STA_CHECKING.getCode())) {
+      if (order.getState().equals(OrderStatus.ORD_STA_CHECKING.getCode())
+          || order.getState().equals(OrderStatus.ORD_STA_ACCIDENT.getCode())) {
+        // 检修单罚金
+        Check check = checkService.getOneByOrderId(order.getId());
+        BigDecimal fine = check.getMoney();
+        order.setFine(fine);
         order.setState(state);
         this.updateById(order);
       } else {

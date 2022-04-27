@@ -100,7 +100,7 @@
     <a class="layui-btn layui-btn-disabled layui-btn-xs">待复检</a>
     {{#  } }}
     {{#  if(d.state == 7){ }}
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="checkAccident">事故处理</a>
+    <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="checkAccident">事故处理</a>
     {{#  } }}
     {{#  if(d.state == 2 || d.state == 3 || d.state == 6 || d.state == 5 || d.state == 8){ }}
     <a class="layui-btn layui-btn-xs layui-btn-disabled">已处理</a>
@@ -310,7 +310,7 @@
                             layer.prompt({
                                 formType: 0,
                                 title: '处理意见',
-                                value: ' '
+                                value: '拒绝还车'
                             }, function (value) {
                                 let data = "feedback=" + value;
                                 $.post(url, data, function (data) {
@@ -356,7 +356,7 @@
                             layer.prompt({
                                 formType: 0,
                                 title: '处理意见',
-                                value: ' '
+                                value: '事故处理完成'
                             }, function (value) {
                                 let data = "feedback=" + value;
                                 $.post(url, data, function (data) {
@@ -377,7 +377,7 @@
                             layer.prompt({
                                 formType: 0,
                                 title: '处理意见',
-                                value: ' '
+                                value: '事故未处理完成'
                             }, function (value) {
                                 let data = "feedback=" + value;
                                 $.post(url, data, function (data) {
