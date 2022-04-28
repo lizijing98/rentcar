@@ -8,10 +8,6 @@ spring:
     url: jdbc:mysql://${MYSQL_HOST}:3306/car?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
-  devtools:
-    restart:
-      additional-paths: src/main/java
-      enabled: true
   freemarker:
     cache: false
   jackson:
@@ -34,10 +30,7 @@ spring:
       content-type: text/html
     suffix: .html
 logging:
-  level:
-    com:
-      rentcar:
-        mapper: debug
+  config: classpath:logback-spring.xml
 mybatis-plus:
   global-config:
     db-config:

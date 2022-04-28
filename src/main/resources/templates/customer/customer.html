@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
+
+    <link href="../../static/layui2.6.8/css/layui.css" th:href="@{/layui2.6.8/css/layui.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="layui-hide" id="customer-form">
@@ -153,7 +154,8 @@
     <input type="checkbox" name="activate" value="{{d.id}}" title="激活" lay-skin="switch" lay-text="激活|未激活"
            lay-filter="lockDemo" {{ d.activate=="on"?'checked':'' }}>
 </script>
-<script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+
+<script src="layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>
 <script th:inline="none" type="text/javascript">
 
 

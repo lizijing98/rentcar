@@ -1,5 +1,5 @@
 set @db_name='car';
-set @table_name='check';
+set @table_name='menu';
 SELECT
     COLUMN_NAME 字段名,
     COLUMN_TYPE 数据类型,

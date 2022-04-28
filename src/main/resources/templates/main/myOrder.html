@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>首页，欢迎租车</title>
-    <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/layui/css/layui.css" rel="text/css">
+    <link href="../../static/layui2.6.8/css/layui.css" th:href="@{/layui2.6.8/css/layui.css}" rel="stylesheet" type="text/css">
 </head>
 <style>
     .layui-body {
@@ -70,7 +69,7 @@
     </div>
 
 </div>
-<script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+<script src="layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>
 
 <script id="leftBtn" type="text/html">
     {{#  if(d.state == 1){ }}

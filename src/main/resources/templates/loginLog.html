@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>登录日志</title>
-    <link href="https://www.layuicdn.com/layui-v2.6.2/css/layui.css" rel="stylesheet" type="text/css"/>
+    <title>登录日志</title
+    <link href="../static/layui2.6.8/css/layui.css" th:href="@{/layui2.6.8/css/layui.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <table id="login-log" lay-filter="login-log"></table>
-<script src="https://www.layuicdn.com/layui-v2.6.2/layui.js"></script>
+<script src="layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>
 <script th:inline="none" type="text/javascript">
     layui.use('table', function () {
         const table = layui.table;
