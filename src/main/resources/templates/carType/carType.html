@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <link href="../../static/layui2.6.8/css/layui.css" th:href="@{/layui2.6.8/css/layui.css}" rel="stylesheet" type="text/css">
+    <link href="../../static/layui2.6.8/css/layui.css" rel="stylesheet" th:href="@{/layui2.6.8/css/layui.css}"
+          type="text/css">
 </head>
 <body>
 <div class="layui-hide" id="car-type-form">
@@ -19,7 +20,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="name" lay-filter="required" name="name" placeholder="请输入类型名称"
+                <input autocomplete="off" class="layui-input" id="name" lay-filter="required" name="name"
+                       placeholder="请输入类型名称"
                        required
                        type="text"/>
             </div>
@@ -53,7 +55,6 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-
 
 
 <script src="layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>

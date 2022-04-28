@@ -8,5 +8,5 @@ import com.rentcar.bean.Menu;
  */
 public interface MenuService extends IService<Menu> {
 
-  void action(Integer id, String menuActivate);
+	void action(Integer id, String menuActivate);
 }

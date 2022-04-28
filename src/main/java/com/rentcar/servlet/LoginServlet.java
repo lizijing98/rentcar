@@ -1,6 +1,5 @@
 package com.rentcar.servlet;
 
-import com.rentcar.bean.User;
 import com.rentcar.service.LoginService;
 import com.rentcar.util.IpUtil;
 import com.rentcar.util.Meg;
@@ -22,34 +21,44 @@ import javax.servlet.http.HttpSession;
  **/
 @Controller
 public class LoginServlet {
-  /** 自动注入登陆的逻辑层的实例 */
-  @Autowired private LoginService loginService;
+	/**
+	 * 自动注入登陆的逻辑层的实例
+	 */
+	@Autowired
+	private LoginService loginService;
 
-  @Autowired private HttpSession httpSession;
+	@Autowired
+	private HttpSession httpSession;
 
-  /** 登陆时ajax传的数据的的处理 */
-  @RequestMapping("/loginData")
-  @ResponseBody
-  public Meg loginData(
-      @RequestParam String username,
-      @RequestParam String password,
-      @RequestParam String authCode,
-      HttpServletRequest request) {
-    String ip = IpUtil.getIpAddr(request);
-    return loginService.login(username, password, authCode, ip);
-  }
+	/**
+	 * 登陆时ajax传的数据的的处理
+	 */
+	@RequestMapping("/loginData")
+	@ResponseBody
+	public Meg loginData(
+			@RequestParam String username,
+			@RequestParam String password,
+			@RequestParam String authCode,
+			HttpServletRequest request) {
+		String ip = IpUtil.getIpAddr(request);
+		return loginService.login(username, password, authCode, ip);
+	}
 
-  /** 登陆成功后加载主页左侧菜单的处理 */
-  @RequestMapping("/loginJson")
-  @ResponseBody
-  public Meg loginJson() {
-    return loginService.homeJson(httpSession);
-  }
+	/**
+	 * 登陆成功后加载主页左侧菜单的处理
+	 */
+	@RequestMapping("/loginJson")
+	@ResponseBody
+	public Meg loginJson() {
+		return loginService.homeJson(httpSession);
+	}
 
-  /** 退出后清除session,跳转到登陆页面 */
-  @RequestMapping("/exit")
-  public String exit() {
-    httpSession.invalidate();
-    return "index";
-  }
+	/**
+	 * 退出后清除session,跳转到登陆页面
+	 */
+	@RequestMapping("/exit")
+	public String exit() {
+		httpSession.invalidate();
+		return "index";
+	}
 }

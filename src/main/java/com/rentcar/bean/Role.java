@@ -17,10 +17,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Role extends BaseEntity {
-  @TableId(value = "id", type = IdType.AUTO)
-  private Integer id;
+	@TableId(value = "id", type = IdType.AUTO)
+	private Integer id;
 
-  private String roleName;
-  private String activate;
-  private String remark;
+	private String roleName;
+	private String activate;
+	private String remark;
 }

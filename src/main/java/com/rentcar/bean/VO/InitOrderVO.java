@@ -11,8 +11,8 @@ import lombok.Data;
 @Data
 public class InitOrderVO {
 
-  private Integer carInfoId;
-  private String createDate;
-  private String finishDate;
-  private String idNumber;
+	private Integer carInfoId;
+	private String createDate;
+	private String finishDate;
+	private String idNumber;
 }

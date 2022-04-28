@@ -11,4 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2021-04-27
  */
 @Mapper
-public interface CarouselMapper extends BaseMapper<Carousel> {}
+public interface CarouselMapper extends BaseMapper<Carousel> {
+}

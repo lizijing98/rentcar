@@ -15,19 +15,19 @@ import java.math.BigDecimal;
 @Mapper
 public interface CarInfoMapper extends BaseMapper<CarInfo> {
 
-  /**
-   * 通过 ID 获取信息
-   *
-   * @param id 车辆 ID
-   * @return 结果
-   */
-  CarInfo getOneById(String id);
+	/**
+	 * 通过 ID 获取信息
+	 *
+	 * @param id 车辆 ID
+	 * @return 结果
+	 */
+	CarInfo getOneById(String id);
 
-  /**
-   * 通过 ID 获取租金
-   *
-   * @param id 车辆 ID
-   * @return 结果
-   */
-  BigDecimal getMoneyById(Integer id);
+	/**
+	 * 通过 ID 获取租金
+	 *
+	 * @param id 车辆 ID
+	 * @return 结果
+	 */
+	BigDecimal getMoneyById(Integer id);
 }

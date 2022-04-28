@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>检查单据填写</title>
-    <link href="../../static/layui2.6.8/css/layui.css" th:href="@{/layui2.6.8/css/layui.css}" rel="stylesheet" type="text/css">
+    <link href="../../static/layui2.6.8/css/layui.css" rel="stylesheet" th:href="@{/layui2.6.8/css/layui.css}"
+          type="text/css">
 </head>
 <body>
 <form class="layui-form">
     <div class="layui-form-item">
         <label class="layui-form-label">订单号码</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input layui-hide" id="orderId" lay-verify="required" name="orderId" readonly required
+            <input autocomplete="off" class="layui-input layui-hide" id="orderId" lay-verify="required" name="orderId"
+                   readonly required
                    type="text">
-            <input autocomplete="off" class="layui-input" id="orderNumber" lay-verify="required" name="orderNumber" readonly
+            <input autocomplete="off" class="layui-input" id="orderNumber" lay-verify="required" name="orderNumber"
+                   readonly
                    required type="text">
         </div>
         <div class="layui-form-mid layui-word-aux">系统自动带出</div>

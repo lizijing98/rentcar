@@ -20,25 +20,25 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 public class Check extends BaseEntity {
 
-  @TableId(type = IdType.AUTO)
-  private Integer id;
+	@TableId(type = IdType.AUTO)
+	private Integer id;
 
-  private Integer orderId;
+	private Integer orderId;
 
-  private String orderNumber;
+	private String orderNumber;
 
-  private String question;
+	private String question;
 
-  private String remark;
+	private String remark;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private BigDecimal money;
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private BigDecimal money;
 
-  @TableField(exist = false)
-  private String customerName;
+	@TableField(exist = false)
+	private String customerName;
 
-  @TableField(exist = false)
-  private String carPlateNumber;
+	@TableField(exist = false)
+	private String carPlateNumber;
 
-  private Integer state;
+	private Integer state;
 }

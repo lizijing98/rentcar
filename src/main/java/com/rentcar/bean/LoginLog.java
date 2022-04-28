@@ -21,17 +21,21 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class LoginLog extends BaseEntity {
-  @TableId(value = "id", type = IdType.AUTO)
-  public Integer id;
+	@TableId(value = "id", type = IdType.AUTO)
+	public Integer id;
 
-  public Integer user;
+	public Integer user;
 
-  @TableField(exist = false)
-  public String username;
+	@TableField(exist = false)
+	public String username;
 
-  /** 登录时间 */
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  public LocalDateTime loginTime;
-  /** 登录ip */
-  public String loginIp;
+	/**
+	 * 登录时间
+	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	public LocalDateTime loginTime;
+	/**
+	 * 登录ip
+	 */
+	public String loginIp;
 }

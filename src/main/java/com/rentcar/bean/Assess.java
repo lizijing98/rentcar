@@ -22,23 +22,23 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("car_assess")
-public class Assess extends BaseEntity{
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+public class Assess extends BaseEntity {
+	@TableId(value = "id", type = IdType.AUTO)
+	private Integer id;
 
-    private Integer customerId;
+	private Integer customerId;
 
-    private Integer carInfoId;
+	private Integer carInfoId;
 
-    @TableField(exist = false)
-    private String customerName;
+	@TableField(exist = false)
+	private String customerName;
 
-    @TableField(exist = false)
-    private String carPlateNumber;
+	@TableField(exist = false)
+	private String carPlateNumber;
 
-    private String orderNumber;
+	private String orderNumber;
 
-    private String remark;
+	private String remark;
 
-    private Integer state;
+	private Integer state;
 }

@@ -17,10 +17,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Carousel {
 
-  @TableId(value = "id", type = IdType.AUTO)
-  private Integer id;
+	@TableId(value = "id", type = IdType.AUTO)
+	private Integer id;
 
-  private String imageUrl;
+	private String imageUrl;
 
-  private String remark;
+	private String remark;
 }

@@ -13,20 +13,20 @@ import java.util.List;
 @Repository
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
-  /**
-   * 根据用户id查询
-   *
-   * @param userId
-   * @return
-   */
-  List<UserRole> selectByUserId(Integer userId);
+	/**
+	 * 根据用户id查询
+	 *
+	 * @param userId
+	 * @return
+	 */
+	List<UserRole> selectByUserId(Integer userId);
 
-  /**
-   * 根据角色用户查询
-   *
-   * @param roleId
-   * @param userId
-   * @return
-   */
-  UserRole selectByRoleAndUser(@Param("roleId") Integer roleId, @Param("userId") Integer userId);
+	/**
+	 * 根据角色用户查询
+	 *
+	 * @param roleId
+	 * @param userId
+	 * @return
+	 */
+	UserRole selectByRoleAndUser(@Param("roleId") Integer roleId, @Param("userId") Integer userId);
 }

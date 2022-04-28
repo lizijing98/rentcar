@@ -20,46 +20,46 @@ import java.util.Arrays;
 @RequestMapping("/car-info")
 public class CarInfoController {
 
-  private CarInfoService service;
+	private CarInfoService service;
 
-  @Autowired
-  public void setService(CarInfoService service) {
-    this.service = service;
-  }
+	@Autowired
+	public void setService(CarInfoService service) {
+		this.service = service;
+	}
 
-  @GetMapping("/{id}")
-  public Meg getById(@PathVariable Integer id) {
-    final CarInfo carInfo = service.getById(id);
-    return Meg.success().add("data", carInfo);
-  }
+	@GetMapping("/{id}")
+	public Meg getById(@PathVariable Integer id) {
+		final CarInfo carInfo = service.getById(id);
+		return Meg.success().add("data", carInfo);
+	}
 
-  @PutMapping("/{id}")
-  public Meg update(@RequestBody CarInfo carInfo) {
-    boolean bool = service.updateById(carInfo);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PutMapping("/{id}")
+	public Meg update(@RequestBody CarInfo carInfo) {
+		boolean bool = service.updateById(carInfo);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/page")
-  public Meg page(@RequestBody CarInfoSearchFrom searchFrom) {
-    final Page<CarInfo> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
-    return Meg.success().add("data", page);
-  }
+	@PostMapping("/page")
+	public Meg page(@RequestBody CarInfoSearchFrom searchFrom) {
+		final Page<CarInfo> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
+		return Meg.success().add("data", page);
+	}
 
-  @DeleteMapping("/{id}")
-  public Meg del(@PathVariable Integer id) {
-    boolean bool = service.removeById(id);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@DeleteMapping("/{id}")
+	public Meg del(@PathVariable Integer id) {
+		boolean bool = service.removeById(id);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping
-  public Meg insert(@RequestBody CarInfo carInfo) {
-    boolean bool = service.save(carInfo);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PostMapping
+	public Meg insert(@RequestBody CarInfo carInfo) {
+		boolean bool = service.save(carInfo);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @DeleteMapping
-  public Meg del(@RequestParam("id") Integer[] ids) {
-    final boolean bool = service.removeByIds(Arrays.asList(ids));
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@DeleteMapping
+	public Meg del(@RequestParam("id") Integer[] ids) {
+		final boolean bool = service.removeByIds(Arrays.asList(ids));
+		return bool ? Meg.success() : Meg.fail();
+	}
 }

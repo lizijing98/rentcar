@@ -6,7 +6,8 @@
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-    <link href="layui/css/layui.css" media="all" rel="stylesheet">
+    <script src="layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script><link href="../../static/layui2.6.8/css/layui.css" rel="stylesheet" th:href="@{/layui2.6.8/css/layui.css}"
+          type="text/css">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
@@ -15,7 +16,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">id</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input" id="id" lay-verify="required|number" name="id" placeholder="请输入ID"
+            <input autocomplete="off" class="layui-input" id="id" lay-verify="required|number" name="id"
+                   placeholder="请输入ID"
                    readOnly="true" required type="text"/>
         </div>
     </div>
@@ -23,7 +25,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">菜单名</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input" id="menuName" lay-verify="required" name="menuName" placeholder="请输入角色名"
+            <input autocomplete="off" class="layui-input" id="menuName" lay-verify="required" name="menuName"
+                   placeholder="请输入角色名"
                    required type="text"/>
         </div>
     </div>
@@ -39,7 +42,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">url</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input" id="menuUrl" lay-verify="required" name="menuUrl" placeholder="请输入角色名"
+            <input autocomplete="off" class="layui-input" id="menuUrl" lay-verify="required" name="menuUrl"
+                   placeholder="请输入角色名"
                    required type="text"/>
         </div>
     </div>
@@ -65,7 +69,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input" id="remark" lay-verify="required" name="remark" placeholder="请输入角色名"
+            <input autocomplete="off" class="layui-input" id="remark" lay-verify="required" name="remark"
+                   placeholder="请输入角色名"
                    required type="text"/>
         </div>
     </div>
@@ -78,7 +83,7 @@
     </div>
 </form>
 
-<script charset="utf-8" src="layui/layui.js"></script>
+<script src="layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>
 
 <script>
     //Demo

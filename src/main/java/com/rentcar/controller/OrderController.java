@@ -25,65 +25,65 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/api/order")
 public class OrderController {
 
-  private OrderService service;
+	private OrderService service;
 
-  @GetMapping("/{id}")
-  public Meg getById(@PathVariable Integer id) {
-    final Order bean = service.getById(id);
-    return Meg.success().add("data", bean);
-  }
+	@GetMapping("/{id}")
+	public Meg getById(@PathVariable Integer id) {
+		final Order bean = service.getById(id);
+		return Meg.success().add("data", bean);
+	}
 
-  @PutMapping("/{id}")
-  public Meg update(Order bean) {
-    boolean bool = service.updateById(bean);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PutMapping("/{id}")
+	public Meg update(Order bean) {
+		boolean bool = service.updateById(bean);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/page")
-  public Meg page(@RequestBody OrderSearchFrom searchFrom, HttpSession httpSession) {
-    if (httpSession.getAttribute(SystemConstant.CUSTOMER_ID) == null
-        && httpSession.getAttribute(SystemConstant.USER_ID) == null) {
-      return Meg.noLogin().add("data", null);
-    }
-    log.info("搜索订单：{}", searchFrom);
-    final Page<Order> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
-    return Meg.success().add("data", page);
-  }
+	@PostMapping("/page")
+	public Meg page(@RequestBody OrderSearchFrom searchFrom, HttpSession httpSession) {
+		if (httpSession.getAttribute(SystemConstant.CUSTOMER_ID) == null
+				&& httpSession.getAttribute(SystemConstant.USER_ID) == null) {
+			return Meg.noLogin().add("data", null);
+		}
+		log.info("搜索订单：{}", searchFrom);
+		final Page<Order> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
+		return Meg.success().add("data", page);
+	}
 
-  @DeleteMapping("/{id}")
-  public Meg del(@PathVariable Integer id) {
-    boolean bool = service.removeById(id);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@DeleteMapping("/{id}")
+	public Meg del(@PathVariable Integer id) {
+		boolean bool = service.removeById(id);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/{id}/state/{state}")
-  public Meg handler(@PathVariable Integer id, @PathVariable Integer state, String feedback) {
-    boolean bool = service.updateState(id, state, feedback);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PostMapping("/{id}/state/{state}")
+	public Meg handler(@PathVariable Integer id, @PathVariable Integer state, String feedback) {
+		boolean bool = service.updateState(id, state, feedback);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/initOrder")
-  public Meg initOrder(@RequestBody InitOrderVO initOrderVO, HttpSession httpSession) {
-    Object customerId = httpSession.getAttribute("customerId");
-    if (customerId == null) {
-      return Meg.noLogin();
-    }
-    boolean bool = service.initOrder(initOrderVO, customerId + "");
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PostMapping("/initOrder")
+	public Meg initOrder(@RequestBody InitOrderVO initOrderVO, HttpSession httpSession) {
+		Object customerId = httpSession.getAttribute("customerId");
+		if (customerId == null) {
+			return Meg.noLogin();
+		}
+		boolean bool = service.initOrder(initOrderVO, customerId + "");
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/delay")
-  public Meg delay(@RequestBody Delay delay) {
-    return service.delay(delay.getOrderId(), delay.getDay());
-  }
+	@PostMapping("/delay")
+	public Meg delay(@RequestBody Delay delay) {
+		return service.delay(delay.getOrderId(), delay.getDay());
+	}
 
-  @PostMapping("/{id}/idCheck")
-  public Meg checkId(@RequestBody String idNum, @PathVariable Integer id) {
-    return service.checkIdNum(id, idNum) ? Meg.success() : Meg.fail("身份证验证失败");
-  }
+	@PostMapping("/{id}/idCheck")
+	public Meg checkId(@RequestBody String idNum, @PathVariable Integer id) {
+		return service.checkIdNum(id, idNum) ? Meg.success() : Meg.fail("身份证验证失败");
+	}
 
-  @Autowired
-  public void setOrderService(OrderService service) {
-    this.service = service;
-  }
+	@Autowired
+	public void setOrderService(OrderService service) {
+		this.service = service;
+	}
 }

@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-  @Override
-  public boolean save(User entity) {
-    Integer count = super.getBaseMapper().selectByName(entity.getUsername());
-    if (count > 0) {
-      throw new RuntimeException("该用户已存在");
-    }
-    return UserService.super.save(entity);
-  }
+	@Override
+	public boolean save(User entity) {
+		Integer count = super.getBaseMapper().selectByName(entity.getUsername());
+		if (count > 0) {
+			throw new RuntimeException("该用户已存在");
+		}
+		return UserService.super.save(entity);
+	}
 
-  @Override
-  public void action(Integer id, String userActivate) {
-    this.getBaseMapper().action(id, userActivate);
-  }
+	@Override
+	public void action(Integer id, String userActivate) {
+		this.getBaseMapper().action(id, userActivate);
+	}
 }

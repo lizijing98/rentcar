@@ -24,35 +24,43 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class CarInfo extends BaseEntity {
-  @TableId(value = "id", type = IdType.AUTO)
-  private Integer id;
+	@TableId(value = "id", type = IdType.AUTO)
+	private Integer id;
 
-  private Integer carType;
+	private Integer carType;
 
-  @TableField(exist = false)
-  private String carTypeName;
+	@TableField(exist = false)
+	private String carTypeName;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private BigDecimal money;
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private BigDecimal money;
 
-  private String status;
+	private String status;
 
-  @NotNull
-  private String plateNumber;
-  private String carColor;
+	@NotNull
+	private String plateNumber;
+	private String carColor;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  private LocalDateTime producedDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDateTime producedDate;
 
-  private String remark;
-  /** 图片 */
-  private String image;
-  /** 品牌 */
-  private String brand;
-  /** 押金 */
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private BigDecimal cashPledge;
-  /** 制造商 */
-  private String manufacturer;
+	private String remark;
+	/**
+	 * 图片
+	 */
+	private String image;
+	/**
+	 * 品牌
+	 */
+	private String brand;
+	/**
+	 * 押金
+	 */
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private BigDecimal cashPledge;
+	/**
+	 * 制造商
+	 */
+	private String manufacturer;
 }

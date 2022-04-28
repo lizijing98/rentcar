@@ -14,4 +14,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CarouselServiceImpl extends ServiceImpl<CarouselMapper, Carousel>
-    implements CarouselService {}
+		implements CarouselService {
+}

@@ -18,21 +18,23 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BaseEntity implements Serializable {
-  @TableLogic private Integer deleted;
+	@TableLogic
+	private Integer deleted;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private LocalDateTime createTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private LocalDateTime createTime;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private LocalDateTime modifyTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private LocalDateTime modifyTime;
 
-  @TableField(fill = FieldFill.INSERT_UPDATE)
-  private Integer modifyId;
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Integer modifyId;
 
-  @TableField(fill = FieldFill.INSERT)
-  private Integer creatorId;
+	@TableField(fill = FieldFill.INSERT)
+	private Integer creatorId;
 
-  @Version private Integer fversion;
+	@Version
+	private Integer fversion;
 }

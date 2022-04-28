@@ -9,4 +9,5 @@ import com.rentcar.bean.Notice;
  * @author lzj
  * @date 2021-04-19
  */
-public interface NoticeService extends IService<Notice> {}
+public interface NoticeService extends IService<Notice> {
+}

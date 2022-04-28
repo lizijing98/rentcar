@@ -23,50 +23,51 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/api/assess")
 public class AssessController {
 
-  @Resource private AssessService assessService;
+	@Resource
+	private AssessService assessService;
 
-  @GetMapping("/{id}")
-  public Meg getById(@PathVariable Integer id) {
-    final Assess assess = assessService.getById(id);
-    return Meg.success().add("data", assess);
-  }
+	@GetMapping("/{id}")
+	public Meg getById(@PathVariable Integer id) {
+		final Assess assess = assessService.getById(id);
+		return Meg.success().add("data", assess);
+	}
 
-  @PostMapping
-  public Meg create(@RequestBody Assess assess) {
-    assessService.init(assess);
-    return Meg.success();
-  }
+	@PostMapping
+	public Meg create(@RequestBody Assess assess) {
+		assessService.init(assess);
+		return Meg.success();
+	}
 
-  @PutMapping("/{id}")
-  public Meg update(@RequestBody Assess assess) {
-    return assessService.updateById(assess) ? Meg.success() : Meg.fail();
-  }
+	@PutMapping("/{id}")
+	public Meg update(@RequestBody Assess assess) {
+		return assessService.updateById(assess) ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/page")
-  public Meg page(@RequestBody AssessSearchFrom searchFrom, HttpSession session) {
-    if (session.getAttribute(SystemConstant.CUSTOMER_ID) == null
-        && session.getAttribute(SystemConstant.USER_ID) == null) {
-      return Meg.noLogin().add("data", null);
-    }
-    log.info("搜索评价: {}", searchFrom);
-    final Page<Assess> page = assessService.page(searchFrom.getPage(), searchFrom.queryWrapper());
-    return Meg.success().add("data", page);
-  }
+	@PostMapping("/page")
+	public Meg page(@RequestBody AssessSearchFrom searchFrom, HttpSession session) {
+		if (session.getAttribute(SystemConstant.CUSTOMER_ID) == null
+				&& session.getAttribute(SystemConstant.USER_ID) == null) {
+			return Meg.noLogin().add("data", null);
+		}
+		log.info("搜索评价: {}", searchFrom);
+		final Page<Assess> page = assessService.page(searchFrom.getPage(), searchFrom.queryWrapper());
+		return Meg.success().add("data", page);
+	}
 
-  @DeleteMapping("/{id}")
-  public Meg del(@PathVariable Integer id) {
-    return assessService.removeById(id) ? Meg.success() : Meg.fail();
-  }
+	@DeleteMapping("/{id}")
+	public Meg del(@PathVariable Integer id) {
+		return assessService.removeById(id) ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/initAssess")
-  public Meg initAssess(
-      @RequestParam("orderNum") String orderNum,
-      @RequestParam("remark") String remark,
-      HttpSession session) {
-    Object customerId = session.getAttribute("customerId");
-    if (customerId == null) {
-      return Meg.noLogin();
-    }
-    return assessService.initAssess(orderNum, customerId + "", remark) ? Meg.success() : Meg.fail();
-  }
+	@PostMapping("/initAssess")
+	public Meg initAssess(
+			@RequestParam("orderNum") String orderNum,
+			@RequestParam("remark") String remark,
+			HttpSession session) {
+		Object customerId = session.getAttribute("customerId");
+		if (customerId == null) {
+			return Meg.noLogin();
+		}
+		return assessService.initAssess(orderNum, customerId + "", remark) ? Meg.success() : Meg.fail();
+	}
 }

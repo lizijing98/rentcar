@@ -27,42 +27,43 @@ import java.util.Objects;
 @Slf4j
 public class GlobalLoggingPrint implements Ordered {
 
-  @Pointcut("execution(public * com.rentcar.controller..*.*(..))")
-  public void webLog() {}
+	@Pointcut("execution(public * com.rentcar.controller..*.*(..))")
+	public void webLog() {
+	}
 
-  @Around("webLog()")
-  public Object doAround(ProceedingJoinPoint point) throws Throwable {
-    ServletRequestAttributes attr =
-        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-    HttpServletRequest request = Objects.requireNonNull(attr).getRequest();
-    log.info(
-        "Request,{},{},{}",
-        request.getRequestURI(),
-        request.getMethod(),
-        Arrays.toString(point.getArgs()));
-    long startTime = System.currentTimeMillis();
-    Object result = point.proceed();
-    if (result instanceof Meg) {
-      log.info(
-          "Response,{},{},{},{},{}",
-          request.getRequestURI(),
-          request.getMethod(),
-          Arrays.toString(point.getArgs()),
-          JSONUtil.parse(result),
-          (System.currentTimeMillis() - startTime) + "ms");
-    } else {
-      log.info(
-          "Response,{},{},{},{}",
-          request.getRequestURI(),
-          request.getMethod(),
-          Arrays.toString(point.getArgs()),
-          (System.currentTimeMillis() - startTime) + "ms");
-    }
-    return result;
-  }
+	@Around("webLog()")
+	public Object doAround(ProceedingJoinPoint point) throws Throwable {
+		ServletRequestAttributes attr =
+				(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = Objects.requireNonNull(attr).getRequest();
+		log.info(
+				"Request,{},{},{}",
+				request.getRequestURI(),
+				request.getMethod(),
+				Arrays.toString(point.getArgs()));
+		long startTime = System.currentTimeMillis();
+		Object result = point.proceed();
+		if (result instanceof Meg) {
+			log.info(
+					"Response,{},{},{},{},{}",
+					request.getRequestURI(),
+					request.getMethod(),
+					Arrays.toString(point.getArgs()),
+					JSONUtil.parse(result),
+					(System.currentTimeMillis() - startTime) + "ms");
+		} else {
+			log.info(
+					"Response,{},{},{},{}",
+					request.getRequestURI(),
+					request.getMethod(),
+					Arrays.toString(point.getArgs()),
+					(System.currentTimeMillis() - startTime) + "ms");
+		}
+		return result;
+	}
 
-  @Override
-  public int getOrder() {
-    return 1;
-  }
+	@Override
+	public int getOrder() {
+		return 1;
+	}
 }

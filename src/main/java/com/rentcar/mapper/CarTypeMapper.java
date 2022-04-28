@@ -11,4 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2021-04-09
  */
 @Mapper
-public interface CarTypeMapper extends BaseMapper<CarType> {}
+public interface CarTypeMapper extends BaseMapper<CarType> {
+}

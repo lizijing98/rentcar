@@ -21,55 +21,56 @@ import java.util.List;
  */
 @Service
 public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo>
-    implements CarInfoService {
+		implements CarInfoService {
 
-  //  @Resource
-  //  private CarTypeService carTypeService;
+	//  @Resource
+	//  private CarTypeService carTypeService;
 
-  @Resource private CarInfoMapper carInfoMapper;
+	@Resource
+	private CarInfoMapper carInfoMapper;
 
-  //  @Autowired
-  //  public void setCarTypeService(CarTypeService carTypeService) {
-  //    this.carTypeService = carTypeService;
-  //  }
+	//  @Autowired
+	//  public void setCarTypeService(CarTypeService carTypeService) {
+	//    this.carTypeService = carTypeService;
+	//  }
 
-  @Override
-  public boolean save(CarInfo entity) {
-    this.saveOrUpdateBefore(entity);
-    return super.save(entity);
-  }
+	@Override
+	public boolean save(CarInfo entity) {
+		this.saveOrUpdateBefore(entity);
+		return super.save(entity);
+	}
 
-  @Override
-  public boolean updateById(CarInfo entity) {
-    this.saveOrUpdateBefore(entity);
-    return super.updateById(entity);
-  }
+	@Override
+	public boolean updateById(CarInfo entity) {
+		this.saveOrUpdateBefore(entity);
+		return super.updateById(entity);
+	}
 
-  private void saveOrUpdateBefore(CarInfo entity) {
-    QueryWrapper<CarInfo> queryWrapper = new QueryWrapper<>();
-    queryWrapper.eq("deleted", "0");
-    queryWrapper.eq("plate_number", entity.getPlateNumber());
-    final CarInfo carInfo = getBaseMapper().selectOne(queryWrapper);
-    if (carInfo != null && !entity.getId().equals(carInfo.getId())) {
-      throw new BusinessException("该车牌号已经被登记，请重新检查。");
-    }
-  }
+	private void saveOrUpdateBefore(CarInfo entity) {
+		QueryWrapper<CarInfo> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("deleted", "0");
+		queryWrapper.eq("plate_number", entity.getPlateNumber());
+		final CarInfo carInfo = getBaseMapper().selectOne(queryWrapper);
+		if (carInfo != null && !entity.getId().equals(carInfo.getId())) {
+			throw new BusinessException("该车牌号已经被登记，请重新检查。");
+		}
+	}
 
-  @Override
-  public Integer getCountByTypeIds(List<Serializable> typeIds) {
-    QueryWrapper<CarInfo> queryWrapper = new QueryWrapper<>();
-    queryWrapper.eq("deleted", "0");
-    queryWrapper.in(typeIds.size() > 0, "car_type", typeIds);
-    return this.list(queryWrapper).size();
-  }
+	@Override
+	public Integer getCountByTypeIds(List<Serializable> typeIds) {
+		QueryWrapper<CarInfo> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("deleted", "0");
+		queryWrapper.in(typeIds.size() > 0, "car_type", typeIds);
+		return this.list(queryWrapper).size();
+	}
 
-  @Override
-  public CarInfo getOneById(String id) {
-    return carInfoMapper.getOneById(id);
-  }
+	@Override
+	public CarInfo getOneById(String id) {
+		return carInfoMapper.getOneById(id);
+	}
 
-  @Override
-  public BigDecimal getMoneyById(Integer id) {
-    return carInfoMapper.getMoneyById(id);
-  }
+	@Override
+	public BigDecimal getMoneyById(Integer id) {
+		return carInfoMapper.getMoneyById(id);
+	}
 }

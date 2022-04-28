@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <link href="../../static/layui2.6.8/css/layui.css" th:href="@{/layui2.6.8/css/layui.css}" rel="stylesheet" type="text/css">
+    <link href="../../static/layui2.6.8/css/layui.css" rel="stylesheet" th:href="@{/layui2.6.8/css/layui.css}"
+          type="text/css">
 </head>
 <body>
 <div class="layui-hide" id="inspect">
@@ -29,7 +30,7 @@
             <label class="layui-form-label">赔付金额(元)</label>
             <div class="layui-input-inline">
                 <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money"
-                       value="0" required type="number">
+                       required type="number" value="0">
             </div>
         </div>
 
@@ -79,7 +80,7 @@
         <button class="layui-btn" lay-filter="search" lay-submit>搜索</button>
     </div>
     <div class="layui-input-inline">
-<!--        <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>-->
+        <!--        <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>-->
     </div>
 </div>
 <table class="layui-hide" id="check" lay-filter="check"></table>

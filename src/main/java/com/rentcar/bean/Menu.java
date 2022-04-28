@@ -17,18 +17,18 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Menu extends BaseEntity {
-  @TableId(value = "id", type = IdType.AUTO)
-  private Integer id;
+	@TableId(value = "id", type = IdType.AUTO)
+	private Integer id;
 
-  private String menuName;
+	private String menuName;
 
-  private Integer menuLevel;
+	private Integer menuLevel;
 
-  private Integer menuParentId;
+	private Integer menuParentId;
 
-  private String menuUrl;
+	private String menuUrl;
 
-  private String menuActivate;
+	private String menuActivate;
 
-  private String remark;
+	private String remark;
 }

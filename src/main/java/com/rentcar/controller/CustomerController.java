@@ -21,81 +21,83 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
-  private CustomerService service;
+	private CustomerService service;
 
-  @GetMapping("/{id}")
-  public Meg getById(@PathVariable Integer id) {
-    final Customer bean = service.getById(id);
-    return Meg.success().add("data", bean);
-  }
+	@GetMapping("/{id}")
+	public Meg getById(@PathVariable Integer id) {
+		final Customer bean = service.getById(id);
+		return Meg.success().add("data", bean);
+	}
 
-  @PutMapping("/{id}")
-  public Meg update(@RequestBody Customer bean, @PathVariable Integer id) {
-    bean.setId(id);
-    boolean bool = service.updateById(bean);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PutMapping("/{id}")
+	public Meg update(@RequestBody Customer bean, @PathVariable Integer id) {
+		bean.setId(id);
+		boolean bool = service.updateById(bean);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/page")
-  public Meg page(@RequestBody CustomerSearchFrom searchFrom) {
-    final Page<Customer> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
-    return Meg.success().add("data", page);
-  }
+	@PostMapping("/page")
+	public Meg page(@RequestBody CustomerSearchFrom searchFrom) {
+		final Page<Customer> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
+		return Meg.success().add("data", page);
+	}
 
-  @DeleteMapping("/{id}")
-  public Meg del(@PathVariable Integer id) {
-    boolean bool = service.removeById(id);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@DeleteMapping("/{id}")
+	public Meg del(@PathVariable Integer id) {
+		boolean bool = service.removeById(id);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping
-  public Meg insert(@RequestBody Customer bean) {
-    boolean bool = service.save(bean);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PostMapping
+	public Meg insert(@RequestBody Customer bean) {
+		boolean bool = service.save(bean);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/{id}/active")
-  public Meg active(String active, @PathVariable Integer id) {
-    Customer customer = new Customer();
-    customer.setId(id);
-    customer.setActivate(active);
-    boolean bool = service.updateById(customer);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PostMapping("/{id}/active")
+	public Meg active(String active, @PathVariable Integer id) {
+		Customer customer = new Customer();
+		customer.setId(id);
+		customer.setActivate(active);
+		boolean bool = service.updateById(customer);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/topUp")
-  public Meg topUp(Double money, HttpSession httpSession) {
-    Integer customerId = (Integer) httpSession.getAttribute("customerId");
-    final Customer customer = service.getById(customerId);
-    customer.setMoney(customer.getMoney().add(BigDecimal.valueOf(money)));
-    service.updateById(customer);
-    return Meg.success();
-  }
+	@PostMapping("/topUp")
+	public Meg topUp(Double money, HttpSession httpSession) {
+		Integer customerId = (Integer) httpSession.getAttribute("customerId");
+		final Customer customer = service.getById(customerId);
+		customer.setMoney(customer.getMoney().add(BigDecimal.valueOf(money)));
+		service.updateById(customer);
+		return Meg.success();
+	}
 
-  /** 更改密码 */
-  @PutMapping("/updatePassword")
-  public Meg updatePassword(@RequestBody UpdatePass updatePass, HttpSession httpSession) {
-    String oldPassword = updatePass.getOldPassword();
-    String newPassword = updatePass.getNewPassword();
-    String newPassword2 = updatePass.getNewPassword2();
-    Integer customerId = (Integer) httpSession.getAttribute("customerId");
-    final Customer customer = service.getById(customerId);
-    if (!customer.getPassword().equals(oldPassword)) {
-      System.out.println(customer);
-      return Meg.fail("密码错误");
-    }
-    if (newPassword.equals(newPassword2)) {
-      customer.setPassword(newPassword);
-      service.updateById(customer);
-      httpSession.setAttribute("customer", customer);
-      return Meg.success();
-    } else {
-      return Meg.fail("密码不一致");
-    }
-  }
+	/**
+	 * 更改密码
+	 */
+	@PutMapping("/updatePassword")
+	public Meg updatePassword(@RequestBody UpdatePass updatePass, HttpSession httpSession) {
+		String oldPassword = updatePass.getOldPassword();
+		String newPassword = updatePass.getNewPassword();
+		String newPassword2 = updatePass.getNewPassword2();
+		Integer customerId = (Integer) httpSession.getAttribute("customerId");
+		final Customer customer = service.getById(customerId);
+		if (!customer.getPassword().equals(oldPassword)) {
+			System.out.println(customer);
+			return Meg.fail("密码错误");
+		}
+		if (newPassword.equals(newPassword2)) {
+			customer.setPassword(newPassword);
+			service.updateById(customer);
+			httpSession.setAttribute("customer", customer);
+			return Meg.success();
+		} else {
+			return Meg.fail("密码不一致");
+		}
+	}
 
-  @Autowired
-  public void setService(CustomerService service) {
-    this.service = service;
-  }
+	@Autowired
+	public void setService(CustomerService service) {
+		this.service = service;
+	}
 }

@@ -8,5 +8,5 @@ import com.rentcar.bean.Role;
  */
 public interface RoleService extends IService<Role> {
 
-  void action(Integer id, String roleActivate);
+	void action(Integer id, String roleActivate);
 }

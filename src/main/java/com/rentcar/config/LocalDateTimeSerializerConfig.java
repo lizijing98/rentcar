@@ -17,13 +17,13 @@ import java.time.format.DateTimeFormatter;
 @Configuration
 public class LocalDateTimeSerializerConfig {
 
-  @Bean
-  public LocalDateTimeSerializer localDateTimeSerializer() {
-    return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-  }
+	@Bean
+	public LocalDateTimeSerializer localDateTimeSerializer() {
+		return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	}
 
-  @Bean
-  public Jackson2ObjectMapperBuilderCustomizer objectMapperBuilderCustomizer() {
-    return builder -> builder.serializerByType(LocalDateTime.class, localDateTimeSerializer());
-  }
+	@Bean
+	public Jackson2ObjectMapperBuilderCustomizer objectMapperBuilderCustomizer() {
+		return builder -> builder.serializerByType(LocalDateTime.class, localDateTimeSerializer());
+	}
 }

@@ -21,52 +21,52 @@ import java.util.List;
 @RequestMapping("/car-type")
 public class CarTypeController {
 
-  private CarTypeService service;
+	private CarTypeService service;
 
-  @Autowired
-  public void setService(CarTypeService service) {
-    this.service = service;
-  }
+	@Autowired
+	public void setService(CarTypeService service) {
+		this.service = service;
+	}
 
-  @GetMapping("/{id}")
-  public Meg getById(@PathVariable Integer id) {
-    final CarType bean = service.getById(id);
-    return Meg.success().add("data", bean);
-  }
+	@GetMapping("/{id}")
+	public Meg getById(@PathVariable Integer id) {
+		final CarType bean = service.getById(id);
+		return Meg.success().add("data", bean);
+	}
 
-  @PutMapping("/{id}")
-  public Meg update(@RequestBody CarType bean) {
-    Boolean bool = service.updateById(bean);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PutMapping("/{id}")
+	public Meg update(@RequestBody CarType bean) {
+		Boolean bool = service.updateById(bean);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping("/page")
-  public Meg page(@RequestBody CarTypeSearchFrom searchFrom) {
-    final Page<CarType> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
-    return Meg.success().add("data", page);
-  }
+	@PostMapping("/page")
+	public Meg page(@RequestBody CarTypeSearchFrom searchFrom) {
+		final Page<CarType> page = service.page(searchFrom.getPage(), searchFrom.queryWrapper());
+		return Meg.success().add("data", page);
+	}
 
-  @GetMapping("/list")
-  public Meg list() {
-    final List<CarType> list = service.list();
-    return Meg.success().add("data", list);
-  }
+	@GetMapping("/list")
+	public Meg list() {
+		final List<CarType> list = service.list();
+		return Meg.success().add("data", list);
+	}
 
-  @DeleteMapping("/{id}")
-  public Meg del(@PathVariable Integer id) {
-    Boolean bool = service.removeById(id);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@DeleteMapping("/{id}")
+	public Meg del(@PathVariable Integer id) {
+		Boolean bool = service.removeById(id);
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @DeleteMapping
-  public Meg del(@RequestParam("id") Integer[] ids) {
-    Boolean bool = service.removeByIds(Arrays.asList(ids));
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@DeleteMapping
+	public Meg del(@RequestParam("id") Integer[] ids) {
+		Boolean bool = service.removeByIds(Arrays.asList(ids));
+		return bool ? Meg.success() : Meg.fail();
+	}
 
-  @PostMapping
-  public Meg insert(@RequestBody CarType bean) {
-    Boolean bool = service.save(bean);
-    return bool ? Meg.success() : Meg.fail();
-  }
+	@PostMapping
+	public Meg insert(@RequestBody CarType bean) {
+		Boolean bool = service.save(bean);
+		return bool ? Meg.success() : Meg.fail();
+	}
 }

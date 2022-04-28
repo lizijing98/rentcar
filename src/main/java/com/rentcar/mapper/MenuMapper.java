@@ -12,20 +12,20 @@ import java.util.List;
  */
 @Repository
 public interface MenuMapper extends BaseMapper<Menu> {
-  /**
-   * 根据父菜单id获取菜单列表
-   *
-   * @param id
-   * @return
-   */
-  List<Menu> getMenuByParentId(Integer id);
+	/**
+	 * 根据父菜单id获取菜单列表
+	 *
+	 * @param id
+	 * @return
+	 */
+	List<Menu> getMenuByParentId(Integer id);
 
-  /**
-   * 激活
-   *
-   * @param id
-   * @param activate
-   * @return
-   */
-  int action(@Param("id") Integer id, @Param("activate") String activate);
+	/**
+	 * 激活
+	 *
+	 * @param id
+	 * @param activate
+	 * @return
+	 */
+	int action(@Param("id") Integer id, @Param("activate") String activate);
 }

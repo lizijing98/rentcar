@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>首页，欢迎租车</title>
-    <link href="../../static/layui2.6.8/css/layui.css" th:href="@{/layui2.6.8/css/layui.css}" rel="stylesheet" type="text/css">
+    <link href="../../static/layui2.6.8/css/layui.css" rel="stylesheet" th:href="@{/layui2.6.8/css/layui.css}"
+          type="text/css">
 </head>
 <style>
     .layui-body {
@@ -92,7 +93,7 @@
     <div class="layui-body layui-container center-context" style="padding: 20px">
         <div class="layui-form">
             <div class="layui-inline layui-hide">
-                <input autocomplete="off" class="layui-input" name="customerId" th:value="${id}" readonly>
+                <input autocomplete="off" class="layui-input" name="customerId" readonly th:value="${id}">
             </div>
             订单号：
             <div class="layui-inline">

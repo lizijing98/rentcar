@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Delay extends BaseEntity {
-  private Integer orderId;
-  private String orderNumber;
-  private String day;
+	private Integer orderId;
+	private String orderNumber;
+	private String day;
 }

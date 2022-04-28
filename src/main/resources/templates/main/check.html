@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>检查单据填写</title>
-    <link href="../../static/layui2.6.8/css/layui.css" th:href="@{/layui2.6.8/css/layui.css}" rel="stylesheet" type="text/css">
+    <link href="../../static/layui2.6.8/css/layui.css" rel="stylesheet" th:href="@{/layui2.6.8/css/layui.css}"
+          type="text/css">
 </head>
 <body>
 <form class="layui-form">
     <div class="layui-form-item">
         <label class="layui-form-label">订单号码</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input layui-hide" id="orderId" lay-verify="required" name="orderId" readonly required
+            <input autocomplete="off" class="layui-input layui-hide" id="orderId" lay-verify="required" name="orderId"
+                   readonly required
                    type="text">
-            <input autocomplete="off" class="layui-input" id="orderNumber" lay-verify="required" name="orderNumber" readonly
+            <input autocomplete="off" class="layui-input" id="orderNumber" lay-verify="required" name="orderNumber"
+                   readonly
                    required type="text">
         </div>
         <div class="layui-form-mid layui-word-aux">系统自动带出</div>
@@ -21,15 +24,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label">赔付金额(元)</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input" lay-verify="required|money" name="money" required value="200.00"
-                   type="number">
+            <input autocomplete="off" class="layui-input" lay-verify="required|money" name="money" required
+                   type="number"
+                   value="200.00">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">存在问题</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input" name="question" required value="闯红灯" type="text">
+            <input autocomplete="off" class="layui-input" name="question" required type="text" value="闯红灯">
         </div>
         <div class="layui-form-mid layui-word-aux">如果没有请填无</div>
     </div>
@@ -43,7 +47,9 @@
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-inline">
-            <button autocomplete="off" class="layui-btn" lay-filter="insert" lay-submit style="text-align: center">立即提交</button>
+            <button autocomplete="off" class="layui-btn" lay-filter="insert" lay-submit style="text-align: center">
+                立即提交
+            </button>
             <button class="layui-btn layui-btn-primary" id="reset" type="reset">重置</button>
         </div>
     </div>
