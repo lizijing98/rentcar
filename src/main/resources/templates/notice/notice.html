@@ -13,7 +13,8 @@
         <div class="layui-form-item" id="id-item">
             <label class="layui-form-label">id</label>
             <div class="layui-input-inline">
-                <input autocomplete="off" class="layui-input" id="id" name="id" placeholder="请输入ID" readOnly="true"
+                <input autocomplete="off" class="layui-input" id="id" lay-verify="required" name="id" placeholder="ID"
+                       readOnly
                        type="text"/>
             </div>
         </div>
@@ -257,8 +258,8 @@
                 layero.find('#insert').hide();
                 layero.find('#reset').hide();
                 layero.find('#id').val(data.id);
-                layero.find('#name').val(data.name);
-                layero.find('#remark').val(data.remark);
+                layero.find('#title').val(data.title);
+                layero.find('#context').val(data.context);
 
             },
         });

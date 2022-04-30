@@ -49,7 +49,7 @@
                 <div class="layui-upload">
                     <button class="layui-btn test1" id="test1" type="button">上传图片</button>
                     <div class="layui-upload-list">
-                        <img class="layui-upload-img demo1" id="demo1" src="">
+                        <img class="layui-upload-img" id="demo1" src="">
                         <p class="demoText" id="demoText"></p>
                     </div>
                 </div>
@@ -435,7 +435,8 @@
                 layero.find('#manufacturer').val(data.manufacturer);
                 layero.find('#cashPledge').val(data.cashPledge);
                 layero.find('#remark').val(data.remark);
-                layero.find('#demo1').attr('src', "/oss/upload?file=" + data.image)
+                // layero.find('#demo1').attr('src', "/oss/upload?file=" + data.image)
+                layero.find('#demo1').attr('src', "/oss/download?file=" + data.image)
                 layero.find('#carType option').remove()
                 initCartTypeSelect($, layero)
                 form.render();

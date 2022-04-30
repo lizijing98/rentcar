@@ -57,6 +57,15 @@
             </div>
         </div>
 
+        <div class="layui-form-item">
+            <label class="layui-form-label">赔付金额(元)</label>
+            <div class="layui-input-block">
+                <input autocomplete="off" class="layui-input" id="money1" lay-verify="required|money" name="money"
+                       readonly
+                       required type="number" value="0">
+            </div>
+        </div>
+
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">复检结果</label>
             <div class="layui-input-block">
@@ -271,7 +280,7 @@
                 layer.open({
                         type: 1, //Page层类型
                         area: ['600px', '350px'],
-                        title: '订单报告',
+                        title: '车检报告',
                         shade: 0.6, //遮罩透明度
                         anim: 1, //0-6的动画形式，-1不开启
                         content: $("#finish").html(),
@@ -284,6 +293,7 @@
                                 const check = response.map.data;
                                 layero.find("#orderNumber1").val(check.orderNumber);
                                 layero.find("#question1").val(check.question);
+                                layero.find("#money1").val(check.money);
                                 layero.find("#remark1").val(check.remark);
                             })
                         },

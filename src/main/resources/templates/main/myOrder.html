@@ -274,6 +274,7 @@
                     success: function (layero, index) {
                         let body = layer.getChildFrame('body', index);
                         body.find('#orderId').val(data.id);
+                        body.find('#endDate').val(data.endDate);
                         body.find('#orderNumber').val(data.orderNumber);
                     },
                 });
