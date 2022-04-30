@@ -27,7 +27,7 @@ public class CustomerSearchFrom {
 	public QueryWrapper<Customer> queryWrapper() {
 		QueryWrapper<Customer> queryWrapper = new QueryWrapper();
 		queryWrapper.eq("deleted", "0");
-		queryWrapper.eq(!StringUtils.isEmpty(username), "username", username);
+		queryWrapper.like(!StringUtils.isEmpty(username), "username", username);
 		queryWrapper.like(!StringUtils.isEmpty(email), "email", email);
 		queryWrapper.like(!StringUtils.isEmpty(phone), "phone", phone);
 		return queryWrapper;
