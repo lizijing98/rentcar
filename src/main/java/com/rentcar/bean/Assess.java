@@ -40,5 +40,11 @@ public class Assess extends BaseEntity {
 
 	private String remark;
 
+	/**
+	 * 订单状态：
+	 * 0.正常显示
+	 * 1.还车流程未完成
+	 * 2.暂不显示
+	 */
 	private Integer state;
 }

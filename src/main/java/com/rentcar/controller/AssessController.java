@@ -70,4 +70,9 @@ public class AssessController {
 		}
 		return assessService.initAssess(orderNum, customerId + "", remark) ? Meg.success() : Meg.fail();
 	}
+
+	@PostMapping("/{id}/state/{state}")
+	public Meg changeState(@PathVariable Integer id, @PathVariable Integer state) {
+		return assessService.changeStatus(id, state) ? Meg.success() : Meg.fail();
+	}
 }

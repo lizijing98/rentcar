@@ -34,8 +34,6 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
 	@Resource
 	private CheckService checkService;
 	@Resource
-	private CheckMapper checkMapper;
-	@Resource
 	private AssessMapper assessMapper;
 
 	@Override
@@ -95,6 +93,13 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
 					.setCarInfoId(order.getCarInfoId())
 					.setCustomerId(order.getCustomerId());
 		}
+		assess.setState(status);
+		return this.updateById(assess);
+	}
+
+	@Override
+	public Boolean changeStatus(Integer id, Integer status) {
+		Assess assess=assessMapper.selectById(id);
 		assess.setState(status);
 		return this.updateById(assess);
 	}

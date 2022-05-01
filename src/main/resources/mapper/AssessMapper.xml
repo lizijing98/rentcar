@@ -17,6 +17,7 @@
                  LEFT JOIN car.car_info ci on ci.id = ca.car_info_id
                  LEFT JOIN car.customer cus on cus.id = ca.customer_id
         WHERE ca.car_info_id = ${id}
+          AND ca.state = 0
           AND ca.deleted = 0;
     </select>
     <select id="getAssessByOrdNum" resultType="com.rentcar.bean.Assess">

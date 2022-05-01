@@ -47,4 +47,12 @@ public interface AssessService extends IService<Assess> {
 	 * @return 结果
 	 */
 	Boolean setStatus(String orderNum, Integer status);
+
+	/**
+	 * 修改评价状态
+	 * @param id 评价ID
+	 * @param status 状态
+	 * @return 结果
+	 */
+	Boolean changeStatus(Integer id,Integer status);
 }

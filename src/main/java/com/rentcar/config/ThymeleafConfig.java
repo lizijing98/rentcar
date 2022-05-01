@@ -72,7 +72,9 @@ public class ThymeleafConfig implements WebMvcConfigurer {
 		registry.addViewController("/userEditView").setViewName("user/userPage");
 		// 用户添加
 		registry.addViewController("/userAddView").setViewName("user/userAdd");
-		// 用户添加
+		// 事故检查单页
 		registry.addViewController("/inspect").setViewName("inspect/inspect");
+		// 评价页
+		registry.addViewController("/evaluation").setViewName("assess/assess");
 	}
 }
