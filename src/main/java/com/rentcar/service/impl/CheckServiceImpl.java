@@ -2,6 +2,7 @@ package com.rentcar.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rentcar.bean.Check;
+import com.rentcar.enums.CheckStatus;
 import com.rentcar.enums.OrderStatus;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.CheckMapper;
@@ -36,9 +37,13 @@ public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements
 
 	@Override
 	public boolean accident(Check check) {
+		Integer oldCheckId = checkMapper.getIdByOrderId(check.getOrderId());
+		if (oldCheckId != null) {
+			check.setId(oldCheckId);
+		}
 		check.setRemark("用户提交:" + check.getQuestion());
-		if (this.save(check)) {
-			orderService.updateState(check.getOrderId(), 7, "提交事故");
+		if (this.saveOrUpdate(check)) {
+			orderService.updateState(check.getOrderId(), OrderStatus.ACCIDENT.code, "提交事故");
 			return true;
 		} else {
 			throw new BusinessException("提交事故检查单失败");
@@ -54,9 +59,10 @@ public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements
 	@Transactional(rollbackFor = Exception.class)
 	public boolean changeState(Integer id, Integer state) {
 		Check check = this.getById(id);
-		if (state == 1) {
+		// 如果检查单转为完成，更新对应订单状态
+		if (state.equals(CheckStatus.FINISH.code)) {
 			checkMapper.updateState(id, state);
-			orderService.updateState(check.getOrderId(), OrderStatus.ORD_STA_RECHECK.getCode(), "已复查");
+			orderService.updateState(check.getOrderId(), OrderStatus.RECHECK.getCode(), "已复查");
 			return true;
 		}
 		return false;

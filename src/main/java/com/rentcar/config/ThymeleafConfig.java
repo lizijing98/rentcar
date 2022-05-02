@@ -15,7 +15,7 @@ public class ThymeleafConfig implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		// 检查单
-		registry.addViewController("/check").setViewName("main/check");
+		registry.addViewController("/accident").setViewName("main/accident");
 		// 还车单
 		registry.addViewController("/return").setViewName("main/return");
 		// 预定单信息

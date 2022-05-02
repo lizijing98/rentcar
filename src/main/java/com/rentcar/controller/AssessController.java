@@ -59,17 +59,17 @@ public class AssessController {
 		return assessService.removeById(id) ? Meg.success() : Meg.fail();
 	}
 
-	@PostMapping("/initAssess")
-	public Meg initAssess(
-			@RequestParam("orderNum") String orderNum,
-			@RequestParam("remark") String remark,
-			HttpSession session) {
-		Object customerId = session.getAttribute("customerId");
-		if (customerId == null) {
-			return Meg.noLogin();
-		}
-		return assessService.initAssess(orderNum, customerId + "", remark) ? Meg.success() : Meg.fail();
-	}
+//	@PostMapping("/initAssess")
+//	public Meg initAssess(
+//			@RequestParam("orderNum") String orderNum,
+//			@RequestParam("remark") String remark,
+//			HttpSession session) {
+//		Object customerId = session.getAttribute("customerId");
+//		if (customerId == null) {
+//			return Meg.noLogin();
+//		}
+//		return assessService.initAssess(orderNum, customerId + "", remark) ? Meg.success() : Meg.fail();
+//	}
 
 	@PostMapping("/{id}/state/{state}")
 	public Meg changeState(@PathVariable Integer id, @PathVariable Integer state) {

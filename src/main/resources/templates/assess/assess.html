@@ -91,9 +91,6 @@
     {{#  if(d.state == 0){ }}
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="banAssess" id="banAssess">暂不显示</a>
     {{#  } }}
-    <!--    {{#  if(d.state == 1){ }}-->
-    <!--    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="finishCheck" id="finish">完成检修</a>-->
-    <!--    {{#  } }}-->
     {{#  if(d.state == 2){ }}
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="showAssess" id="showAssess">正常展示</a>
     {{#  } }}
@@ -117,7 +114,7 @@
             cellMinWidth: 100,
             cols: [[
                 {field: 'id', title: 'id', width: 70,},
-                {field: 'orderNumber', title: '订单号',},
+                {field: 'orderNumber', title: '订单号',width: 200},
                 {field: 'carPlateNumber', title: '车牌号', width: 120},
                 {field: 'customerName', title: '客户名称', width: 120},
                 {

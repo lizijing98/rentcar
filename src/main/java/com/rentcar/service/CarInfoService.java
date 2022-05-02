@@ -38,4 +38,6 @@ public interface CarInfoService extends IService<CarInfo> {
 	 * @return 结果
 	 */
 	BigDecimal getMoneyById(Integer id);
+
+	Boolean changeCarStatus(Integer id,String status);
 }

@@ -111,7 +111,7 @@
     <a class="layui-btn layui-btn-disabled layui-btn-xs">待复检</a>
     {{#  } }}
     {{#  if(d.state == 7){ }}
-    <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="checkAccident">事故处理</a>
+    <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="checkAccident">事故处理中</a>
     {{#  } }}
     {{#  if(d.state == 2 || d.state == 3 || d.state == 6 || d.state == 5 || d.state == 8){ }}
     <a class="layui-btn layui-btn-xs layui-btn-disabled">已处理</a>
@@ -149,15 +149,15 @@
                             case 2:
                                 return '<span style="color: #ccaa00;">订单进行中</span>';
                             case 3:
-                                return '<span style="color: #245c20;">已拒绝借车</span>';
+                                return '<span style="color: #002ccc;">已拒绝借车</span>';
                             case 4:
-                                return '<span style="color: #ff0000;">申请还车</span>';
+                                return '<span style="color: #00cc03;">申请还车</span>';
                             case 5:
                                 return '<span style="color: #002ccc;">已拒绝还车</span>';
                             case 6:
                                 return '<span style="color: #1f1111;">订单已结束</span>';
                             case 7:
-                                return '<span style="color: #50525f;">事故处理中</span>';
+                                return '<span style="color: #ccaa00;">事故处理中</span>';
                             case 8:
                                 return '<span style="color: #50525f;">订单已取消</span>';
                             case 9:
@@ -277,6 +277,9 @@
             }
             // 查看车检
             if (layEvent === 'openCarChecked') {
+                const checkNumUrl = "/api/order/" + data.id + "/idCheck";
+                const checkDetailUrl = "/api/check?orderId=" + data.id;
+                const returnUrl = "/api/order/" + data.id + "/state/6";
                 layer.open({
                         type: 1, //Page层类型
                         area: ['600px', '350px'],
@@ -288,8 +291,7 @@
                         btnAlign: 'c',
                         success: function (layero) {
                             form.render();
-                            const url = "/api/check?orderId=" + data.id;
-                            $.get(url, function (response) {
+                            $.get(checkDetailUrl, function (response) {
                                 const check = response.map.data;
                                 layero.find("#orderNumber1").val(check.orderNumber);
                                 layero.find("#question1").val(check.question);
@@ -298,25 +300,38 @@
                             })
                         },
                         yes: function () {
-                            const url = "/api/order/" + data.id + "/state/6";
                             layer.prompt({
-                                formType: 0,
-                                title: '处理意见',
-                                value: '同意还车'
-                            }, function (value) {
-                                let data = "feedback=" + value;
-                                $.post(url, data, function (data) {
-                                    if (data.code && data.code === 200) {
-                                        layer.msg("处理成功");
-                                        setTimeout(() => {
-                                            layer.closeAll();
-                                            table.reload('order-table');
-                                        }, 1000)
-                                    } else {
-                                        layer.msg(data.message);
-                                    }
-                                })
-                            });
+                                    formType: 0,
+                                    title: '租车人身份证:' + data.customerIdNum,
+                                    value: data.customerIdNum
+                                }, function (value) {
+                                    let data = "idNum=" + value;
+                                    $.post(checkNumUrl, data, function (data) {
+                                        if (data.code && data.code === 200) {
+                                            layer.prompt({
+                                                formType: 0,
+                                                title: '处理意见',
+                                                value: '同意还车'
+                                            }, function (value) {
+                                                let data = "feedback=" + value;
+                                                $.post(returnUrl, data, function (data) {
+                                                    if (data.code && data.code === 200) {
+                                                        layer.msg("处理成功");
+                                                        setTimeout(() => {
+                                                            layer.closeAll();
+                                                            table.reload('order-table');
+                                                        }, 1000)
+                                                    } else {
+                                                        layer.msg(data.message);
+                                                    }
+                                                })
+                                            });
+                                        } else {
+                                            layer.msg(data.message);
+                                        }
+                                    })
+                                }
+                            )
                         },
                         btn2: function () {
                             const url = "/api/order/" + data.id + "/state/5";
@@ -342,73 +357,73 @@
                     }
                 )
             }
-            // 事故处理
-            if (layEvent === 'checkAccident') {
-                layer.open({
-                        type: 1, //Page层类型
-                        area: ['600px', '350px'],
-                        title: '事故报告',
-                        shade: 0.6, //遮罩透明度
-                        anim: 1, //0-6的动画形式，-1不开启
-                        content: $("#check").html(),
-                        btn: ['处理完成', '继续处理'],
-                        btnAlign: 'c',
-                        success: function (layero) {
-                            form.render();
-                            const url = "/api/check?orderId=" + data.id;
-                            $.get(url, function (response) {
-                                const check = response.map.data;
-                                layero.find("#orderNumber").val(check.orderNumber);
-                                layero.find("#money").val(check.money);
-                                layero.find("#question").val(check.question);
-                                layero.find("#remark").val(check.remark);
-                            })
-                        },
-                        yes: function () {
-                            const url = "/api/order/" + data.id + "/state/6";
-                            layer.prompt({
-                                formType: 0,
-                                title: '处理意见',
-                                value: '事故处理完成'
-                            }, function (value) {
-                                let data = "feedback=" + value;
-                                $.post(url, data, function (data) {
-                                    if (data.code && data.code === 200) {
-                                        layer.msg("处理成功");
-                                        setTimeout(() => {
-                                            layer.closeAll();
-                                            table.reload('order-table');
-                                        }, 1000)
-                                    } else {
-                                        layer.msg(data.message);
-                                    }
-                                })
-                            });
-                        },
-                        btn2: function () {
-                            const url = "/api/order/" + data.id + "/state/5";
-                            layer.prompt({
-                                formType: 0,
-                                title: '处理意见',
-                                value: '事故未处理完成'
-                            }, function (value) {
-                                let data = "feedback=" + value;
-                                $.post(url, data, function (data) {
-                                    if (data.code && data.code === 200) {
-                                        layer.msg("处理成功");
-                                        setTimeout(() => {
-                                            layer.closeAll();
-                                            table.reload('order-table');
-                                        }, 1000)
-                                    } else {
-                                        layer.msg(data.message);
-                                    }
-                                })
-                            });
-                        }
-                    }
-                )
-            }
+            // // 事故处理
+            // if (layEvent === 'checkAccident') {
+            //     layer.open({
+            //             type: 1, //Page层类型
+            //             area: ['600px', '350px'],
+            //             title: '事故报告',
+            //             shade: 0.6, //遮罩透明度
+            //             anim: 1, //0-6的动画形式，-1不开启
+            //             content: $("#check").html(),
+            //             btn: ['处理完成', '继续处理'],
+            //             btnAlign: 'c',
+            //             success: function (layero) {
+            //                 form.render();
+            //                 const url = "/api/check?orderId=" + data.id;
+            //                 $.get(url, function (response) {
+            //                     const check = response.map.data;
+            //                     layero.find("#orderNumber").val(check.orderNumber);
+            //                     layero.find("#money").val(check.money);
+            //                     layero.find("#question").val(check.question);
+            //                     layero.find("#remark").val(check.remark);
+            //                 })
+            //             },
+            //             yes: function () {
+            //                 const url = "/api/order/" + data.id + "/state/6";
+            //                 layer.prompt({
+            //                     formType: 0,
+            //                     title: '处理意见',
+            //                     value: '事故处理完成'
+            //                 }, function (value) {
+            //                     let data = "feedback=" + value;
+            //                     $.post(url, data, function (data) {
+            //                         if (data.code && data.code === 200) {
+            //                             layer.msg("处理成功");
+            //                             setTimeout(() => {
+            //                                 layer.closeAll();
+            //                                 table.reload('order-table');
+            //                             }, 1000)
+            //                         } else {
+            //                             layer.msg(data.message);
+            //                         }
+            //                     })
+            //                 });
+            //             },
+            //             btn2: function () {
+            //                 const url = "/api/order/" + data.id + "/state/5";
+            //                 layer.prompt({
+            //                     formType: 0,
+            //                     title: '处理意见',
+            //                     value: '事故未处理完成'
+            //                 }, function (value) {
+            //                     let data = "feedback=" + value;
+            //                     $.post(url, data, function (data) {
+            //                         if (data.code && data.code === 200) {
+            //                             layer.msg("处理成功");
+            //                             setTimeout(() => {
+            //                                 layer.closeAll();
+            //                                 table.reload('order-table');
+            //                             }, 1000)
+            //                         } else {
+            //                             layer.msg(data.message);
+            //                         }
+            //                     })
+            //                 });
+            //             }
+            //         }
+            //     )
+            // }
         })
     });
 </script>

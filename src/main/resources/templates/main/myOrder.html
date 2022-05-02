@@ -137,7 +137,7 @@
                                 case 6:
                                     return '<span style="color: #808080;">订单已结束</span>';
                                 case 7:
-                                    return '<span style="color: #ccaa00;">事故单处理中</span>';
+                                    return '<span style="color: #ccaa00;">事故处理中</span>';
                                 case 8:
                                     return '<span style="color: #808080;">订单已取消</span>';
                                 case 9:
@@ -253,7 +253,7 @@
                     area: ['450px', '500px'], //宽高
                     offset: 'auto',
                     closeBtn: 1,
-                    content: '/check',
+                    content: '/accident',
                     success: function (layero, index) {
                         let body = layer.getChildFrame('body', index);
                         body.find('#orderId').val(data.id);

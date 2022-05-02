@@ -87,6 +87,9 @@
 <script id="leftBtn" type="text/html">
     {{#  if(d.state == 0){ }}
     <a class="layui-btn layui-btn-xs" lay-event="editCheck" id="edit">编辑检修单</a>
+    {{#  } }}
+    {{#  if(d.state == 1){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="editCheck" id="edit1">编辑检修单</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="finishCheck" id="finish">完成检修</a>
     {{#  } }}
 </script>
@@ -116,9 +119,11 @@
                     field: 'state', title: '状态', templet: function (d) {
                         switch (d.state) {
                             case 0:
-                                return '<span style="color: #ccaa00;">正在检修</span>';
+                                return '<span style="color: #ff4500;">暂未检查</span>';
                             case 1:
-                                return '<span style="color: #1f1111;">完成检修</span>';
+                                return '<span style="color: #8b4513">检查中</span>';
+                            case 2:
+                                return '<span style="color: #90ee90;">检查完成</span>';
                         }
                     }
                 },
@@ -215,7 +220,7 @@
                 })
 
             } else if (layEvent === 'finishCheck') {
-                const url = "/api/check/" + data.id + "/state/1";
+                const url = "/api/check/" + data.id + "/state/2";
 
                 layer.confirm('确定完成检修？', {
                         btn: ['确定', '取消']

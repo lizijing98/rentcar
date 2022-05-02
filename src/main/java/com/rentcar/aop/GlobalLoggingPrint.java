@@ -3,6 +3,8 @@ package com.rentcar.aop;
 import cn.hutool.json.JSONUtil;
 import com.rentcar.util.Meg;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.session.StandardSession;
+import org.apache.catalina.session.StandardSessionFacade;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

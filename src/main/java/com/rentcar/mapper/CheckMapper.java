@@ -20,4 +20,11 @@ public interface CheckMapper extends BaseMapper<Check> {
 	 * @return 结果
 	 */
 	Integer updateState(Integer id, Integer state);
+
+	/**
+	 * 根据订单 ID 获取检查单 ID
+	 * @param orderId 订单 ID
+	 * @return 检查单 ID
+	 */
+	Integer getIdByOrderId(Integer orderId);
 }

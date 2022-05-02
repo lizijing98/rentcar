@@ -6,11 +6,11 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rentcar.bean.CarInfo;
-import com.rentcar.bean.Check;
-import com.rentcar.bean.Customer;
-import com.rentcar.bean.Order;
+import com.rentcar.bean.*;
 import com.rentcar.bean.VO.InitOrderVO;
+import com.rentcar.enums.AssessStatus;
+import com.rentcar.enums.CarStatus;
+import com.rentcar.enums.CheckStatus;
 import com.rentcar.enums.OrderStatus;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.OrderMapper;
@@ -64,7 +64,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 		if (customer.getMoney().compareTo(carInfo.getMoney()) <= 0) {
 			throw new BusinessException("余额不足，不能租赁");
 		}
-		if ("已出租".equals(carInfo.getStatus())) {
+		if (CarStatus.RENTED.status.equals(carInfo.getStatus())) {
 			throw new BusinessException("该汽车已经被出租");
 		}
 		Date startDate = DateUtil.parse(initOrderVO.getCreateDate(), "yyyy-MM-dd HH:mm:ss");
@@ -90,7 +90,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 		order.setOrderNumber(orderUtils.getOrderCode(customer.getId()));
 		int i = getBaseMapper().insert(order);
 		if (i > 0) {
-			carInfo.setStatus("已出租");
+			carInfo.setStatus(CarStatus.RENTED.status);
 			carInfoService.updateById(carInfo);
 		}
 		return i > 0;
@@ -103,17 +103,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 		Order order = getBaseMapper().selectById(id);
 		order.setFeedback(feedback);
 		// 申请还车
-		if (state.equals(OrderStatus.ORD_STA_CHECKING.getCode())) {
+		if (state.equals(OrderStatus.CHECKING.code)) {
 			applyReturn(state, order);
 		}
 		// 申请借车
-		if (state.equals(OrderStatus.ORD_STA_PROGRESSING.getCode())
-				|| state.equals(OrderStatus.ORD_STA_FAILED_BORROW.getCode())) {
+		if (state.equals(OrderStatus.PROGRESSING.code)
+				|| state.equals(OrderStatus.FAILED_BORROW.code)) {
 			applyBorrow(state, order);
 		}
 		// 拒绝还车
-		if (state.equals(OrderStatus.ORD_STA_REFUSE_RETURN.getCode())) {
-			if (order.getState().equals(OrderStatus.ORD_STA_APPLY_RETURN.getCode())) {
+		if (state.equals(OrderStatus.REFUSE_RETURN.code)) {
+			if (order.getState().equals(OrderStatus.APPLY_RETURN.code)) {
 				order.setState(state);
 				this.updateById(order);
 			} else {
@@ -121,8 +121,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 			}
 		}
 		// 同意还车
-		if (state == 6) {
-			if (order.getState().equals(9) || order.getState().equals(7)) {
+		if (state.equals(OrderStatus.FINISH.code)) {
+			if (order.getState().equals(OrderStatus.RECHECK.code) || order.getState().equals(OrderStatus.ACCIDENT.getCode())) {
 				log.info("*****还车开始*****");
 				order.setState(state);
 				CarInfo carInfo = carInfoService.getById(order.getCarInfoId());
@@ -176,32 +176,40 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 				customer.setMoney(customer.getMoney().subtract(total).add(customer.getFreeze()));
 				customer.setFreeze(BigDecimal.ZERO);
 				customerService.updateById(customer);
-				if (checkService.getOneByOrderId(order.getId()).getState() == 0) {
+				if (checkService.getOneByOrderId(order.getId()).getState().equals(CheckStatus.UNCHECK.code)) {
 					throw new BusinessException("检查单未处理");
 				}
 				this.updateById(order);
 				// 保存评价
-				assessService.setStatus(order.getOrderNumber(), 0);
+				assessService.setStatus(order.getOrderNumber(), AssessStatus.SHOW.code);
 			} else {
 				throw new BusinessException("订单处理失败！请稍后重试。");
 			}
 		}
 		// 提交事故
-		if (state == 7) {
-			if (order.getState().equals(2)) {
+		if (state.equals(OrderStatus.ACCIDENT.code)) {
+			if (order.getState().equals(OrderStatus.PROGRESSING.code)) {
 				// 检修单罚金
 				Check check = checkService.getOneByOrderId(order.getId());
 				BigDecimal fine = check.getMoney();
 				order.setFine(fine);
 				order.setState(state);
 				this.updateById(order);
+				// 默认评价
+				Assess assess=new Assess()
+						.setCustomerId(order.getCustomerId())
+						.setOrderNumber(order.getOrderNumber())
+						.setCarInfoId(order.getCarInfoId())
+						.setState(AssessStatus.PROCESSING.code);
+				assessService.save(assess);
 			} else {
 				throw new BusinessException("订单状态异常，无法创建事故单");
 			}
 		}
 		// 取消订单
-		if (state == 8) {
-			if (order.getState().equals(1)) {
+		if (state.equals(OrderStatus.CANCELED.code)) {
+			// 检查订单状态是否为申请借车
+			if (order.getState().equals(OrderStatus.APPLY_BORROW.code)) {
 				order.setState(state);
 				this.updateById(order);
 			} else {
@@ -209,9 +217,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 			}
 		}
 		// 订单完成复查
-		if (state.equals(OrderStatus.ORD_STA_RECHECK.getCode())) {
-			if (order.getState().equals(OrderStatus.ORD_STA_CHECKING.getCode())
-					|| order.getState().equals(OrderStatus.ORD_STA_ACCIDENT.getCode())) {
+		if (state.equals(OrderStatus.RECHECK.code)) {
+			if (order.getState().equals(OrderStatus.CHECKING.code)
+					|| order.getState().equals(OrderStatus.ACCIDENT.code)) {
 				// 检修单罚金
 				Check check = checkService.getOneByOrderId(order.getId());
 				BigDecimal fine = check.getMoney();
@@ -224,16 +232,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 		}
 
 		// 修改汽车状态
-		CarInfo carInfo = carInfoService.getById(order.getCarInfoId());
-		if (state == 6 || state == 8 || state == 3) {
-			carInfo.setStatus("未出租");
-			carInfoService.updateById(carInfo);
-		} else if (state == 7) {
-			carInfo.setStatus("事故处理中");
-			carInfoService.updateById(carInfo);
-		} else if (state.equals(OrderStatus.ORD_STA_PROGRESSING.getCode())) {
-			carInfo.setStatus("已出租");
-			carInfoService.updateById(carInfo);
+		if (state.equals(OrderStatus.FINISH.code) || state.equals(OrderStatus.CANCELED.code) || state.equals(OrderStatus.FAILED_BORROW.getCode())) {
+			// 订单完成、订单取消、借车失败 车辆为未出租
+			carInfoService.changeCarStatus(order.getCarInfoId(), CarStatus.NOT_RENTED.status);
+		} else if (state.equals(OrderStatus.ACCIDENT.code)) {
+			// 提交事故 车辆为检修中
+			carInfoService.changeCarStatus(order.getCarInfoId(), CarStatus.REPAIR.status);
+		} else if (state.equals(OrderStatus.PROGRESSING.code)) {
+			// 订单进行中 车辆为已出租
+			carInfoService.changeCarStatus(order.getCarInfoId(), CarStatus.RENTED.status);
 		}
 		return true;
 	}
@@ -262,7 +269,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 		if (oldEndDate.isAfter(newEndDate)) {
 			return Meg.fail("延期日期不可早于原结束日期");
 		}
-		if (order.getState() != 2) {
+		if (!order.getState().equals(OrderStatus.PROGRESSING.code)) {
 			log.error("订单状态非进行中");
 			return Meg.fail("订单不可延期");
 		}
@@ -289,12 +296,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
 	@Transactional(rollbackFor = Exception.class)
 	protected void applyReturn(Integer state, Order order) {
-		if (order.getState().equals(OrderStatus.ORD_STA_PROGRESSING.getCode())) {
+		if (order.getState().equals(OrderStatus.PROGRESSING.code)) {
 			order.setState(state);
 			if (!this.updateById(order)) {
 				throw new BusinessException("申请还车失败!");
 			}
-		} else if (order.getState().equals(OrderStatus.ORD_STA_REFUSE_RETURN.getCode())) {
+		} else if (order.getState().equals(OrderStatus.REFUSE_RETURN.code)) {
 			order.setState(state);
 			if (!this.updateById(order)) {
 				throw new BusinessException("重新申请还车失败!");
@@ -306,9 +313,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
 	@Transactional(rollbackFor = Exception.class)
 	protected void applyBorrow(Integer state, Order order) {
-		if (order.getState().equals(OrderStatus.ORD_STA_APPLY_BORROW.getCode())) {
+		if (order.getState().equals(OrderStatus.APPLY_BORROW.code)) {
 			// 预订单转订单
-			if (state.equals(OrderStatus.ORD_STA_PROGRESSING.getCode())) {
+			if (state.equals(OrderStatus.PROGRESSING.code)) {
 				order.setOutDate(LocalDateTime.now());
 			}
 			Customer customer = customerService.getById(order.getCustomerId());
@@ -323,7 +330,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 			if (!this.updateById(order)) {
 				throw new BusinessException("订单处理失败！请稍后重试。");
 			}
-		} else if (order.getState().equals(OrderStatus.ORD_STA_CHECKING.getCode())) {
+		} else if (order.getState().equals(OrderStatus.CHECKING.code)) {
 			// 取消还车
 			order.setState(state);
 			if (!this.updateById(order)) {

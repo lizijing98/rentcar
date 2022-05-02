@@ -7,6 +7,7 @@ import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.CarInfoMapper;
 import com.rentcar.service.CarInfoService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -23,16 +24,8 @@ import java.util.List;
 public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo>
 		implements CarInfoService {
 
-	//  @Resource
-	//  private CarTypeService carTypeService;
-
 	@Resource
 	private CarInfoMapper carInfoMapper;
-
-	//  @Autowired
-	//  public void setCarTypeService(CarTypeService carTypeService) {
-	//    this.carTypeService = carTypeService;
-	//  }
 
 	@Override
 	public boolean save(CarInfo entity) {
@@ -72,5 +65,13 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo>
 	@Override
 	public BigDecimal getMoneyById(Integer id) {
 		return carInfoMapper.getMoneyById(id);
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Boolean changeCarStatus(Integer id, String status) {
+		CarInfo carInfo=carInfoMapper.selectById(id);
+		carInfo.setStatus(status);
+		return this.updateById(carInfo);
 	}
 }

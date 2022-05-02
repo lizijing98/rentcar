@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rentcar.bean.Check;
 import com.rentcar.bean.search.CheckSearchFrom;
+import com.rentcar.enums.CheckStatus;
 import com.rentcar.service.CheckService;
 import com.rentcar.util.Meg;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class CheckController {
 	@PutMapping("/{id}")
 	public Meg update(@RequestBody Check check, @PathVariable Integer id) {
 		check.setId(id);
+		check.setState(CheckStatus.CHECKING.code);
 		return checkService.updateById(check) ? Meg.success() : Meg.fail();
 	}
 
@@ -43,7 +45,7 @@ public class CheckController {
 
 	@PostMapping("/{id}/state/{state}")
 	public Meg changeState(@PathVariable Integer id, @PathVariable Integer state) {
-		return checkService.changeState(id, state) ? Meg.success() : Meg.fail();
+		return checkService.changeState(id, state) ? Meg.success() : Meg.fail("检查单状态更新失败");
 	}
 
 	@PostMapping("/accident")

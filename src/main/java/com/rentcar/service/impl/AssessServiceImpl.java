@@ -5,10 +5,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rentcar.bean.Assess;
 import com.rentcar.bean.Check;
 import com.rentcar.bean.Order;
+import com.rentcar.enums.AssessStatus;
+import com.rentcar.enums.CheckStatus;
 import com.rentcar.enums.OrderStatus;
 import com.rentcar.exception.BusinessException;
 import com.rentcar.mapper.AssessMapper;
-import com.rentcar.mapper.CheckMapper;
 import com.rentcar.service.AssessService;
 import com.rentcar.service.CheckService;
 import com.rentcar.service.OrderService;
@@ -63,21 +64,21 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
 			assess.setId(oldAssessId);
 		}
 		//	保存用户评价
-		assess.setCustomerId(order.getCustomerId()).setCarInfoId(order.getCarInfoId()).setState(1);
+		assess.setCustomerId(order.getCustomerId()).setCarInfoId(order.getCarInfoId()).setState(AssessStatus.PROCESSING.code);
 		// 修改订单状态为复检中
-		orderService.updateState(order.getId(), OrderStatus.ORD_STA_CHECKING.getCode(), null);
+		orderService.updateState(order.getId(), OrderStatus.CHECKING.code, "复检中");
 		// 创建检查单
 		Check check = checkService.getOneByOrderId(order.getId());
 		if (check != null) {
-			check.setQuestion("暂未检查").setRemark("null").setState(0);
+			check.setQuestion("暂未检查").setRemark("暂未检查").setState(CheckStatus.UNCHECK.code);
 		} else {
 			check =
 					new Check()
 							.setOrderNumber(order.getOrderNumber())
 							.setOrderId(order.getId())
 							.setQuestion("暂未检查")
-							.setRemark("null")
-							.setState(0);
+							.setRemark("暂未检查")
+							.setState(CheckStatus.UNCHECK.code);
 		}
 		checkService.save(check);
 		this.saveOrUpdate(assess);
@@ -99,7 +100,7 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
 
 	@Override
 	public Boolean changeStatus(Integer id, Integer status) {
-		Assess assess=assessMapper.selectById(id);
+		Assess assess = assessMapper.selectById(id);
 		assess.setState(status);
 		return this.updateById(assess);
 	}
