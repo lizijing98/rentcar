@@ -51,7 +51,8 @@ public class AuthCodeUtils {
 
 		// 数字和字母的组合
 
-		String baseNumLetter = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+//		String baseNumLetter = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+		String baseNumLetter = "1234567890";
 
 		StringBuffer sBuffer = new StringBuffer();
 		// 旋转原点的 x 坐标
