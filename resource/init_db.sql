@@ -214,9 +214,10 @@ CREATE TABLE `menu`
 DROP TABLE IF EXISTS `menu_role`;
 CREATE TABLE `menu_role`
 (
+    id      INTEGER(12) NOT NULL AUTO_INCREMENT COMMENT '菜单_角色表 ID',
     menu_id INTEGER(20) NOT NULL COMMENT '菜单 ID',
     role_id INTEGER(20) NOT NULL COMMENT '角色 ID',
-    PRIMARY KEY pk (menu_id, role_id) USING BTREE COMMENT '菜单角色表主键'
+    PRIMARY KEY pk (id) USING BTREE COMMENT '菜单角色表主键'
 )
     COMMENT '菜单_角色表'
     ENGINE = InnoDB
@@ -289,9 +290,10 @@ CREATE TABLE `user`
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role`
 (
+    id      INTEGER(12) NOT NULL AUTO_INCREMENT COMMENT '角色_用户表 ID',
     user_id INTEGER(20) NOT NULL COMMENT '用户 ID',
     role_id INTEGER(20) NOT NULL COMMENT '角色 ID',
-    PRIMARY KEY pk (user_id, role_id) USING BTREE COMMENT '用户角色表主键'
+    PRIMARY KEY pk (id) USING BTREE COMMENT '用户角色表主键'
 )
     COMMENT '用户_角色表'
     ENGINE = InnoDB
