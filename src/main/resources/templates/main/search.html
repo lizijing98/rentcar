@@ -21,11 +21,6 @@
         height: 25px;
         padding-left: 5px;
     }
-
-    .layui-footer {
-        left: 0 !important;
-        text-align: center;
-    }
 </style>
 
 <body class="layui-layout-body">
@@ -41,7 +36,7 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item" th:if="not ${session.customerId}"><a href="/customerLogin" id="login">登录</a></li>
-            <li class="layui-nav-item" th:if="${session.customerId}"><img class="layui-nav-img" src="/default.jpg"></li>
+            <li class="layui-nav-item" th:if="${session.customerId}"><img alt="" class="layui-nav-img" src="/default.jpg"></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><span
                     th:text="${session.customer.username}"></span></li>
             <li class="layui-nav-item" th:if="${session.customerId}"><a href="/myOrder">我的订单</a></li>
@@ -55,41 +50,41 @@
         <div class="layui-form">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">汽车类型：</label>
+                    <label class="layui-form-label" for="carType">汽车类型：</label>
                     <div class="layui-inline">
-                        <input autocomplete="off" class="layui-input" name="carType">
+                        <input autocomplete="off" class="layui-input" id="carType" name="carType">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">车辆型号：</label>
+                    <label class="layui-form-label" for="brand">车辆型号：</label>
                     <div class="layui-inline">
-                        <input autocomplete="off" class="layui-input" name="brand">
+                        <input autocomplete="off" class="layui-input" id="brand" name="brand">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">制造商：</label>
+                    <label class="layui-form-label" for="manufacturer">制造商：</label>
                     <div class="layui-inline">
-                        <input autocomplete="off" class="layui-input" name="manufacturer">
+                        <input autocomplete="off" class="layui-input" id="manufacturer" name="manufacturer">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">车牌号：</label>
+                    <label class="layui-form-label" for="plateNumber">车牌号：</label>
                     <div class="layui-inline">
-                        <input autocomplete="off" class="layui-input" name="plateNumber">
+                        <input autocomplete="off" class="layui-input" id="plateNumber" name="plateNumber">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">最低租金：</label>
+                    <label class="layui-form-label" for="moneyMin">最低租金：</label>
                     <div class="layui-inline">
-                        <input autocomplete="off" class="layui-input" name="moneyMin">
+                        <input autocomplete="off" class="layui-input" id="moneyMin" name="moneyMin">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">最高租金：</label>
+                    <label class="layui-form-label" for="moneyMax">最高租金：</label>
                     <div class="layui-inline">
-                        <input autocomplete="off" class="layui-input" name="moneyMax">
+                        <input autocomplete="off" class="layui-input" id="moneyMax" name="moneyMax">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -109,14 +104,14 @@
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="showDetail">查看详情</a>
     {{#  } }}
 </script>
-<script src="layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>
+<script src="../../static/layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>
 
 <script th:inline="javascript" type="text/javascript">
     layui.use(['table', 'layer', 'form'], function () {
         const table = layui.table;
-        const layer = layui.layer;
+        // const layer = layui.layer;
         const form = layui.form;
-        const $ = layui.$;
+        // const $ = layui.$;
 
         // 表单加载
         const tableIns = table.render({
@@ -131,7 +126,7 @@
                 [
                     {field: 'id', title: 'id', width: 70, sort: true},
                     {field: 'brand', title: '车辆型号', width: 150, sort: true},
-                    {field: 'carTypeName', title: '汽车类型', width: 100, sort: true},
+                    {field: 'carTypeName', title: '汽车类型', width: 110, sort: true},
                     {field: 'manufacturer', title: '生产厂家', width: 100,},
                     {field: 'plateNumber', title: '车牌', width: 100,},
                     {field: 'money', title: '租金(元/天)', width: 100, sort: true},

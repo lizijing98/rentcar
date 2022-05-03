@@ -67,6 +67,7 @@ public class FileController {
 		if (!imageFile.exists()) {
 			imageFile = new File(getFilePath("background-head.png"));
 		}
+		log.info("filePath:{}", imageFile);
 		response.setHeader(
 				"Content-Disposition",
 				"attachment;filename=" + new String(file.getBytes(), StandardCharsets.ISO_8859_1));

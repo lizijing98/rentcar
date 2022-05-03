@@ -60,6 +60,16 @@
         </root>
     </springProfile>
 
+    <springProfile name="jar">
+        <logger name="com.rentcar" level="info" additivity="true">
+            <appender-ref ref="FILE_APPLICATION"/>
+        </logger>
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE_ROOT"/>
+        </root>
+    </springProfile>
+
     <springProfile name="docker">
         <logger name="com.rentcar" level="info" additivity="true">
             <appender-ref ref="FILE_APPLICATION"/>

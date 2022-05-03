@@ -59,6 +59,6 @@ public class LoginServlet {
 	@RequestMapping("/exit")
 	public String exit() {
 		httpSession.invalidate();
-		return "index";
+		return "backLogin";
 	}
 }

@@ -43,26 +43,15 @@ public class CustomerViewController {
 	@Resource
 	private AssessService assessService;
 
-	@GetMapping("/main")
+	@GetMapping("/")
 	public ModelAndView main() {
-		ModelAndView model = new ModelAndView("main/main");
+		ModelAndView model = new ModelAndView("main");
 		final List<CarType> types = carTypeService.listAndInfoList();
 		final List<Notice> notices = noticeService.list();
 		model.addObject("types", types);
 		model.addObject("notices", notices);
 		model.addObject("carousels", carouselService.list());
 		return model;
-	}
-
-	@PostMapping("/customerLogin")
-	@ResponseBody
-	public Meg customerLogin(
-			@RequestParam String username,
-			@RequestParam String password,
-			@RequestParam String authCode,
-			HttpServletRequest request) {
-		String ip = IpUtil.getIpAddr(request);
-		return loginService.loginCustomer(username, password, authCode, ip);
 	}
 
 	@GetMapping("/main/type")
@@ -95,6 +84,17 @@ public class CustomerViewController {
 	public String login() {
 		httpSession.invalidate();
 		return "customer/customerLogin";
+	}
+
+	@PostMapping("/customerLogin")
+	@ResponseBody
+	public Meg customerLogin(
+			@RequestParam String username,
+			@RequestParam String password,
+			@RequestParam String authCode,
+			HttpServletRequest request) {
+		String ip = IpUtil.getIpAddr(request);
+		return loginService.loginCustomer(username, password, authCode, ip);
 	}
 
 	@GetMapping("/customer/exit")
