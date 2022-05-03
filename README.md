@@ -12,10 +12,8 @@
 2. 构建容器
 
    ```shell
-   docker run -itd -p 8002:8002 --name rentcar --env-file env.list -v ${pwd}/application.yml:/app/application.yml rentcar:1.0.0
+   docker run -itd -p 8002:8002 --name rentcar -v ${PWD}/config:/app/config -v ${PWD}/static:/app/static --env-file env.list rentcar:1.0.0
    ```
-
-3. 
 
 
 ## todo
@@ -27,3 +25,4 @@
 - [x] 检查单考虑增加暂未检查状态并限制完成检查时的状态校验
 - [x] 订单报告中缺少复检金额
 - [x] 新增后台的评价管理
+- [x] docker 容器中图片路径的访问问题

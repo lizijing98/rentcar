@@ -1,5 +1,7 @@
 package com.rentcar.controller;
 
+import com.rentcar.constant.SystemConstant;
+import com.rentcar.exception.BusinessException;
 import com.rentcar.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 
 /**
- * @Author: lzj
+ * @author : lzj
  */
 @Slf4j
 @RestController
@@ -38,8 +41,8 @@ public class FileController {
 	/**
 	 * 文件hash
 	 *
-	 * @param fileName
-	 * @return
+	 * @param fileName 文件名
+	 * @return 文件哈希
 	 */
 	private String getFileName(String fileName) {
 		LocalDateTime dateTime = LocalDateTime.now();
@@ -56,9 +59,7 @@ public class FileController {
 	}
 
 	public String getFilePath(String fileName) {
-		String filePath = System.getProperty("user.dir") + "\\static";
-		new File(filePath).mkdirs();
-		return filePath + "\\" + fileName;
+		return System.getProperty("user.dir") + SystemConstant.FILE_PATH + fileName;
 	}
 
 	@GetMapping("/download")
@@ -72,7 +73,7 @@ public class FileController {
 				"Content-Disposition",
 				"attachment;filename=" + new String(file.getBytes(), StandardCharsets.ISO_8859_1));
 		try (OutputStream os = response.getOutputStream();
-			 BufferedInputStream in = new BufferedInputStream(new FileInputStream(imageFile));
+			 BufferedInputStream in = new BufferedInputStream(Files.newInputStream(imageFile.toPath()));
 			 BufferedOutputStream out = new BufferedOutputStream(os)) {
 			byte[] buffer = new byte[1024];
 			int length;
@@ -81,7 +82,7 @@ public class FileController {
 			}
 			out.flush();
 		} catch (Exception e) {
-
+			throw new BusinessException("获取静态文件异常");
 		}
 	}
 }
