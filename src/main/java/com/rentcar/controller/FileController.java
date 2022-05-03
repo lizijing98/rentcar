@@ -56,9 +56,9 @@ public class FileController {
 	}
 
 	public String getFilePath(String fileName) {
-		String filePath = System.getProperty("user.dir") + "/static";
+		String filePath = System.getProperty("user.dir") + "\\static";
 		new File(filePath).mkdirs();
-		return filePath + "/" + fileName;
+		return filePath + "\\" + fileName;
 	}
 
 	@GetMapping("/download")

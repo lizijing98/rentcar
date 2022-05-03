@@ -1,5 +1,23 @@
 # 租车系统
 
+## Docker 构建
+
+1. 从 Dockerfile 构建镜像
+
+   ```shell
+   docker build -f sample.Dockerfile -t rentcar:1.0.0 .
+   #docker build -f Dockerfile -t rencar:1.0.0
+   ```
+
+2. 构建容器
+
+   ```shell
+   docker run -itd -p 8002:8002 --name rentcar --env-file env.list -v ${pwd}/application.yml:/app/application.yml rentcar:1.0.0
+   ```
+
+3. 
+
+
 ## todo
 
 - [x] 客户订单页面延期弹窗未带出原有结束日期

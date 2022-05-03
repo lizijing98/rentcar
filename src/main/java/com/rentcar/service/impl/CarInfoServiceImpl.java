@@ -29,22 +29,22 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo>
 
 	@Override
 	public boolean save(CarInfo entity) {
-		this.saveOrUpdateBefore(entity);
+		this.saveBefore(entity);
 		return super.save(entity);
 	}
 
 	@Override
 	public boolean updateById(CarInfo entity) {
-		this.saveOrUpdateBefore(entity);
+//		this.saveOrUpdateBefore(entity);
 		return super.updateById(entity);
 	}
 
-	private void saveOrUpdateBefore(CarInfo entity) {
+	private void saveBefore(CarInfo entity) {
 		QueryWrapper<CarInfo> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("deleted", "0");
 		queryWrapper.eq("plate_number", entity.getPlateNumber());
-		final CarInfo carInfo = getBaseMapper().selectOne(queryWrapper);
-		if (carInfo != null && !entity.getId().equals(carInfo.getId())) {
+		CarInfo carInfo = getBaseMapper().selectOne(queryWrapper);
+		if (carInfo != null && entity.getPlateNumber().equals(carInfo.getPlateNumber())) {
 			throw new BusinessException("该车牌号已经被登记，请重新检查。");
 		}
 	}

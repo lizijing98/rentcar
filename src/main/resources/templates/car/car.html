@@ -68,7 +68,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">生产日期</label>
             <div class="layui-input-inline">
-                <input class="layui-input date" id="date" lay-verify="required" name="producedDate" required
+                <input class="layui-input date" id="producedDate" lay-verify="required" name="producedDate" required
                        type="text"/>
             </div>
         </div>
@@ -181,15 +181,15 @@
             cols: [[
                 {fixed: 'left', type: 'checkbox',},
                 {field: 'id', title: 'id', width: 70,},
-                {field: 'carTypeName', title: '汽车类型',},
-                {field: 'money', title: '租金(元/天)',},
-                {field: 'brand', title: '车辆型号',},
-                {field: 'cashPledge', title: '押金(元)',},
+                {field: 'carTypeName', title: '汽车类型', width: 100},
+                {field: 'brand', title: '车辆型号', width: 100},
+                {field: 'plateNumber', title: '车牌', width: 120},
+                {field: 'manufacturer', title: '生产厂家', width: 100},
+                {field: 'money', title: '租金(元/天)', width: 100},
+                {field: 'cashPledge', title: '押金(元)', width: 100},
+                {field: 'status', title: '状态', width: 100},
                 {field: 'image', title: '图片', templet: '#titleTpl'},
-                {field: 'manufacturer', title: '生产厂家',},
-                {field: 'status', title: '状态',},
                 {field: 'producedDate', title: '生产日期',},
-                {field: 'plateNumber', title: '车牌',},
                 {field: 'carColor', title: '汽车颜色',},
                 {field: 'remark', title: '详情'},
                 {fixed: 'right', title: '操作', toolbar: '#leftBtn', width: 200}
@@ -229,9 +229,15 @@
         // 表单校验
         form.verify({
             money: function (value, item) {//value：表单的值、item：表单的DOM对象
-                if (!'.'.includes(value)) {
+                console.log("old:" + value)
+                if (!value.includes(".")) {
                     // 加上小数后缀
                     value = value + ".00";
+                    console.log("new1:" + value)
+                } else {
+                    value = value.split(".")[0]
+                    value = value + ".00";
+                    console.log("new2:" + value)
                 }
                 const reg = new RegExp('^(([1-9][0-9]{0,14})|([0])|(([0]\\.\\d{1,2}|[1-9][0-9]{0,14}\\.\\d{1,2})))$');
                 if (!reg.test(value)) {
@@ -424,6 +430,7 @@
             content: $("#car-form"),
             success: function (layero) {
                 uploadInit(upload, $, layero)
+                initCartTypeSelect($, layero)
                 layero.find('#insert').hide();
                 layero.find('#reset').hide();
                 layero.find('#image').hide();
@@ -434,11 +441,10 @@
                 layero.find('#brand').val(data.brand);
                 layero.find('#manufacturer').val(data.manufacturer);
                 layero.find('#cashPledge').val(data.cashPledge);
+                layero.find('#producedDate').val(data.producedDate);
                 layero.find('#remark').val(data.remark);
-                // layero.find('#demo1').attr('src', "/oss/upload?file=" + data.image)
                 layero.find('#demo1').attr('src', "/oss/download?file=" + data.image)
                 layero.find('#carType option').remove()
-                initCartTypeSelect($, layero)
                 form.render();
                 layui.use('laydate', function () {
                     const laydate = layui.laydate;
