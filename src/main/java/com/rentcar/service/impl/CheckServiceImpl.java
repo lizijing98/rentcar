@@ -64,7 +64,17 @@ public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements
 			checkMapper.updateState(id, state);
 			orderService.updateState(check.getOrderId(), OrderStatus.RECHECK.getCode(), "已复查");
 			return true;
+		} else {
+			checkMapper.updateState(id, state);
+			return true;
 		}
-		return false;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void changeState(String orderNum, Integer state) {
+		Check check = checkMapper.getOneByOrderNum(orderNum);
+		check.setState(state);
+		this.updateById(check);
 	}
 }

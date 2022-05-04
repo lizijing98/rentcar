@@ -42,4 +42,12 @@ public interface CheckService extends IService<Check> {
 	 * @return 结果
 	 */
 	boolean changeState(Integer id, Integer state);
+
+	/**
+	 * 修改检查单状态
+	 *
+	 * @param orderNum 检查单 ID
+	 * @param state    检查单状态
+	 */
+	void changeState(String orderNum, Integer state);
 }

@@ -17,6 +17,8 @@ public enum CheckStatus {
 	// 检查中
 	CHECKING(1),
 	// 检查完成
-	FINISH(2);
+	FINISH(2),
+	// 检查单暂存
+	TEMPORARY(3);
 	public final Integer code;
 }

@@ -25,4 +25,10 @@
         WHERE order_id = ${orderId}
           AND deleted = 0;
     </select>
+    <select id="getOneByOrderNum" resultType="com.rentcar.bean.Check">
+        SELECT *
+        FROM car.`check` c
+        WHERE c.order_number = ${orderNum}
+          AND c.deleted = 0;
+    </select>
 </mapper>

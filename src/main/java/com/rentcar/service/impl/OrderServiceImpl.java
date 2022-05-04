@@ -113,8 +113,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 		}
 		// 拒绝还车
 		if (state.equals(OrderStatus.REFUSE_RETURN.code)) {
-			if (order.getState().equals(OrderStatus.APPLY_RETURN.code)) {
+			if (order.getState().equals(OrderStatus.RECHECK.code)) {
 				order.setState(state);
+				checkService.changeState(order.getOrderNumber(),CheckStatus.TEMPORARY.code);
 				this.updateById(order);
 			} else {
 				throw new BusinessException("订单处理失败！请稍后重试。");

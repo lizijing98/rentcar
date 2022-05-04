@@ -80,7 +80,7 @@ public class AssessServiceImpl extends ServiceImpl<AssessMapper, Assess> impleme
 							.setRemark("暂未检查")
 							.setState(CheckStatus.UNCHECK.code);
 		}
-		checkService.save(check);
+		checkService.saveOrUpdate(check);
 		this.saveOrUpdate(assess);
 	}
 

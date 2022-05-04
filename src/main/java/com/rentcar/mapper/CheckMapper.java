@@ -3,6 +3,9 @@ package com.rentcar.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rentcar.bean.Check;
 
+/**
+ * @author lzj
+ */
 public interface CheckMapper extends BaseMapper<Check> {
 	/**
 	 * 通过订单 ID 获取检查单
@@ -27,4 +30,11 @@ public interface CheckMapper extends BaseMapper<Check> {
 	 * @return 检查单 ID
 	 */
 	Integer getIdByOrderId(Integer orderId);
+
+	/**
+	 * 通过订单号获取检查单
+	 * @param orderNum 订单号
+	 * @return 检查单
+	 */
+	Check getOneByOrderNum(String orderNum);
 }

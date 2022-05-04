@@ -11,6 +11,7 @@
 <div class="layui-hide" id="inspect">
     <form class="layui-form">
         <div class="layui-form-item layui-hide">
+            <label class="layui-form-label layui-hide" for="id">id</label>
             <div class="layui-input-inline">
                 <input autocomplete="off" class="layui-input" id="id" lay-verify="required" name="id"
                        readonly
@@ -18,7 +19,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">订单号码</label>
+            <label class="layui-form-label" for="orderNumber">订单号码</label>
             <div class="layui-input-inline">
                 <input autocomplete="off" class="layui-input" id="orderNumber" lay-verify="required" name="orderNumber"
                        readonly
@@ -27,7 +28,7 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">赔付金额(元)</label>
+            <label class="layui-form-label" for="money">赔付金额(元)</label>
             <div class="layui-input-inline">
                 <input autocomplete="off" class="layui-input" id="money" lay-verify="required|money" name="money"
                        required type="number" value="0">
@@ -35,7 +36,7 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">存在问题</label>
+            <label class="layui-form-label" for="question">存在问题</label>
             <div class="layui-input-inline">
                 <input autocomplete="off" class="layui-input" id="question" lay-verify="required" name="question"
                        required type="text">
@@ -43,7 +44,7 @@
         </div>
 
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">问题描述</label>
+            <label class="layui-form-label" for="remark">问题描述</label>
             <div class="layui-input-inline">
                 <textarea autocomplete="off" class="layui-textarea" id="remark" name="remark" placeholder="问题描述"
                 ></textarea>
@@ -59,21 +60,21 @@
 </div>
 <div class="layui-form">
     <div class="layui-inline">
-        <div class="layui-form-label">订单号：</div>
+        <label class="layui-form-label" for="ordNum">订单号：</label>
         <div class="layui-inline">
-            <input autocomplete="off" class="layui-input" name="orderNumber">
+            <input autocomplete="off" class="layui-input" id="ordNum" name="orderNumber">
         </div>
     </div>
     <div class="layui-inline">
-        <div class="layui-form-label">车牌号：</div>
+        <label class="layui-form-label" for="carPlaNum">车牌号：</label>
         <div class="layui-inline">
-            <input autocomplete="off" class="layui-input" name="carPlateNumber">
+            <input autocomplete="off" class="layui-input" id="carPlaNum" name="carPlateNumber">
         </div>
     </div>
     <div class="layui-inline">
-        <div class="layui-form-label">客户名称：</div>
+        <label class="layui-form-label" for="cusName">客户名称：</label>
         <div class="layui-inline">
-            <input autocomplete="off" class="layui-input" name="customerName">
+            <input autocomplete="off" class="layui-input" id="cusName" name="customerName">
         </div>
     </div>
     <div class="layui-input-inline">
@@ -94,7 +95,7 @@
     {{#  } }}
 </script>
 
-<script src="layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>
+<script src="../../static/layui2.6.8/layui.js" th:src="@{/layui2.6.8/layui.js}"></script>
 <script th:inline="none" type="text/javascript">
     layui.use(['table', 'layer', 'form'], function () {
         const table = layui.table;
@@ -124,6 +125,8 @@
                                 return '<span style="color: #8b4513">检查中</span>';
                             case 2:
                                 return '<span style="color: #90ee90;">检查完成</span>';
+                            case 3:
+                                return '<span style="color: #50525f;">拒绝还车检查暂存</span>';
                         }
                     }
                 },
