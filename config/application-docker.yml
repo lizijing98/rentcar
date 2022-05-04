@@ -1,5 +1,8 @@
 server:
   port: 8002
+  servlet:
+    session:
+      timeout: 86400s
 spring:
   application:
     name: rentcar
